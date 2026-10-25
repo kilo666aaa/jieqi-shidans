@@ -350,8 +350,10 @@
       '<div class="wrap">' +
 
       '<div class="card"><h3>🔌 AI 服务（DeepSeek）</h3>' +
-      '<div class="small muted" style="margin-bottom:10px">API Key 只保存在你当前浏览器（本机），不会写入网页代码、不会随链接分享、不会发送给除 DeepSeek 以外的任何一方。</div>' +
-      '<div class="field"><label for="ai-key">API Key</label>' +
+      (JQ.AI.TEAM_PROXY_URL && !cfg.apiKey
+        ? '<div class="notice-green" style="margin-bottom:10px">✅ 当前为<b>团队共享接入</b>：AI 已接通，无需填写密钥（密钥安全地保存在团队代理服务端）。个人密钥填写后将优先生效。</div>'
+        : '<div class="small muted" style="margin-bottom:10px">API Key 只保存在你当前浏览器（本机），不会写入网页代码、不会随链接分享、不会发送给除 DeepSeek 以外的任何一方。</div>') +
+      '<div class="field"><label for="ai-key">API Key（可选，个人模式）</label>' +
       '<input class="input" id="ai-key" type="password" placeholder="sk-…（DeepSeek 开放平台获取）" value="' + JQ.esc(cfg.apiKey) + '" autocomplete="off">' +
       '<div class="hint">连接测试成功后，AI 问答页即可真实调用。</div></div>' +
       '<div class="field"><label for="ai-model">模型</label>' +
@@ -406,7 +408,7 @@
       btn.textContent = '测试中…'; btn.disabled = true;
       JQ.AI.test().then(function (r) {
         btn.textContent = '测试连接'; btn.disabled = false;
-        if (r.ok) { JQ.toast('连接成功：AI 问答已接通 ✓', 'ok', 3200); }
+        if (r.ok) { JQ.toast('连接成功：AI 问答已接通 ✓（' + (r.mode === 'team' ? '团队服务' : '个人密钥') + '）', 'ok', 3200); }
         else { JQ.toast('连接失败：' + r.message, 'err', 4000); }
       });
     });

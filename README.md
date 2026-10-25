@@ -72,3 +72,17 @@ js/view_*.js                页面视图
 js/router.js                Hash 路由 + 滚动记忆
 js/app.js                   入口（?t= 协议、首访引导邀请）
 ```
+
+## 团队 AI 接入（让所有人打开即已接通）
+
+个人模式下 API Key 只存在各自浏览器（安全但每人要配一次）。若想让**全组打开网站就已是接通状态**，用团队代理（密钥放在免费云服务的环境变量里，绝不进公开代码）：
+
+1. 注册 [Cloudflare](https://dash.cloudflare.com)（免费）→ **Workers & Pages → Create Worker**，名字如 `jieqi-ai`
+2. 点 **Edit code**，粘贴 `deploy/cloudflare-worker.js` 全部内容 → **Save and Deploy**
+3. **Settings → Variables and Secrets**：
+   - 新增 **Secret**：名称 `DEEPSEEK_API_KEY`，值填你的 `sk-` 密钥
+   - 新增 **Text**：名称 `SITE_ORIGIN`，值填站点地址（如 `https://你的用户名.github.io`）
+4. 复制 Worker 地址（形如 `https://jieqi-ai.xxx.workers.dev`），填到 `js/ai.js` 顶部的 `AI.TEAM_PROXY_URL = ''` 引号里
+5. 提交推送 → 全组打开网站即显示「已接通（团队服务）」，无需任何配置
+
+优先级：个人密钥 > 团队代理。若部分同学网络打不开 `workers.dev`，可改用 Vercel Edge / Deno Deploy 部署同一份逻辑，或退回个人密钥模式（当前模式不受影响）。

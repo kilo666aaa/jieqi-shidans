@@ -18,6 +18,13 @@
   AI.TIMEOUT = 60000;       // 超时
   AI.MAX_HISTORY = 6;       // 携带的对话历史轮数
 
+  /* ★ 团队共享接入（可选）：部署 deploy/cloudflare-worker.js 后，把代理地址填到这里。
+     填好后所有访问者打开即已接通（无需各自配置密钥）；
+     密钥只存在代理服务端的环境变量里，不会出现在前端代码中（符合需求定稿的安全规则）。
+     例：AI.TEAM_PROXY_URL = 'https://jieqi-ai.你的子域.workers.dev';
+     个人密钥（设置页填写）优先于团队代理。 */
+  AI.TEAM_PROXY_URL = '';
+
   var lastCallTs = 0;
 
   AI.cfg = function () {
@@ -35,9 +42,12 @@
     if (!ok) { JQ.toast('AI 配置保存失败：本机存储不可用', 'err'); }
     return ok;
   };
+  /* 接入状态：personal=个人密钥（本机）/ team=团队代理（全体已接通）/ none=未接通 */
   AI.status = function () {
     var c = AI.cfg();
-    return { ready: !!c.apiKey, cfg: c };
+    if (c.apiKey) { return { ready: true, mode: 'personal', cfg: c }; }
+    if (AI.TEAM_PROXY_URL) { return { ready: true, mode: 'team', cfg: c }; }
+    return { ready: false, mode: 'none', cfg: c };
   };
 
   /* ---------- 上下文组装（不含身份信息） ---------- */
@@ -141,7 +151,8 @@
     function failNow(err) {
       setTimeout(function () { handlers.onDone(err); }, 0);
     }
-    if (!cfg.apiKey) {
+    var useTeam = !cfg.apiKey && !!AI.TEAM_PROXY_URL;
+    if (!cfg.apiKey && !AI.TEAM_PROXY_URL) {
       failNow({ ok: false, error: 'unconfigured' });
       return null;
     }
@@ -164,10 +175,14 @@
     var timedOut = false;
     var timer = setTimeout(function () { timedOut = true; ctrl.abort(); }, AI.TIMEOUT);
 
-    var url = cfg.baseUrl.replace(/\/+$/, '') + '/chat/completions';
+    var url = (useTeam ? AI.TEAM_PROXY_URL.replace(/\/+$/, '') : cfg.baseUrl.replace(/\/+$/, '')) + '/chat/completions';
     fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.apiKey },
+      headers: {
+        'Content-Type': 'application/json',
+        /* 团队模式下发占位令牌，代理会用服务端密钥替换 */
+        'Authorization': 'Bearer ' + (useTeam ? 'team-proxy' : cfg.apiKey)
+      },
       body: JSON.stringify({
         model: cfg.model,
         messages: AI.messagesFor(question),
@@ -237,17 +252,29 @@
     return ctrl;
   };
 
-  /* 连接测试（设置页用） */
+  /* 连接测试（设置页用）：优先测个人密钥，其次测团队代理 */
   AI.test = function () {
     var cfg = AI.cfg();
-    if (!cfg.apiKey) { return Promise.resolve({ ok: false, message: '未填写 API Key' }); }
-    return fetch(cfg.baseUrl.replace(/\/+$/, '') + '/models', {
-      headers: { 'Authorization': 'Bearer ' + cfg.apiKey }
-    }).then(function (r) {
-      if (r.ok) { return { ok: true }; }
-      return { ok: false, message: '服务返回 ' + r.status + '（密钥无效或无权限）' };
-    }).catch(function (e) {
-      return { ok: false, message: '网络失败：' + (e && e.message ? e.message : '无法连接') };
-    });
+    if (cfg.apiKey) {
+      return fetch(cfg.baseUrl.replace(/\/+$/, '') + '/models', {
+        headers: { 'Authorization': 'Bearer ' + cfg.apiKey }
+      }).then(function (r) {
+        if (r.ok) { return { ok: true, mode: 'personal' }; }
+        return { ok: false, message: '服务返回 ' + r.status + '（密钥无效或无权限）' };
+      }).catch(function (e) {
+        return { ok: false, message: '网络失败：' + (e && e.message ? e.message : '无法连接') };
+      });
+    }
+    if (AI.TEAM_PROXY_URL) {
+      return fetch(AI.TEAM_PROXY_URL.replace(/\/+$/, '') + '/models', {
+        headers: { 'Authorization': 'Bearer team-proxy' }
+      }).then(function (r) {
+        if (r.ok) { return { ok: true, mode: 'team' }; }
+        return { ok: false, message: '团队服务返回 ' + r.status + '（请核对代理环境变量 DEEPSEEK_API_KEY 与 SITE_ORIGIN）' };
+      }).catch(function (e) {
+        return { ok: false, message: '团队服务无法连接：' + (e && e.message ? e.message : '') + '（若网络无法访问 workers.dev，请改用个人密钥模式）' };
+      });
+    }
+    return Promise.resolve({ ok: false, message: '未配置：填入 API Key，或由部署者在 js/ai.js 配置团队代理' });
   };
 })();

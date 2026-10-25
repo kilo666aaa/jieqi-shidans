@@ -97,7 +97,9 @@
     view.innerHTML =
       JQ.HEADER('AI 食养问答', '') +
       (st.ready
-        ? '<div class="ai-status-banner ready" style="margin:12px 16px 0">🔌 已接通：' + JQ.esc(st.cfg.model) + '（DeepSeek）· 密钥仅存本机</div>'
+        ? (st.mode === 'team'
+          ? '<div class="ai-status-banner ready" style="margin:12px 16px 0">🔌 已接通：' + JQ.esc(st.cfg.model) + '（DeepSeek · 团队服务，无需自配密钥）</div>'
+          : '<div class="ai-status-banner ready" style="margin:12px 16px 0">🔌 已接通：' + JQ.esc(st.cfg.model) + '（DeepSeek）· 密钥仅存本机</div>')
         : '<div class="ai-status-banner unconfigured" style="margin:12px 16px 0">🔌 AI 服务未接通——未配置 API Key。食单与百科不受影响。<a href="#/me/settings"><b>去设置 →</b></a></div>') +
       '<div style="padding:8px 16px 0">' + ctxChips + '</div>' +
       '<div class="quick-chips">' + quicks.map(function (q) {
