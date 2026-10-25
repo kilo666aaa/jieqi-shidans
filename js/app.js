@@ -46,8 +46,8 @@
     var prefs = JQ.PREFS.get();
     if (!onboarded && !prefs.provided) {
       JQ.modal({
-        title: '🌱 花 30 秒，让推荐更懂你',
-        body: '<div class="small" style="color:var(--ink-2);line-height:1.9">三步填写：<b>过敏原（硬限制，命中即不再推荐）</b> → 口味（辣/咸/甜）→ 就餐场景。<br><br>也可以先逛逛——不填写时推荐页会保留过敏核对提示。</div>',
+        title: '初见 · 花 30 秒让推荐更懂你',
+        body: '<div class="small" style="color:var(--ink2);line-height:1.9">三步填写：<b>过敏原（硬限制，命中即不再推荐）</b> → 口味（辣/咸/甜）→ 就餐场景。<br><br>也可以先逛逛——不填写时推荐页会保留过敏核对提示。</div>',
         actions: [
           { label: '先跳过', cls: 'btn-ghost', onClick: function () { JQ.STORE.set(JQ.STORE.KEYS.ONBOARDED, true); } },
           { label: '开始填写', cls: 'btn-primary', onClick: function () { location.hash = '#/onboard'; } }

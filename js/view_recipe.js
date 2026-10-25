@@ -111,7 +111,16 @@
       }
       JQ.confirm('打卡「' + JQ.esc(r.name) + '」？', '按北京时间 ' + JQ.esc(JQ.bjDateStr()) + ' 记录，同一天同一道菜不会重复记录。', '打卡', function () {
         var res = JQ.FAV.checkin('recipe:' + r.id, r.name);
-        if (res.ok) { JQ.toast('打卡成功', 'ok'); }
+        if (res.ok) {
+          JQ.toast('打卡成功', 'ok');
+          /* 盖章动画（朱砂印） */
+          var stamp = document.createElement('div');
+          stamp.className = 'seal-stamp';
+          stamp.setAttribute('aria-hidden', 'true');
+          stamp.textContent = '已尝';
+          document.body.appendChild(stamp);
+          setTimeout(function () { stamp.remove(); }, 1200);
+        }
         else if (res.dup) { JQ.toast('今天已打过卡，不新增记录'); }
         else { JQ.toast('打卡保存失败：本机存储不可用或已满', 'err'); }
         JQ.VIEWS.recipe(rid);

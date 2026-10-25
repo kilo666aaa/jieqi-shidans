@@ -69,6 +69,29 @@
     setTab(tab);
     window.scrollTo(0, scrollMem[R._currentPath] || 0);
 
+    /* 季节主题 + 路由入场动画 + 滚动显现 */
+    var disp0 = JQ.SOLAR.displayTerm();
+    if (disp0.term) { document.body.setAttribute('data-season', disp0.term.season); }
+    var vEl = JQ.$('#view');
+    if (vEl) {
+      vEl.classList.remove('vin');
+      void vEl.offsetWidth; /* 重启动画 */
+      vEl.classList.add('vin');
+      if (window.IntersectionObserver && !R._io) {
+        R._io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('in'); R._io.unobserve(e.target); }
+          });
+        }, { threshold: .08 });
+      }
+      if (R._io) {
+        JQ.$$('[data-reveal]', vEl).forEach(function (el, i) {
+          el.style.transitionDelay = (i % 6) * 60 + 'ms';
+          R._io.observe(el);
+        });
+      }
+    }
+
     /* 返回按钮：优先历史返回（保留列表滚动位置），无历史则回上级 */
     var back = JQ.$('#hdr-back');
     if (back) {
