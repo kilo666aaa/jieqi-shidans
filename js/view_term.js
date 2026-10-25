@@ -175,5 +175,8 @@
       JQ.SOLAR.browseTerm = t.id;
       location.hash = '#/home';
     });
+
+    /* 重绘后重新激活滚动显现（收藏操作会触发整页重绘） */
+    if (JQ.ROUTER && JQ.ROUTER.observeReveals) { JQ.ROUTER.observeReveals(); }
   };
 })();

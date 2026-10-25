@@ -243,5 +243,8 @@
         JQ.VIEWS.ask();
       });
     }
+
+    /* 重绘后重新激活滚动显现 */
+    if (JQ.ROUTER && JQ.ROUTER.observeReveals) { JQ.ROUTER.observeReveals(); }
   };
 })();

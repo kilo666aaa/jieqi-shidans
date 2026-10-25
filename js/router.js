@@ -69,7 +69,7 @@
     setTab(tab);
     window.scrollTo(0, scrollMem[R._currentPath] || 0);
 
-    /* 季节主题 + 路由入场动画 + 滚动显现 */
+    /* 季节主题 + 路由入场动画 */
     var disp0 = JQ.SOLAR.displayTerm();
     if (disp0.term) { document.body.setAttribute('data-season', disp0.term.season); }
     var vEl = JQ.$('#view');
@@ -77,20 +77,8 @@
       vEl.classList.remove('vin');
       void vEl.offsetWidth; /* 重启动画 */
       vEl.classList.add('vin');
-      if (window.IntersectionObserver && !R._io) {
-        R._io = new IntersectionObserver(function (es) {
-          es.forEach(function (e) {
-            if (e.isIntersecting) { e.target.classList.add('in'); R._io.unobserve(e.target); }
-          });
-        }, { threshold: .08 });
-      }
-      if (R._io) {
-        JQ.$$('[data-reveal]', vEl).forEach(function (el, i) {
-          el.style.transitionDelay = (i % 6) * 60 + 'ms';
-          R._io.observe(el);
-        });
-      }
     }
+    R.observeReveals();
 
     /* 返回按钮：优先历史返回（保留列表滚动位置），无历史则回上级 */
     var back = JQ.$('#hdr-back');
@@ -109,4 +97,46 @@
   };
 
   window.addEventListener('hashchange', function () { R.dispatch(); });
+
+  /* 滚动显现激活器：路由分发与视图自重绘（换一换/收藏/打卡等）都必须调用，
+     否则新渲染的 [data-reveal] 元素停留在透明态（曾导致换一换后页面空白） */
+  R.observeReveals = function () {
+    var vEl = JQ.$('#view');
+    if (!vEl) { return; }
+    if (window.IntersectionObserver && !R._io) {
+      R._io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); R._io.unobserve(e.target); }
+        });
+      }, { threshold: .08 });
+    }
+    if (!R._io) {
+      /* 无 IntersectionObserver 环境：直接全部显示 */
+      JQ.$$('[data-reveal]', vEl).forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    JQ.$$('[data-reveal]', vEl).forEach(function (el, i) {
+      if (el.classList.contains('in')) { return; }
+      el.style.transitionDelay = (i % 6) * 60 + 'ms';
+      R._io.observe(el);
+    });
+  };
+
+  /* 兜底：瞬间跳转滚动（程序跳转/快速甩动）可能跳过观察器回调，
+     每次滚动把"已经滚过头顶"的元素直接显现，杜绝永久透明 */
+  if (!R._revealFallback) {
+    R._revealFallback = true;
+    var rTick = false;
+    window.addEventListener('scroll', function () {
+      if (rTick) { return; }
+      rTick = true;
+      requestAnimationFrame(function () {
+        rTick = false;
+        var els = document.querySelectorAll('[data-reveal]:not(.in)');
+        for (var i = 0; i < els.length; i++) {
+          if (els[i].getBoundingClientRect().bottom < 0) { els[i].classList.add('in'); }
+        }
+      });
+    }, { passive: true });
+  }
 })();

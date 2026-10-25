@@ -190,5 +190,8 @@
         location.hash = '#/recipe/' + el.getAttribute('data-rid');
       });
     });
+
+    /* 重绘后重新激活滚动显现（否则卡片停留透明态） */
+    if (JQ.ROUTER && JQ.ROUTER.observeReveals) { JQ.ROUTER.observeReveals(); }
   };
 })();
