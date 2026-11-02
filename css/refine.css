@@ -109,8 +109,9 @@ body[data-auth="true"] #tabbar { display: none; }
 .seasonal-heading span { color: var(--green); font-weight: 700; }
 .seasonal-wellness { background: var(--green-bg); }
 
-/* 图解入场（GSAP 缺席时也有轻过渡） */
+/* 图解入场：动画挂在不重建的容器上——播放时引擎每帧替换内部 svg，
+   若动画挂在 svg 上会每帧重启动画导致播放期间整幅不可见 */
 @media (prefers-reduced-motion: no-preference) {
-  .ec-stage svg, .seasonal-stage svg { animation: ecIn .5s var(--e1, ease); }
+  .ec-stage, .seasonal-stage { animation: ecIn .5s var(--e1, ease); }
   @keyframes ecIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 }
