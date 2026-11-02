@@ -61,13 +61,12 @@
         true) +
       '<div class="wrap">' +
       '<div class="card" style="text-align:center">' +
-      (JQ.PHOTOS ? JQ.PHOTOS.html(r, {className:'recipe-photo', detail:true}) : '<div class="photo-missing">菜品实拍整理中</div>') +
+      '<div style="font-size:52px;margin:6px 0" aria-hidden="true">' + JQ.esc(r.emoji) + '</div>' +
       '<h2 class="serif" style="font-size:20px">' + JQ.esc(r.name) + '</h2>' +
       '<div class="muted small">' +
       (term ? '<a href="#/term/' + term.id + '">' + JQ.esc(term.name) + '</a> · ' : '') +
       '<span class="badge badge-demo">演示数据 · 待核验</span></div>' +
       '<div class="allergen-tags" style="justify-content:center">' + allergenHtml + '</div>' +
-      '<div class="small muted" style="margin-top:9px;text-align:left">复合调料按常规配方保守标注；实际用料请核对包装。图片仅作成品外观或食材参考，不能据图判断过敏成分。</div>' +
       '</div>' +
       blockedWarn + sceneTip +
       '<div class="meta-grid">' +
@@ -79,8 +78,8 @@
       '<div class="card"><h2>做法步骤</h2>' + stepsHtml +
       (r.equip.length ? '<div class="small muted">需要：' + JQ.esc(r.equip.join('、')) + '</div>' : '') +
       '</div>' +
-      '<div class="card"><h2>食俗推荐缘由</h2><div class="small muted" style="margin-bottom:9px">原版文化资料 · 待核验；民间说法不代表已证实的健康效果。</div><div style="font-size:14px;line-height:1.8">' + JQ.esc(r.reason) + '</div>' +
-      '<hr class="divider"><div class="small" style="color:var(--ink2)"><b>文化出处：</b>' + JQ.esc(r.source) + '</div></div>' +
+      '<div class="card"><h2>为什么推荐</h2><div style="font-size:14px;line-height:1.8">' + JQ.esc(r.reason) + '</div>' +
+      '<hr class="divider"><div class="small" style="color:var(--ink-2)"><b>文化出处：</b>' + JQ.esc(r.source) + '</div></div>' +
       '<div style="display:flex;gap:10px;margin:4px 0 8px">' +
       '<button class="btn btn-primary" style="flex:1" id="ask-btn">💬 问 AI 追问</button>' +
       '<button class="btn ' + (checkedToday ? 'btn-ghost' : 'btn-plain') + '" style="flex:1" id="checkin-btn">' +

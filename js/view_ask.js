@@ -89,7 +89,6 @@
 
     var quicks = disp.term ? [
       '「' + disp.term.name + '」适合吃什么？为什么？',
-      '讲讲「' + disp.term.name + '」的传统食养和日常起居，区分文化说法与现代建议',
       '讲讲「' + disp.term.name + '」的食俗和来历',
       JQ.CHAT.contextRecipe && r ? '「' + r.name + '」可以用什么食材替换？' : '食堂场景怎么按节气选菜？',
       '对某种食材过敏，帮我看看替代方案'

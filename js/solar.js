@@ -28,10 +28,7 @@
   SOLAR.current = function (nowTs) {
     var now = nowTs == null ? Date.now() : nowTs;
     var list = onsets();
-    if (!list.length) {
-      return { ok: false, reason: '尚未收录交节数据，暂不可自动定位节气。' };
-    }
-    if (now < list[0].ts) {
+    if (!list.length || now < list[0].ts) {
       return { ok: false, reason: '当前日期早于已收录的交节数据（' + list[0].str.slice(0, 10) + ' 起），暂不可自动定位节气。' };
     }
     var idx = -1;
@@ -77,9 +74,7 @@
   SOLAR.dayOfTerm = function () {
     var c = SOLAR.current();
     if (!c.ok) { return null; }
-    var beijingOffset = 8 * 3600000;
-    return Math.floor((Date.now() + beijingOffset) / 86400000) -
-      Math.floor((c.sinceTs + beijingOffset) / 86400000) + 1;
+    return Math.floor((Date.now() - c.sinceTs) / 86400000) + 1;
   };
 
   /* 组装不含任何个人偏好的分享链接 */

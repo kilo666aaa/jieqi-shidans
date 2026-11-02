@@ -6,42 +6,24 @@
   window.JQ = window.JQ || {};
   JQ.VIEWS = JQ.VIEWS || {};
 
-  var ACCOUNT_NOTE = '<details class="auth-note"><summary>本机演示模式 · 数据保存在当前浏览器</summary><p>账号仅供本机演示，不支持跨设备登录、短信验证或找回密码。偏好、收藏和打卡保存在当前浏览器，不随账号迁移。清除网站数据后可能丢失。</p></details>';
-
-  function art(title, sub) {
-    return '<section class="auth-art"><canvas id="auth-particles" aria-hidden="true"></canvas>' +
-      '<div class="auth-brand"><span class="brand-seal">时</span>节气食单</div>' +
-      '<h2>' + title + '</h2><p>' + sub + '</p></section>';
-  }
-  function bindArt() {
-    if (JQ.LOGIN_SCENE) { JQ.LOGIN_SCENE.mount(JQ.$('#auth-particles')); }
-    JQ.$$('[data-password]').forEach(function (button) {
-      button.addEventListener('click', function () {
-        var input = JQ.$('#' + button.getAttribute('data-password'));
-        var show = input.type === 'password'; input.type = show ? 'text' : 'password';
-        button.textContent = show ? '隐藏' : '显示';
-        button.setAttribute('aria-label', (show ? '隐藏' : '显示') + '密码');
-        button.setAttribute('aria-pressed', String(show));
-      });
-    });
-  }
+  var ACCOUNT_NOTE = '<div class="notice-amber">🔐 <b>本机账号：</b>因当前为静态托管（无后端服务器），账号信息仅保存在这个浏览器里——不支持跨设备登录、不支持短信验证码、忘记密码无法找回（可清除数据后重新注册）。偏好、收藏、打卡与本机绑定，不随账号迁移。</div>';
 
   /* ---------- 登录 ---------- */
   JQ.VIEWS.login = function () {
     var view = JQ.$('#view');
     view.innerHTML =
       JQ.HEADER('登录', '', true) +
-      '<div class="auth-page">' + art('把日子，吃成四季。', '不时不食 · 顺时而餐') +
-      '<section class="auth-form"><h3>欢迎回来</h3><p class="auth-intro">登录本机账号，继续你的时令记录。</p>' +
+      '<div class="wrap">' +
+      '<div class="card" style="text-align:center;padding-top:26px">' +
+      '<div style="font-size:40px;margin-bottom:6px" aria-hidden="true">🌱</div>' +
+      '<h2 class="serif">节气食单</h2><div class="muted small" style="margin-bottom:18px">不时，不食</div>' +
       '<div class="field"><label for="lg-phone">手机号</label>' +
-      '<input class="input" id="lg-phone" type="tel" autocomplete="username" inputmode="numeric" maxlength="11" placeholder="请输入 11 位手机号"></div>' +
+      '<input class="input" id="lg-phone" inputmode="numeric" maxlength="11" placeholder="11 位手机号（仅本机校验格式）"></div>' +
       '<div class="field"><label for="lg-pw">密码</label>' +
-      '<div class="pw-wrap"><input class="input" id="lg-pw" type="password" autocomplete="current-password" placeholder="输入本机账号密码"><button class="pw-toggle" type="button" data-password="lg-pw" aria-label="显示密码" aria-pressed="false">显示</button></div></div>' +
+      '<input class="input" id="lg-pw" type="password" placeholder="注册时设置的密码"></div>' +
       '<button class="btn btn-primary btn-block" id="lg-btn">登录（本机）</button>' +
-      '<div class="auth-links"><a href="#/register">创建本机账号</a><a href="#/home">先逛逛，发现时令好味</a></div>' +
-      '</section>' + ACCOUNT_NOTE + '</div>';
-
-    bindArt();
+      '<div class="small muted" style="margin-top:12px">还没有账号？<a href="#/register"><b>注册一个</b></a> ｜ <a href="#/home">先随便逛逛（访客）</a></div>' +
+      '</div>' + ACCOUNT_NOTE + '</div>';
 
     JQ.$('#lg-btn').addEventListener('click', function () {
       var phone = JQ.$('#lg-phone').value.trim();
@@ -66,22 +48,20 @@
     var view = JQ.$('#view');
     view.innerHTML =
       JQ.HEADER('注册', '', true) +
-      '<div class="auth-page register-page">' + art('从这一餐，认识时令。', '二十四节气 · 一日三餐') +
-      '<section class="auth-form"><h3>创建本机账号</h3><p class="auth-intro">留一份属于你的四季食单。</p>' +
+      '<div class="wrap">' +
+      '<div class="card">' +
       '<div class="field"><label for="rg-phone">手机号</label>' +
-      '<input class="input" id="rg-phone" type="tel" autocomplete="username" inputmode="numeric" maxlength="11" placeholder="11 位手机号（仅作本机账号）">' +
-      '<div class="hint">仅校验格式，不发送短信。</div></div>' +
+      '<input class="input" id="rg-phone" inputmode="numeric" maxlength="11" placeholder="11 位手机号">' +
+      '<div class="hint">无后端服务器，仅在本机做格式校验，不发短信验证码。</div></div>' +
       '<div class="field"><label for="rg-nick">昵称（可选）</label>' +
-      '<input class="input" id="rg-nick" autocomplete="nickname" maxlength="12" placeholder="希望怎么称呼你"></div>' +
+      '<input class="input" id="rg-nick" maxlength="12" placeholder="不填则自动生成"></div>' +
       '<div class="field"><label for="rg-pw">设置密码（≥6 位）</label>' +
-      '<input class="input" id="rg-pw" type="password" autocomplete="new-password" placeholder="至少 6 位，请勿使用重要账号密码"></div>' +
+      '<input class="input" id="rg-pw" type="password" placeholder="至少 6 位"></div>' +
       '<div class="field"><label for="rg-pw2">确认密码</label>' +
-      '<input class="input" id="rg-pw2" type="password" autocomplete="new-password" placeholder="再输入一次"></div>' +
+      '<input class="input" id="rg-pw2" type="password" placeholder="再输入一次"></div>' +
       '<button class="btn btn-primary btn-block" id="rg-btn">注册并登录（本机）</button>' +
-      '<div class="auth-links"><a href="#/login">已有账号，去登录</a><a href="#/home">以访客身份浏览</a></div>' +
-      '</section>' + ACCOUNT_NOTE + '</div>';
-
-    bindArt();
+      '<div class="small muted" style="margin-top:12px">已有账号？<a href="#/login"><b>去登录</b></a></div>' +
+      '</div>' + ACCOUNT_NOTE + '</div>';
 
     JQ.$('#rg-btn').addEventListener('click', function () {
       var phone = JQ.$('#rg-phone').value.trim();

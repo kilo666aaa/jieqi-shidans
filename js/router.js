@@ -41,15 +41,12 @@
   }
 
   R.dispatch = function () {
-    if (JQ.LOGIN_SCENE) { JQ.LOGIN_SCENE.dispose(); }
-    if (JQ.SEASONAL) { JQ.SEASONAL.dispose(); }
     var prev = JQ.$('#view');
     if (prev) { scrollMem[R._currentPath || ''] = window.scrollY; }
 
     var hash = location.hash || '#/home';
     var path = hash.replace(/^#\/?/, '');
     var seg = path.split('?')[0].split('/').filter(Boolean);
-    document.body.setAttribute('data-auth', String(seg[0] === 'login' || seg[0] === 'register'));
     R._currentPath = seg.join('/');
 
     var tab = 'home';
@@ -106,7 +103,6 @@
   R.observeReveals = function () {
     var vEl = JQ.$('#view');
     if (!vEl) { return; }
-    if (JQ.PHOTOS) { JQ.PHOTOS.mount(vEl); }
     if (window.IntersectionObserver && !R._io) {
       R._io = new IntersectionObserver(function (es) {
         es.forEach(function (e) {

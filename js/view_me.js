@@ -250,9 +250,7 @@
         ? 'href="#/recipe/' + JQ.esc(f.oid) + '"'
         : 'data-open="' + i + '"';
       return '<a class="me-item" ' + open + '>' +
-        (tab === 'recipe' && JQ.PHOTOS && JQ.DATA.recipeById(f.oid)
-          ? JQ.PHOTOS.html(JQ.DATA.recipeById(f.oid), {className:'favorite-photo'})
-          : '<span class="mi-emoji">' + (tab === 'answer' ? '💬' : '📖') + '</span>') +
+        '<span class="mi-emoji">' + (tab === 'recipe' ? '🍽️' : tab === 'answer' ? '💬' : '📖') + '</span>' +
         '<span style="min-width:0">' + JQ.esc(f.snap.title) +
         '<span class="mi-sub">' + JQ.esc((f.snap.sub || '').slice(0, 42)) + (f.snap.sub && f.snap.sub.length > 42 ? '…' : '') +
         ' · ' + JQ.fmtDT(f.at) + '</span></span>' +
