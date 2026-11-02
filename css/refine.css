@@ -1,0 +1,116 @@
+/* 节气食单 · 视觉精炼层（refine v1 · 2026-11-03）
+   原则：不改古中式 v2 的色调与布局，只做三件事——
+   ① 全站字重加粗 ② 方角统一换圆角 ③ 新增部件（实拍照片/徽记/天文仪/中医卡/登录场景）的样式。
+   全部叠在 style.css 之后；prefers-reduced-motion 沿用原层规则。 */
+
+/* ---------- ① 字重 ---------- */
+body { font-weight: 600; }
+h1, h2, h3, .card h2, .card h3, .hero-name, .pagehead h1, .tc-name, .zone-title, .serif { font-weight: 800; }
+.hero-name { letter-spacing: .1em; }
+.muted, .small, .badge, .chip { font-weight: 600; }
+.poem, .klass-quote { font-weight: 700; }
+kbd, output, .ghost { font-weight: 700; }
+
+/* ---------- ② 圆角 ---------- */
+.card, .axis-wrap, .notice-green, .notice-amber, .notice-red,
+.dish-card, .term-cell, .season-title, .hou-row, .ing-row,
+.poem, .klass-quote, .state-box, .storage-banner, .tcm-card, .ec-card, .seasonal-card { border-radius: 18px; }
+.btn, .btn-sm, .btn-block, .chip, .badge, input[type="text"], input[type="password"], input[type="tel"],
+input[type="search"], select, textarea { border-radius: 13px; }
+.btn-primary, .btn-warm, .btn-danger { border-radius: 15px; }
+.tabbar { border-radius: 22px 22px 0 0; }
+.seal-stamp { border-radius: 12px; }
+.card img, .dish-card img, figure.food-photo img { border-radius: 12px; }
+.hero-deco.l { border-radius: 0 14px 14px 0; }
+.hero-deco.r { border-radius: 14px 0 0 14px; }
+.divider { border: 0; border-top: 1px solid var(--line); }
+
+/* ---------- ③a 实拍照片 ---------- */
+figure.food-photo { margin: 0; position: relative; overflow: hidden; border-radius: 14px; background: var(--paper2); }
+.dish-card figure.food-photo { flex: 0 0 64px; width: 64px; height: 64px; border-radius: 12px; border: 1px solid var(--line); align-self: flex-start; }
+.dish-card figure.food-photo img { width: 100%; height: 100%; object-fit: cover; }
+.dish-card figure.food-photo figcaption { position: absolute; left: 3px; right: 3px; bottom: 3px; padding: 2px 4px; font-size: 8.5px; border-radius: 7px; justify-content: center; }
+figure.food-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+figure.food-photo figcaption { display: flex; align-items: center; gap: 6px; padding: 5px 8px; font-size: 10.5px; color: var(--ink2); background: rgba(248, 244, 237, .92); }
+.food-photo-kind { font-weight: 700; color: var(--green); letter-spacing: .04em; white-space: nowrap; }
+figure.food-photo[data-kind="ingredient"] .food-photo-kind { color: var(--amber-deep); }
+.food-photo-credit, .food-photo-note { font-weight: 500; }
+.food-photo-credit a { color: var(--green); }
+.food-photo-detail { margin: 0 0 10px; }
+.food-photo-detail img { width: 100%; max-height: 240px; object-fit: cover; }
+.food-photo-detail figcaption { flex-wrap: wrap; font-size: 11px; line-height: 1.6; }
+.food-photo-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 96px; color: var(--ink3); font-size: 11px; font-weight: 600; }
+.food-photo-placeholder span[aria-hidden] { font-size: 20px; }
+figure.food-photo-missing figcaption { justify-content: center; }
+.food-photo-failed img { opacity: .25; }
+
+/* 详情页头图排布 */
+.dish-hero { display: flex; gap: 12px; align-items: stretch; }
+.dish-hero .food-photo { flex: 0 0 46%; }
+.dish-hero .dish-hero-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+
+/* ---------- ③b 节气徽记 ---------- */
+.term-mark { display: block; width: 64px; height: 64px; }
+.hero-mark { position: absolute; right: 6%; top: 4%; opacity: .95; }
+.term-cell .term-mark { width: 30px; height: 30px; float: right; margin: 2px 2px 0 0; }
+.axis-mid .term-mark { width: 44px; height: 44px; margin: 0 auto 2px; }
+.auth-brand .term-mark { width: 74px; height: 74px; }
+
+/* ---------- ③c 节气天文仪 ---------- */
+.ec-card { overflow: hidden; }
+.ec-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 14px 16px 0; flex-wrap: wrap; }
+.ec-tag { font-size: 11px; letter-spacing: .12em; color: var(--green); font-weight: 700; }
+.ec-head output { font-size: 12px; font-weight: 700; color: var(--ink2); font-variant-numeric: tabular-nums; }
+.ec-stage { margin: 10px 12px 0; border-radius: 14px; background: radial-gradient(ellipse at 50% 55%, #FFFEF8, var(--paper2)); overflow: hidden; }
+.ec-stage svg { display: block; width: 100%; height: auto; }
+.ec-label { font-size: 12px; fill: var(--ink2); font-weight: 700; }
+.ec-label.end { fill: var(--ink); }
+.ec-earth-t { fill: var(--green); font-weight: 800; }
+.ec-controls { display: flex; gap: 8px; padding: 12px 16px 0; flex-wrap: wrap; }
+.ec-controls button { min-height: 44px; border: 1px solid var(--line); border-radius: 13px; padding: 8px 14px; background: var(--card); color: var(--ink); font: inherit; font-weight: 700; cursor: pointer; }
+.ec-controls button[aria-pressed="true"] { background: var(--green); color: var(--card); border-color: var(--green); }
+.ec-note { padding: 8px 16px 0; margin: 0; font-size: 10.5px; color: var(--ink3); line-height: 1.7; }
+.ec-sub { padding: 2px 16px 14px; margin: 0; font-size: 13px; line-height: 1.85; }
+
+/* ---------- ③d 中医养生卡 ---------- */
+.tcm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+.tcm-item { background: var(--paper2); border: 1px solid var(--line); border-radius: 13px; padding: 10px 12px; }
+.tcm-item .zone-title { margin-bottom: 4px; }
+.tcm-v { font-size: 13px; line-height: 1.85; }
+@media (max-width: 359px) { .tcm-grid { grid-template-columns: 1fr; } }
+
+/* ---------- ③e 登录/注册场景 ---------- */
+body[data-auth="true"] { background: var(--green2); }
+body[data-auth="true"] #tabbar { display: none; }
+.auth-scene { position: relative; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 26px 18px calc(30px + var(--safe-b, 0px)); overflow: hidden; }
+.auth-scene canvas.auth-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.auth-brand { position: relative; text-align: center; color: var(--paper); margin-bottom: 18px; }
+.auth-brand .brand-name { font-family: 'KaiTi', 'STKaiti', serif; font-size: 40px; font-weight: 800; letter-spacing: .34em; text-indent: .34em; margin: 10px 0 4px; }
+.auth-brand .brand-sub { font-size: 13px; letter-spacing: .2em; opacity: .82; font-weight: 600; }
+.auth-brand .brand-motto { margin-top: 6px; font-size: 11.5px; letter-spacing: .3em; opacity: .6; }
+.auth-card { position: relative; width: min(92vw, 380px); background: rgba(255, 254, 248, .97); border: 1px solid rgba(212, 175, 55, .45); border-radius: 20px; box-shadow: 0 18px 50px rgba(0, 0, 0, .35); padding: 20px 18px; }
+.auth-card h2 { margin: 0 0 4px; font-size: 20px; font-weight: 800; color: var(--ink); text-align: center; letter-spacing: .08em; }
+.auth-card .auth-lead { text-align: center; font-size: 12px; color: var(--ink2); margin-bottom: 14px; font-weight: 600; }
+.auth-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+.auth-tabs button { flex: 1; min-height: 44px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper2); color: var(--ink2); font: inherit; font-weight: 700; cursor: pointer; }
+.auth-tabs button.on { background: var(--green); border-color: var(--green); color: var(--card); }
+.auth-field { margin-bottom: 12px; }
+.auth-field label { display: block; font-size: 12px; font-weight: 700; color: var(--ink2); margin-bottom: 5px; letter-spacing: .05em; }
+.auth-field input { width: 100%; box-sizing: border-box; min-height: 46px; border: 1px solid var(--line); border-radius: 13px; padding: 10px 12px; font: inherit; font-weight: 600; background: #fff; color: var(--ink); }
+.auth-field input:focus { outline: 2px solid var(--green); outline-offset: 1px; }
+.auth-card .btn-block { margin-top: 4px; }
+.auth-alt { margin-top: 12px; text-align: center; font-size: 12.5px; font-weight: 600; }
+.auth-alt a { color: var(--green); font-weight: 700; }
+.auth-honest { margin-top: 12px; padding: 9px 11px; border-radius: 12px; background: var(--amber-bg); color: var(--amber-deep); font-size: 11px; line-height: 1.75; font-weight: 600; }
+.auth-back { position: absolute; top: calc(14px + var(--safe-t, 0px)); left: 14px; z-index: 2; }
+
+/* ---------- 图解/天文仪卡片向古中式靠拢 ---------- */
+.seasonal-card { border: 1px solid rgba(212, 175, 55, .4); background: var(--card); color: var(--ink); }
+.seasonal-heading span { color: var(--green); font-weight: 700; }
+.seasonal-wellness { background: var(--green-bg); }
+
+/* 图解入场（GSAP 缺席时也有轻过渡） */
+@media (prefers-reduced-motion: no-preference) {
+  .ec-stage svg, .seasonal-stage svg { animation: ecIn .5s var(--e1, ease); }
+  @keyframes ecIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+}

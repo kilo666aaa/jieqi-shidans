@@ -1,0 +1,671 @@
+{
+  "images": [
+    {
+      "id": "cf4",
+      "recipeIds": [
+        "cf4"
+      ],
+      "recipeNames": [
+        "蒜蓉菠菜"
+      ],
+      "localFile": "assets/food/dish_cf4.webp",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Garlic_spinach.JPG",
+      "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Garlic_spinach.JPG/500px-Garlic_spinach.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "author": "BrokenSphere",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceTitle": "Garlic spinach.JPG",
+      "matchType": "dish",
+      "matchNote": "蒜蓉菠菜成品实拍；来源标注Garlic spinach，画面可见菠菜叶与蒜片。",
+      "sourceDescription": "Garlic spinach",
+      "changes": "按来源缩略图尺寸下载，转为WebP；页面按容器裁切显示",
+      "width": 500,
+      "height": 375,
+      "bytes": 77328,
+      "verifiedAt": "2026-11-02"
+    },
+    {
+      "id": "cf5",
+      "recipeIds": [
+        "cf5"
+      ],
+      "recipeNames": [
+        "芝麻汤圆"
+      ],
+      "localFile": "assets/food/dish_cf5.webp",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Chinese_Tangyuan.jpeg",
+      "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Chinese_Tangyuan.jpeg/330px-Chinese_Tangyuan.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "author": "Huihermit",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "sourceTitle": "Chinese Tangyuan.jpeg",
+      "matchType": "dish",
+      "matchNote": "芝麻汤圆成品实拍；来源说明明确黑芝麻馅，画面为煮熟白皮汤圆。",
+      "sourceDescription": "Chinese Tangyuan in a bowl. This type of Tangyuan has a black sesame filling and is quite traditional.",
+      "changes": "按来源缩略图尺寸下载，转为WebP；页面按容器裁切显示",
+      "width": 330,
+      "height": 247,
+      "bytes": 21122,
+      "verifiedAt": "2026-11-02"
+    },
+    {
+      "id": "qm5",
+      "recipeIds": [
+        "qm5"
+      ],
+      "recipeNames": [
+        "明前虾仁"
+      ],
+      "localFile": "assets/food/dish_qm5.webp",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Longjing_prawns_in_Hangzhou_Restaurant_2015-07.JPG",
+      "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Longjing_prawns_in_Hangzhou_Restaurant_2015-07.JPG/330px-Longjing_prawns_in_Hangzhou_Restaurant_2015-07.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "author": "猫猫的日记本",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceTitle": "Longjing prawns in Hangzhou Restaurant 2015-07.JPG",
+      "matchType": "dish",
+      "matchNote": "龙井虾仁成品实拍，对应虾仁与龙井茶汤配方；照片不能证明明前采茶时点。",
+      "sourceDescription": "​龙井虾仁，摄于杭州酒家（上城区延安路205号）。",
+      "changes": "按来源缩略图尺寸下载，转为WebP；页面按容器裁切显示",
+      "width": 330,
+      "height": 219,
+      "bytes": 10080,
+      "verifiedAt": "2026-11-02"
+    },
+    {
+      "id": "jz1",
+      "recipeIds": [
+        "jz1",
+        "bl1"
+      ],
+      "recipeNames": [
+        "冰糖炖梨",
+        "冰糖炖雪梨"
+      ],
+      "localFile": "assets/food/dish_jz1.webp",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Stewed_pear_with_rock_sugar.jpg",
+      "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Stewed_pear_with_rock_sugar.jpg/250px-Stewed_pear_with_rock_sugar.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "author": "Fumikas Sagisavas",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "sourceTitle": "Stewed pear with rock sugar.jpg",
+      "matchType": "dish",
+      "matchNote": "冰糖炖梨同菜成品示意；照片含少量枸杞点缀，本食谱配料为雪梨、冰糖和水，按食材清单判断配料。",
+      "sourceDescription": "Stewed pear with rock sugar",
+      "changes": "下载250像素宽缩略图并转为WebP；页面按容器裁切显示",
+      "width": 250,
+      "height": 187,
+      "bytes": 16730,
+      "verifiedAt": "2026-11-02"
+    },
+    {
+      "id": "gy4",
+      "recipeIds": [
+        "gy4",
+        "cs4"
+      ],
+      "recipeNames": [
+        "清蒸鲈鱼",
+        "清蒸鲈鱼（秋版）"
+      ],
+      "localFile": "assets/food/dish_gy4.webp",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:%E6%B8%85%E8%92%B8%E9%B2%88%E9%B1%BC.jpg",
+      "downloadUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/%E6%B8%85%E8%92%B8%E9%B2%88%E9%B1%BC.jpg/330px-%E6%B8%85%E8%92%B8%E9%B2%88%E9%B1%BC.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "author": "Walter Grassroot",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceTitle": "清蒸鲈鱼.jpg",
+      "matchType": "dish",
+      "matchNote": "清蒸鲈鱼成品实拍，画面为整条鲈鱼、葱姜与豉油汁；春秋两个节气的同主料、同做法配方共用。",
+      "sourceDescription": "清蒸鲈鱼",
+      "changes": "下载330像素宽缩略图并转为WebP；页面按容器裁切显示",
+      "width": 330,
+      "height": 247,
+      "bytes": 17950,
+      "verifiedAt": "2026-11-02"
+    }
+  ],
+  "missing": [
+    {
+      "id": "lc1",
+      "recipeName": "春饼卷合菜",
+      "ingredientsChecked": [
+        [
+          "春饼皮（烫面）",
+          "10 张"
+        ],
+        [
+          "绿豆芽",
+          "150 克"
+        ],
+        [
+          "韭菜",
+          "100 克"
+        ],
+        [
+          "胡萝卜丝",
+          "80 克"
+        ],
+        [
+          "鸡蛋",
+          "2 个"
+        ],
+        [
+          "甜面酱",
+          "适量"
+        ]
+      ],
+      "missingReason": "缓存Spring Pancake照片是饼皮及合菜/肉食餐桌，未显示本配方的卷合菜成品，排除。"
+    },
+    {
+      "id": "lc2",
+      "recipeName": "咬春萝卜丝",
+      "ingredientsChecked": [
+        [
+          "白萝卜",
+          "300 克"
+        ],
+        [
+          "白糖 / 蜂蜜",
+          "1 小勺"
+        ],
+        [
+          "香醋",
+          "1 勺"
+        ],
+        [
+          "盐",
+          "少许"
+        ]
+      ],
+      "missingReason": "本轮中文菜名、主要食材与Commons来源检索未获得名称、核心做法和主料可核对的开放许可成品实拍；保留现有食材参考。"
+    },
+    {
+      "id": "lc4",
+      "recipeName": "韭菜炒蛋",
+      "ingredientsChecked": [
+        [
+          "韭菜",
+          "200 克"
+        ],
+        [
+          "鸡蛋",
+          "3 个"
+        ],
+        [
+          "盐",
+          "适量"
+        ],
+        [
+          "食用油",
+          "适量"
+        ]
+      ],
+      "missingReason": "检索命中韭菜鸡蛋饼和鸡肉泰式炒粉，核心做法不同，不能作韭菜炒蛋。"
+    },
+    {
+      "id": "lc5",
+      "recipeName": "五辛盘（辛味菜拼）",
+      "ingredientsChecked": [
+        [
+          "嫩葱白",
+          "50 克"
+        ],
+        [
+          "嫩蒜苗",
+          "50 克"
+        ],
+        [
+          "韭菜",
+          "50 克"
+        ],
+        [
+          "香菜",
+          "30 克"
+        ],
+        [
+          "萝卜丝",
+          "50 克"
+        ],
+        [
+          "豆干丝（可选）",
+          "50 克"
+        ]
+      ],
+      "missingReason": "本轮中文菜名、主要食材与Commons来源检索未获得名称、核心做法和主料可核对的开放许可成品实拍；保留现有食材参考。"
+    },
+    {
+      "id": "ys1",
+      "recipeName": "红枣山药粥",
+      "ingredientsChecked": [
+        [
+          "粳米",
+          "80 克"
+        ],
+        [
+          "铁棍山药",
+          "150 克"
+        ],
+        [
+          "红枣",
+          "6 颗"
+        ],
+        [
+          "清水",
+          "适量"
+        ]
+      ],
+      "missingReason": "本轮中文菜名、主要食材与Commons来源检索未获得名称、核心做法和主料可核对的开放许可成品实拍；保留现有食材参考。"
+    },
+    {
+      "id": "ys2",
+      "recipeName": "银耳莲子羹",
+      "ingredientsChecked": [
+        [
+          "干银耳",
+          "半朵"
+        ],
+        [
+          "莲子",
+          "30 克"
+        ],
+        [
+          "枸杞",
+          "10 粒"
+        ],
+        [
+          "冰糖",
+          "适量"
+        ]
+      ],
+      "missingReason": "银耳甜品来源未证实莲子；白果银耳汤含不同主料，排除。"
+    },
+    {
+      "id": "ys3",
+      "recipeName": "荠菜豆腐羹",
+      "ingredientsChecked": [
+        [
+          "荠菜（或碎荠菜）",
+          "150 克"
+        ],
+        [
+          "嫩豆腐",
+          "1 盒"
+        ],
+        [
+          "淀粉",
+          "1 勺"
+        ],
+        [
+          "盐 / 香油",
+          "适量"
+        ]
+      ],
+      "missingReason": "本轮中文菜名、主要食材与Commons来源检索未获得名称、核心做法和主料可核对的开放许可成品实拍；保留现有食材参考。"
+    },
+    {
+      "id": "ys4",
+      "recipeName": "蜂蜜雪梨水",
+      "ingredientsChecked": [
+        [
+          "雪梨",
+          "1 个"
+        ],
+        [
+          "蜂蜜",
+          "1 勺"
+        ],
+        [
+          "温水",
+          "500 毫升"
+        ]
+      ],
+      "missingReason": "蜂蜜雪梨水与冰糖炖梨用料/做法不同，不复用炖梨图。"
+    },
+    {
+      "id": "jz2",
+      "recipeName": "菠菜猪肝汤",
+      "ingredientsChecked": [
+        [
+          "猪肝",
+          "150 克"
+        ],
+        [
+          "菠菜",
+          "150 克"
+        ],
+        [
+          "姜片",
+          "2 片"
+        ],
+        [
+          "料酒 / 淀粉",
+          "少许"
+        ]
+      ],
+      "missingReason": "本轮中文菜名、主要食材与Commons来源检索未获得名称、核心做法和主料可核对的开放许可成品实拍；保留现有食材参考。"
+    },
+    {
+      "id": "jz3",
+      "recipeName": "芹菜炒香干",
+      "ingredientsChecked": [
+        [
+          "芹菜",
+          "200 克"
+        ],
+        [
+          "香干",
+          "100 克"
+        ],
+        [
+          "蒜片",
+          "2 瓣"
+        ],
+        [
+          "盐",
+          "适量"
+        ]
+      ],
+      "missingReason": "已下载并查看《5月4日 芹菜炒香乾，沙茶青椒牛肉.jpg》，同盘混有牛肉青椒且不易清晰隔离，排除。"
+    },
+    {
+      "id": "jz4",
+      "recipeName": "山药小米粥",
+      "ingredientsChecked": [
+        [
+          "小米",
+          "80 克"
+        ],
+        [
+          "山药",
+          "120 克"
+        ],
+        [
+          "红枣（可选）",
+          "4 颗"
+        ],
+        [
+          "清水",
+          "适量"
+        ]
+      ],
+      "missingReason": "本轮中文菜名、主要食材与Commons来源检索未获得名称、核心做法和主料可核对的开放许可成品实拍；保留现有食材参考。"
+    },
+    {
+      "id": "jz5",
+      "recipeName": "百合炒芦笋",
+      "ingredientsChecked": [
+        [
+          "鲜百合",
+          "1 头"
+        ],
+        [
+          "芦笋",
+          "200 克"
+        ],
+        [
+          "蒜片",
+          "2 瓣"
+        ],
+        [
+          "盐",
+          "适量"
+        ]
+      ],
+      "missingReason": "本轮中文菜名、主要食材与Commons来源检索未获得名称、核心做法和主料可核对的开放许可成品实拍；保留现有食材参考。"
+    },
+    {
+      "id": "cf1",
+      "recipeName": "春菜鱼片汤",
+      "ingredientsChecked": [
+        [
+          "春菜（野苋菜）",
+          "200 克"
+        ],
+        [
+          "鲩鱼片 / 巴沙鱼片",
+          "150 克"
+        ],
+        [
+          "姜片",
+          "3 片"
+        ],
+        [
+          "盐 / 胡椒粉",
+          "适量"
+        ]
+      ],
+      "missingReason": "本轮中文菜名、主要食材与Commons来源检索未获得名称、核心做法和主料可核对的开放许可成品实拍；保留现有食材参考。"
+    },
+    {
+      "id": "cf2",
+      "recipeName": "马兰头拌香干",
+      "ingredientsChecked": [
+        [
+          "马兰头",
+          "200 克"
+        ],
+        [
+          "香干",
+          "80 克"
+        ],
+        [
+          "香油",
+          "1 勺"
+        ],
+        [
+          "盐 / 糖（少许）",
+          "适量"
+        ]
+      ],
+      "missingReason": "已核实Commons《202403 Manlantou with Doufugan in Laojinhua.jpg》：作者MNXANL，CC BY-SA 4.0；来源描述明确This is the stir-fried version。实图也为长段马兰头与香干丁炒制，而本食谱为焯水切碎后凉拌，核心做法不同，不能标作本菜成品。",
+      "rejectedCandidate": {
+        "sourcePage": "https://commons.wikimedia.org/wiki/File:202403_Manlantou_with_Doufugan_in_Laojinhua.jpg",
+        "author": "MNXANL",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+        "sourceDescription": "This is the stir-fried version, there are also cold version",
+        "verifiedAt": "2026-11-03"
+      }
+    },
+    {
+      "id": "cf3",
+      "recipeName": "荠菜鲜肉馄饨",
+      "ingredientsChecked": [
+        [
+          "馄饨皮",
+          "30 张"
+        ],
+        [
+          "荠菜（碎）",
+          "150 克"
+        ],
+        [
+          "猪肉糜",
+          "150 克"
+        ],
+        [
+          "姜末 / 生抽 / 香油",
+          "适量"
+        ]
+      ],
+      "missingReason": "通用馄饨图不能证明荠菜猪肉馅，排除。"
+    },
+    {
+      "id": "qm2",
+      "recipeName": "酱爆螺蛳",
+      "ingredientsChecked": [
+        [
+          "吐净泥沙的螺蛳",
+          "500 克"
+        ],
+        [
+          "姜片 / 蒜 / 干辣椒",
+          "适量"
+        ],
+        [
+          "黄豆酱 / 生抽 / 糖",
+          "适量"
+        ],
+        [
+          "啤酒（可选）",
+          "半罐"
+        ]
+      ],
+      "missingReason": "命中螺蛳粉和海鲜市场混合熟食，不能代表酱爆螺蛳。"
+    },
+    {
+      "id": "qm3",
+      "recipeName": "香椿煎蛋",
+      "ingredientsChecked": [
+        [
+          "香椿芽",
+          "100 克"
+        ],
+        [
+          "鸡蛋",
+          "3 个"
+        ],
+        [
+          "盐",
+          "适量"
+        ],
+        [
+          "食用油",
+          "适量"
+        ]
+      ],
+      "missingReason": "香椿图片命中香椿苗及松子炒饭，未见香椿煎蛋；不复用普通炒蛋。"
+    },
+    {
+      "id": "qm4",
+      "recipeName": "荠菜猪肉饺子",
+      "ingredientsChecked": [
+        [
+          "饺子皮",
+          "40 张"
+        ],
+        [
+          "荠菜（碎）",
+          "200 克"
+        ],
+        [
+          "猪肉糜",
+          "200 克"
+        ],
+        [
+          "葱姜水 / 生抽 / 香油",
+          "适量"
+        ]
+      ],
+      "missingReason": "通用饺子图不能证明荠菜猪肉馅，排除。"
+    },
+    {
+      "id": "gy1",
+      "recipeName": "香椿拌豆腐",
+      "ingredientsChecked": [
+        [
+          "嫩豆腐",
+          "1 块"
+        ],
+        [
+          "香椿芽",
+          "80 克"
+        ],
+        [
+          "香油 / 盐",
+          "适量"
+        ]
+      ],
+      "missingReason": "香椿图片命中原料与炒饭，未检出拌豆腐成品。"
+    },
+    {
+      "id": "gy2",
+      "recipeName": "香椿炒鸡蛋",
+      "ingredientsChecked": [
+        [
+          "香椿芽",
+          "100 克"
+        ],
+        [
+          "鸡蛋",
+          "4 个"
+        ],
+        [
+          "盐",
+          "适量"
+        ],
+        [
+          "食用油",
+          "适量"
+        ]
+      ],
+      "missingReason": "香椿炒饭及韭菜鸡蛋饼均不匹配，未找到准确成品。"
+    },
+    {
+      "id": "gy3",
+      "recipeName": "韭菜炒河虾",
+      "ingredientsChecked": [
+        [
+          "小河虾",
+          "200 克"
+        ],
+        [
+          "韭菜",
+          "150 克"
+        ],
+        [
+          "姜丝",
+          "少许"
+        ],
+        [
+          "盐 / 料酒",
+          "适量"
+        ]
+      ],
+      "missingReason": "检索命中韭菜虾饺和蒜蓉虾等不同菜式，未找到韭菜炒河虾。"
+    },
+    {
+      "id": "gy5",
+      "recipeName": "薏米冬瓜汤",
+      "ingredientsChecked": [
+        [
+          "薏米",
+          "50 克"
+        ],
+        [
+          "冬瓜",
+          "300 克"
+        ],
+        [
+          "干贝（可选）",
+          "2 粒"
+        ],
+        [
+          "盐",
+          "少许"
+        ]
+      ],
+      "missingReason": "未检出冬瓜与薏米两项主料均可核对的汤品，未用普通冬瓜汤代替。"
+    }
+  ],
+  "scope": "spring",
+  "checkedAt": "2026-11-02",
+  "summary": {
+    "springTargets": 27,
+    "springUpgraded": 5,
+    "crossSeasonAdditionalMappings": [
+      "bl1",
+      "cs4"
+    ],
+    "remainingSpring": 22,
+    "imageCount": 5,
+    "existingDishImagesPreserved": true
+  },
+  "researchNotes": [
+    "以Node vm读取data_terms.js、data_recipes_spring.js及recipe_photos.js筛选27项原非dish映射。",
+    "逐项读取原食谱配料；所有5张交付图片均实际下载并调用view_image查看。",
+    "Commons imageinfo公开许可元数据留在每项；未生图，不将通用饺子/馄饨或原料改标成品。",
+    "部分Commons搜索和500px缩略图返回429/IncompleteRead；使用API返回330px或250px缩略图成功后才交付。"
+  ]
+}

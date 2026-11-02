@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>节气食单 · 系统流程图 v4 食养修订</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Microsoft YaHei", sans-serif; background: #f4f1e8; color: #232620; padding: 28px; }
+  .wrap { max-width: 1240px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 18px; }
+  h1 { font-family: KaiTi, STKaiti, serif; font-size: 30px; letter-spacing: 6px; color: #2d4a3a; }
+  .sub { font-size: 13px; color: #6b6f63; margin-top: 6px; letter-spacing: 1px; }
+  .legend { display: flex; justify-content: center; gap: 18px; font-size: 12px; color: #4a5148; margin-top: 10px; flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .chip { width: 14px; height: 14px; border-radius: 3px; display: inline-block; border: 1px solid #999; }
+  .c-page { background: #dcebe0; } .c-sys { background: #d9e6f2; } .c-warn { background: #f5e9cf; }
+  .c-star { color: #b03a2e; font-weight: bold; }
+
+  .lane { background: #fffdf7; border: 1px solid #d9d5cb; border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+  .lane-title { font-size: 14px; font-weight: bold; color: #2d4a3a; letter-spacing: 3px; margin-bottom: 12px; border-left: 4px solid #3f7d5a; padding-left: 8px; }
+
+  .flow-row { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; }
+  .node { border-radius: 8px; padding: 9px 12px; font-size: 12.5px; line-height: 1.55; border: 1.5px solid; flex: 1; min-width: 130px; position: relative; }
+  .node b { font-size: 13px; display: block; margin-bottom: 2px; }
+  .page { background: #dcebe0; border-color: #3f7d5a; }
+  .sys { background: #d9e6f2; border-color: #4a7ba6; }
+  .warn { background: #f5e9cf; border-color: #b8860b; border-style: dashed; }
+  .arrow { display: flex; align-items: center; color: #8a8f83; font-size: 18px; font-weight: bold; }
+  .star { position: absolute; top: -9px; right: 6px; background: #b03a2e; color: #fff; font-size: 10px; border-radius: 8px; padding: 1px 7px; letter-spacing: 1px; }
+
+  .cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .col { border: 1px solid #d9d5cb; border-radius: 10px; padding: 12px; background: #fbfaf5; }
+  .col-h { text-align: center; font-weight: bold; color: #fff; background: #3f7d5a; border-radius: 6px; padding: 6px 0; font-size: 13.5px; letter-spacing: 2px; margin-bottom: 10px; }
+  .col .node { margin-bottom: 8px; min-width: 0; flex: none; }
+  .col .arrow { justify-content: center; margin-bottom: 8px; }
+  .diamond { text-align: center; background: #f5e9cf; border: 1.5px dashed #b8860b; border-radius: 8px; padding: 7px 8px; font-size: 12px; font-weight: bold; margin-bottom: 8px; }
+  .branch { font-size: 11.5px; padding: 7px 9px; border-radius: 6px; margin-bottom: 8px; line-height: 1.5; }
+  .b-no { background: #faf3e2; border: 1px dashed #b8860b; }
+  .b-yes { background: #eef5ef; border: 1px solid #7fa98c; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; background: #fffdf7; }
+  th { background: #3f7d5a; color: #fff; padding: 7px 9px; letter-spacing: 1px; }
+  td { border: 1px solid #d9d5cb; padding: 6px 9px; line-height: 1.5; vertical-align: top; }
+  td.no { color: #b03a2e; font-weight: bold; text-align: center; width: 36px; }
+  tr:nth-child(even) td { background: #f7f4ea; }
+  .footnote { text-align: center; font-size: 11.5px; color: #8a8f83; margin-top: 12px; }
+  @media print { body { padding: 10px; } .lane, .col { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>节气食单 · 修改后的系统流程图</h1>
+    <div class="sub">v4 食养修订 · 2026-11-02 ｜ 双入口 · 四大板块 · 数据回流 ｜ <b>本轮结构修订 · 功能与线上状态以实测为准</b>（保留静态 H5 架构） · 相对 v3 设计稿的修改点以 <span class="c-star">★改</span> 标注</div>
+    <div class="legend">
+      <span><i class="chip c-page"></i>页面 / 用户操作</span>
+      <span><i class="chip c-sys"></i>系统 / 规则</span>
+      <span><i class="chip c-warn"></i>判定 / 异常 / 安全</span>
+      <span class="c-star">★改 = 相对 v3 流程图的修改</span>
+    </div>
+  </header>
+
+  <!-- 一、入口与偏好层 -->
+  <div class="lane">
+    <div class="lane-title">一 · 入口层 与 首次偏好引导</div>
+    <div class="flow-row">
+      <div class="node page"><b>直接访问线上站</b>无独立欢迎页，直达当日节气食单</div>
+      <div class="arrow">→</div>
+      <div class="node page" style="position:relative"><span class="star">★改</span><b>NFC 碰一碰 / 扫码 / 分享链接</b>统一参数协议 <b>?t=节气拼音</b>（如 ?t=shuangjiang），NFC 实机写卡验证待记录</div>
+      <div class="arrow">→</div>
+      <div class="node sys" style="position:relative"><span class="star">★改</span><b>节气定位（优先级）</b>① URL 参数 ② 用户浏览选择 ③ 按年交节表：年份与来源按资料逐项核验 / 范围外如实提示「未收录」</div>
+      <div class="arrow">→</div>
+      <div class="node warn"><b>判定：已有偏好？</b>否 → 非阻断引导弹窗（30 秒三步：过敏原 / 口味 / 场景，可先跳过）；是 → 直接进首页</div>
+      <div class="arrow">→</div>
+      <div class="node page" style="position:relative"><span class="star">★改</span><b>本机账号（可选）</b>注册 / 登录纳入第一版：手机号校验 + 密码盐值散列存本机；界面如实标注「不跨设备 · 不可找回」；访客可用全部功能</div>
+    </div>
+  </div>
+
+  <!-- 二、四大板块 -->
+  <div class="lane">
+    <div class="lane-title">二 · 四大业务板块</div>
+    <div class="cols">
+      <div class="col">
+        <div class="col-h">01 今日食单</div>
+        <div class="node page"><b>当前/指定节气食单</b>节气标识 + 食养提示 + 候选 5 道</div>
+        <div class="arrow">↓</div>
+        <div class="node sys"><b>推荐引擎</b>硬过滤：命中过敏原一律剔除（四路径不放宽）→ 软排序：口味（辣/咸/甜）· 场景 · 耗时</div>
+        <div class="arrow">↓</div>
+        <div class="diamond">有匹配菜品？</div>
+        <div class="branch b-no">否 → 如实说明限制原因，<b>不放宽过敏</b>，可改口味或逛百科</div>
+        <div class="branch b-yes">是 → 按过滤结果最多展示 3 道 + <span class="c-star">每道推荐理由 ★改</span></div>
+        <div class="node page" style="position:relative"><span class="star">★改</span><b>换一换</b>池内轮换，状态存菜品 ID 列表（池变化自动重算）</div>
+        <div class="node page"><b>详情操作</b>菜谱详情 / 收藏 / 打卡（朱砂「已尝」印章 ★改）/ 分享（链接不带偏好）</div>
+      </div>
+      <div class="col">
+        <div class="col-h">02 AI 食养问答</div>
+        <div class="node page" style="position:relative"><span class="star">★改</span><b>提问输入</b>≤500 字 · 3 秒限频 · 快捷词；携带节气食养资料与必要上下文</div>
+        <div class="arrow">↓</div>
+        <div class="diamond">治疗类 / 高风险请求？</div>
+        <div class="branch b-no">是 → 不输出疗效结论，附医疗边界免责声明</div>
+        <div class="branch b-yes">否 → 生成</div>
+        <div class="node sys" style="position:relative"><span class="star">★改</span><b>DeepSeek 流式生成</b>OpenAI 兼容；可停止 / 超时 / 重试；密钥仅存本机 localStorage，绝不进代码</div>
+        <div class="arrow">↓</div>
+        <div class="node sys" style="position:relative"><span class="star">★改</span><b>生成后过敏校验</b>回答中命中用户过敏原 → 标注提醒</div>
+        <div class="node page"><b>展示答案</b>来源标注（传统食养 / 现代营养分区）；继续追问 / 收藏答案 / 未接通如实提示</div>
+      </div>
+      <div class="col">
+        <div class="col-h">03 节气百科</div>
+        <div class="node page" style="position:relative"><span class="star">★改</span><b>环形节气盘</b>24 节点环轴，当前节气中心高亮，点选任意节气</div>
+        <div class="arrow">↓</div>
+        <div class="node page" style="position:relative"><span class="star">★改</span><b>节气详解</b>天文 / 物候 / 食俗 / 诗词<br>中医食养 / 起居 / 科普动画<br>传统理论与现代营养分区</div>
+        <div class="arrow">↓</div>
+        <div class="node sys" style="position:relative"><span class="star">★改</span><b>内容标注体系</b>来源随条目标注；逐条核验状态；地域差异与常见误解；不作疗效承诺</div>
+        <div class="node page"><b>后续操作</b>收藏节气知识 / 查看「该节气」食单（切回 01，不混入"今日"）</div>
+      </div>
+      <div class="col">
+        <div class="col-h">04 我的</div>
+        <div class="node page"><b>个人中心</b>偏好 / 收藏 / 打卡 / 设置 / 账号 入口并列</div>
+        <div class="node page"><b>我的偏好</b>修改过敏（硬）与口味（软），保存后重新校验，全站即时生效</div>
+        <div class="node page"><b>我的收藏</b>三类分列：菜品 / AI 答案 / 节气知识；可取消</div>
+        <div class="node page"><b>打卡记录</b>按日期查看；同日防重 · 可撤销</div>
+        <div class="node page" style="position:relative"><span class="star">★改</span><b>设置</b>AI 服务（填密钥 / 测连接）· 清除数据二次确认；外部服务是否接通以实际状态为准</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 三、数据回流 -->
+  <div class="lane">
+    <div class="lane-title">三 · 数据回流层（本机 localStorage · 失败如实提示）</div>
+    <div class="flow-row">
+      <div class="node sys"><b>分类收藏</b>类型 + 对象 ID + 快照；去重；保存失败如实提示可重试</div>
+      <div class="arrow">→</div>
+      <div class="node sys"><b>独立打卡</b>对象 + 日期；同日同对象防重；支持撤销确认</div>
+      <div class="arrow">→</div>
+      <div class="node sys" style="position:relative"><span class="star">★改</span><b>加回食单复检</b>从收藏加回今日食单时，按<b>最新忌口复检</b>：命中过敏原 → 拒绝并说明；通过 → 用户选替换位</div>
+      <div class="arrow">→</div>
+      <div class="node page"><b>再次使用</b>偏好/收藏/打卡留存本机；AI 会话不留存；分享链接不携带任何偏好</div>
+    </div>
+  </div>
+
+  <!-- 四、修改点对照表 -->
+  <div class="lane">
+    <div class="lane-title">四 · 相对 v3 流程图的主要修改对照（答辩讲解用）</div>
+    <table>
+      <tr><th style="width:36px">#</th><th style="width:44%">v3 设计稿</th><th>实施版 v4（修改后）</th></tr>
+      <tr><td class="no">1</td><td>NFC 贴卡 / 扫码独立入口，参数规则未统一</td><td><b>统一 ?t=节气拼音 参数协议</b>，NFC / 二维码 / 分享链接共用；卡片实机验证待记录</td></tr>
+      <tr><td class="no">2</td><td>节气定位规则笼统（"先进接近此时时间"）</td><td>明确三级优先级 + <b>按年交节表</b>（按年核验 / 范围外提示未收录）</td></tr>
+      <tr><td class="no">3</td><td>账号能力属【规划】，登录读取账号资料</td><td>用户决策提前纳入第一版：<b>本机账号</b>（无后端条件下的诚实实现，界面标注能力边界）</td></tr>
+      <tr><td class="no">4</td><td>AI 有"检索依据"环节（类似 RAG）</td><td>落地为 <b>DeepSeek 流式直答 + 生成后过敏校验 + 医疗边界声明</b>；未接通 / 失败全部如实展示</td></tr>
+      <tr><td class="no">5</td><td>换菜仅重新过滤排序，状态未定义</td><td><b>换一换存菜品 ID 列表</b>，池变化自动重算；每道菜附推荐理由</td></tr>
+      <tr><td class="no">6</td><td>食单假定"已审核菜谱"</td><td>建立<b>「演示数据 · 待核验」标注体系</b>：出处随条目标注、核验状态逐条更新（诗词/古籍同规则）</td></tr>
+      <tr><td class="no">7</td><td>收藏加回"复检最新口径"仅为设想</td><td>规则：<b>加回时按最新忌口复检</b>，冲突拒绝并说明原因</td></tr>
+      <tr><td class="no">8</td><td>未定义部署形态</td><td><b>纯静态 H5 + Hash 路由</b>（发布状态以本轮记录为准）；数据全在本机 localStorage；AI 服务与代理状态按实测记录</td></tr>
+    </table>
+    <div class="footnote">图例与结构承接 v3（2026-10-23 联合版）｜ v4 为实施核对版：本图不作为全部实现、全部验收或线上更新的证明 ｜ 节气食单项目组 · 修订 2026-11-02</div>
+  </div>
+
+<div class="lane"><div class="lane-title">本轮补充 · 内容与证据边界</div><p style="font-size:13px;line-height:1.8">保留原四列顺序、入口层与数据回流，不重新布局。食养为传统文化科普，现代营养单独说明；详情补独立科普动画、起居、来源与逐条审核状态。诊断、开方、擅自用药请求进入边界提示。账号仅本机演示，无短信验证码、不跨设备、不可找回；无云同步。NFC 保留 ?t=节气拼音 协议，实机验证与当前线上状态另行记录。图中规则与能力描述不代表本轮已全部验收。</p></div>
+</div>
+</body>
+</html>

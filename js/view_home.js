@@ -77,9 +77,13 @@
         if (r.scenes.indexOf('canteen') >= 0) { tagHtml += '<span class="badge badge-blue">食堂可点</span>'; }
         if (r.scenes.indexOf('takeout') >= 0) { tagHtml += '<span class="badge badge-gray">外卖友好</span>'; }
         if (r.time) { tagHtml += '<span class="badge badge-gray">' + r.time + ' 分钟</span>'; }
+        /* 有已核验实拍则显示照片（来源见 docs/food-photo-sources），否则保留意象字块 */
+        var visual = (JQ.PHOTOS && JQ.PHOTOS.items[r.id])
+          ? JQ.PHOTOS.html(r)
+          : '<div class="d-emoji" aria-hidden="true">' + JQ.esc(r.emoji) + '</div>';
         dishesHtml +=
           '<div class="dish-card" data-rid="' + JQ.esc(r.id) + '">' +
-          '<div class="d-emoji" aria-hidden="true">' + JQ.esc(r.emoji) + '</div>' +
+          visual +
           '<div class="d-main"><div class="d-name">' + JQ.esc(r.name) + '</div>' +
           '<div class="d-meta">' + JQ.esc(r.servings) + ' · ' + JQ.esc(r.reason).slice(0, 34) + '…</div>' +
           '<div class="d-tags">' + tagHtml + '</div></div>' +
@@ -192,6 +196,7 @@
     });
 
     /* 重绘后重新激活滚动显现（否则卡片停留透明态） */
+    if (JQ.PHOTOS && JQ.PHOTOS.mount) { JQ.PHOTOS.mount(view); }
     if (JQ.ROUTER && JQ.ROUTER.observeReveals) { JQ.ROUTER.observeReveals(); }
   };
 })();

@@ -1,0 +1,177 @@
+{
+  "verifiedAt": "2026-11-02",
+  "timezone": "UTC+08:00",
+  "sourcePage": "https://www.hko.gov.hk/sc/gts/astronomy/Solar_Term.htm",
+  "years": {
+    "2026": {
+      "url": "https://www.hko.gov.hk/tc/gts/astronomy/data/files/24SolarTerms_2026.xml",
+      "sha256": "3af98679f43d4d689941c55ba2a19f146ff111a6dff681235dc2b7110974ac74",
+      "status": "verified_against_HKO_XML",
+      "onsets": {
+        "xiaohan": "2026-01-05 16:23",
+        "dahan": "2026-01-20 09:45",
+        "lichun": "2026-02-04 04:02",
+        "yushui": "2026-02-18 23:52",
+        "jingzhe": "2026-03-05 21:59",
+        "chunfen": "2026-03-20 22:46",
+        "qingming": "2026-04-05 02:40",
+        "guyu": "2026-04-20 09:39",
+        "lixia": "2026-05-05 19:49",
+        "xiaoman": "2026-05-21 08:37",
+        "mangzhong": "2026-06-05 23:48",
+        "xiazhi": "2026-06-21 16:25",
+        "xiaoshu": "2026-07-07 09:57",
+        "dashu": "2026-07-23 03:13",
+        "liqiu": "2026-08-07 19:43",
+        "chushu": "2026-08-23 10:19",
+        "bailu": "2026-09-07 22:41",
+        "qiufen": "2026-09-23 08:05",
+        "hanlu": "2026-10-08 14:29",
+        "shuangjiang": "2026-10-23 17:38",
+        "lidong": "2026-11-07 17:52",
+        "xiaoxue": "2026-11-22 15:23",
+        "daxue": "2026-12-07 10:53",
+        "dongzhi": "2026-12-22 04:50"
+      }
+    },
+    "2027": {
+      "url": "https://www.hko.gov.hk/tc/gts/astronomy/data/files/24SolarTerms_2027.xml",
+      "sha256": "26f81a300bff724af49b80ad72c30e3cb48c9a5c35b3413308752dd75870ee37",
+      "status": "verified_against_HKO_XML",
+      "onsets": {
+        "xiaohan": "2027-01-05 22:10",
+        "dahan": "2027-01-20 15:30",
+        "lichun": "2027-02-04 09:46",
+        "yushui": "2027-02-19 05:33",
+        "jingzhe": "2027-03-06 03:40",
+        "chunfen": "2027-03-21 04:25",
+        "qingming": "2027-04-05 08:17",
+        "guyu": "2027-04-20 15:18",
+        "lixia": "2027-05-06 01:25",
+        "xiaoman": "2027-05-21 14:18",
+        "mangzhong": "2027-06-06 05:26",
+        "xiazhi": "2027-06-21 22:11",
+        "xiaoshu": "2027-07-07 15:37",
+        "dashu": "2027-07-23 09:05",
+        "liqiu": "2027-08-08 01:27",
+        "chushu": "2027-08-23 16:14",
+        "bailu": "2027-09-08 04:28",
+        "qiufen": "2027-09-23 14:02",
+        "hanlu": "2027-10-08 20:17",
+        "shuangjiang": "2027-10-23 23:33",
+        "lidong": "2027-11-07 23:39",
+        "xiaoxue": "2027-11-22 21:16",
+        "daxue": "2027-12-07 16:38",
+        "dongzhi": "2027-12-22 10:42"
+      }
+    },
+    "2028": {
+      "url": "https://www.hko.gov.hk/tc/gts/astronomy/data/files/24SolarTerms_2028.xml",
+      "sha256": "abebf8813ee7ac60d520fe4655d903287ed2faf7dc78e561dd702e81f6af2d95",
+      "status": "verified_against_HKO_XML",
+      "onsets": {
+        "xiaohan": "2028-01-06 03:55",
+        "dahan": "2028-01-20 21:22",
+        "lichun": "2028-02-04 15:31",
+        "yushui": "2028-02-19 11:26",
+        "jingzhe": "2028-03-05 09:25",
+        "chunfen": "2028-03-20 10:17",
+        "qingming": "2028-04-04 14:03",
+        "guyu": "2028-04-19 21:09",
+        "lixia": "2028-05-05 07:12",
+        "xiaoman": "2028-05-20 20:10",
+        "mangzhong": "2028-06-05 11:16",
+        "xiazhi": "2028-06-21 04:02",
+        "xiaoshu": "2028-07-06 21:30",
+        "dashu": "2028-07-22 14:54",
+        "liqiu": "2028-08-07 07:21",
+        "chushu": "2028-08-22 22:01",
+        "bailu": "2028-09-07 10:22",
+        "qiufen": "2028-09-22 19:45",
+        "hanlu": "2028-10-08 02:09",
+        "shuangjiang": "2028-10-23 05:13",
+        "lidong": "2028-11-07 05:27",
+        "xiaoxue": "2028-11-22 02:54",
+        "daxue": "2028-12-06 22:25",
+        "dongzhi": "2028-12-21 16:20"
+      }
+    }
+  },
+  "corrections": [
+    {
+      "year": 2027,
+      "termId": "jingzhe",
+      "before": "2027-03-06 03:39",
+      "after": "2027-03-06 03:40"
+    },
+    {
+      "year": 2027,
+      "termId": "chunfen",
+      "before": "2027-03-21 04:24",
+      "after": "2027-03-21 04:25"
+    },
+    {
+      "year": 2027,
+      "termId": "guyu",
+      "before": "2027-04-20 15:17",
+      "after": "2027-04-20 15:18"
+    },
+    {
+      "year": 2027,
+      "termId": "mangzhong",
+      "before": "2027-06-06 05:25",
+      "after": "2027-06-06 05:26"
+    },
+    {
+      "year": 2027,
+      "termId": "dashu",
+      "before": "2027-07-23 09:04",
+      "after": "2027-07-23 09:05"
+    },
+    {
+      "year": 2027,
+      "termId": "liqiu",
+      "before": "2027-08-08 01:26",
+      "after": "2027-08-08 01:27"
+    },
+    {
+      "year": 2027,
+      "termId": "qiufen",
+      "before": "2027-09-23 14:01",
+      "after": "2027-09-23 14:02"
+    },
+    {
+      "year": 2027,
+      "termId": "lidong",
+      "before": "2027-11-07 23:38",
+      "after": "2027-11-07 23:39"
+    },
+    {
+      "year": 2027,
+      "termId": "daxue",
+      "before": "2027-12-07 16:37",
+      "after": "2027-12-07 16:38"
+    },
+    {
+      "year": 2028,
+      "termId": "xiaohan",
+      "before": "2028-01-06 03:54",
+      "after": "2028-01-06 03:55"
+    },
+    {
+      "year": 2028,
+      "termId": "jingzhe",
+      "before": "2028-03-05 09:24",
+      "after": "2028-03-05 09:25"
+    },
+    {
+      "year": 2028,
+      "termId": "hanlu",
+      "before": "2028-10-08 02:08",
+      "after": "2028-10-08 02:09"
+    }
+  ],
+  "unverified": [
+    "2029: current public XML URL returned HTTP 404; keep legacy data marked pending"
+  ]
+}

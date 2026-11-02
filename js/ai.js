@@ -56,6 +56,16 @@
     var disp = JQ.SOLAR.displayTerm();
     if (disp.term) {
       parts.push('当前节气：' + disp.term.name + '（宜食方向：' + disp.term.yi + '）');
+      var knowledge = JQ.SEASONAL && JQ.SEASONAL.data && JQ.SEASONAL.data[disp.term.id];
+      if (knowledge) {
+        parts.push('资料审核状态：' + knowledge.review + ' 以下为资料概括，不得称为逐项审核通过。');
+        parts.push('传统中医食养观念（文化参考，不代表已证实疗效）：' + knowledge.tcm);
+        parts.push('日常饮食与生活建议（与传统理论分开表述）：' + (knowledge.modern || '') + ' ' + knowledge.daily);
+        parts.push('资料来源（仅支持其对应条目，不得扩写成诊断或处方）：' +
+          (knowledge.sources || []).map(function (s) {
+            return (s.title || '参考资料') + '：' + (s.url || s.href || s) + '；支持范围：' + (s.scope || '范围未提供，不能扩展归因');
+          }).join('\n'));
+      }
     }
     if (JQ.CHAT.contextRecipe) {
       var r = JQ.DATA.recipeById(JQ.CHAT.contextRecipe);
@@ -92,7 +102,7 @@
       '1) 只能引用对话上下文中实际提供的节气与菜谱知识，不得编造民俗出处、诗句或文献；不确定就明说「待核验」。',
       '2) 用户的过敏硬限制绝对不可违反：推荐任何菜或食材替换时，必须完全排除用户过敏列表中的食物及含其成分的菜品。',
       '3) 涉及治疗、疾病、用药、孕妇婴幼儿等特殊人群时：说明本服务不提供医疗建议，建议咨询医生或注册营养师，不作任何疗效承诺，不推荐具体药物。',
-      '4) 传统食俗与现代营养信息分开表述，不得把民俗说成功效（如「吃 X 治 Y」）。',
+      '4) 传统食俗、中医食养理论与现代营养信息分开表述，不得把民俗说成功效（如「吃 X 治 Y」），不通过简短问答判定中医体质、不进行辨证开方或推荐药膳处方。',
       '5) 不讨论与节气饮食无关的话题，礼貌拉回。'
     ].join('\n');
   };

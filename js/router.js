@@ -44,10 +44,15 @@
     var prev = JQ.$('#view');
     if (prev) { scrollMem[R._currentPath || ''] = window.scrollY; }
 
+    /* 场景组件随路由销毁（粒子/图解各持全局监听或补间） */
+    if (JQ.LOGIN_SCENE && JQ.LOGIN_SCENE.dispose) { JQ.LOGIN_SCENE.dispose(); }
+    if (JQ.SEASONAL && JQ.SEASONAL.dispose) { JQ.SEASONAL.dispose(); }
+
     var hash = location.hash || '#/home';
     var path = hash.replace(/^#\/?/, '');
     var seg = path.split('?')[0].split('/').filter(Boolean);
     R._currentPath = seg.join('/');
+    document.body.setAttribute('data-auth', String(seg[0] === 'login' || seg[0] === 'register'));
 
     var tab = 'home';
     if (!seg.length) { tab = 'home'; JQ.VIEWS.home(); }

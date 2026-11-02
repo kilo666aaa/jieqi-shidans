@@ -55,19 +55,31 @@
       return '<div class="step-li"><div class="s-i">' + (i + 1) + '</div><div style="flex:1">' + JQ.esc(s) + '</div></div>';
     }).join('');
 
+    var heroPhoto = (JQ.PHOTOS && JQ.PHOTOS.items[r.id]) ? JQ.PHOTOS.html(r, { detail: true }) : '';
+    var heroCard = heroPhoto
+      ? '<div class="dish-hero">' + heroPhoto +
+        '<div class="dish-hero-side">' +
+        '<h2 class="serif" style="font-size:20px;margin:2px 0 4px">' + JQ.esc(r.name) + '</h2>' +
+        '<div class="muted small">' +
+        (term ? '<a href="#/term/' + term.id + '">' + JQ.esc(term.name) + '</a> · ' : '') +
+        '<span class="badge badge-demo">演示数据 · 待核验</span></div>' +
+        '<div class="allergen-tags">' + allergenHtml + '</div>' +
+        '</div></div>'
+      : '<div style="text-align:center">' +
+        '<div style="font-size:52px;margin:6px 0" aria-hidden="true">' + JQ.esc(r.emoji) + '</div>' +
+        '<h2 class="serif" style="font-size:20px">' + JQ.esc(r.name) + '</h2>' +
+        '<div class="muted small">' +
+        (term ? '<a href="#/term/' + term.id + '">' + JQ.esc(term.name) + '</a> · ' : '') +
+        '<span class="badge badge-demo">演示数据 · 待核验</span></div>' +
+        '<div class="allergen-tags" style="justify-content:center">' + allergenHtml + '</div>' +
+        '</div>';
+
     view.innerHTML =
       JQ.HEADER(r.name,
         '<button class="btn btn-sm ' + (isFav ? 'btn-warm' : 'btn-ghost') + '" id="fav-btn">' + (isFav ? '★ 已收藏' : '☆ 收藏') + '</button>',
         true) +
       '<div class="wrap">' +
-      '<div class="card" style="text-align:center">' +
-      '<div style="font-size:52px;margin:6px 0" aria-hidden="true">' + JQ.esc(r.emoji) + '</div>' +
-      '<h2 class="serif" style="font-size:20px">' + JQ.esc(r.name) + '</h2>' +
-      '<div class="muted small">' +
-      (term ? '<a href="#/term/' + term.id + '">' + JQ.esc(term.name) + '</a> · ' : '') +
-      '<span class="badge badge-demo">演示数据 · 待核验</span></div>' +
-      '<div class="allergen-tags" style="justify-content:center">' + allergenHtml + '</div>' +
-      '</div>' +
+      '<div class="card">' + heroCard + '</div>' +
       blockedWarn + sceneTip +
       '<div class="meta-grid">' +
       '<div class="mg"><b>' + (r.time ? r.time + ' 分钟' : '即食') + '</b><span>预计耗时</span></div>' +
@@ -178,6 +190,7 @@
     });
 
     /* 重绘后重新激活滚动显现 */
+    if (JQ.PHOTOS && JQ.PHOTOS.mount) { JQ.PHOTOS.mount(view); }
     if (JQ.ROUTER && JQ.ROUTER.observeReveals) { JQ.ROUTER.observeReveals(); }
   };
 })();

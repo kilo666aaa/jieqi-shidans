@@ -43,7 +43,7 @@
 
     /* 环盘中心 */
     var mid = curTerm
-      ? '<div class="i">第' + CN[curTerm.seq - 1] + '气</div><div class="t">' + JQ.esc(curTerm.name) + '</div><div class="d">' + JQ.fmtMD(JQ.DATA.ONSETS[cur.year][curTerm.id] || '') + ' · ' + curTerm.season + '</div>'
+      ? JQ.marksSVG(curTerm, { current: true, cls: 'axis-mark' }) + '<div class="i">第' + CN[curTerm.seq - 1] + '气</div><div class="t">' + JQ.esc(curTerm.name) + '</div><div class="d">' + JQ.fmtMD(JQ.DATA.ONSETS[cur.year][curTerm.id] || '') + ' · ' + curTerm.season + '</div>'
       : '<div class="t small">数据整理中</div>';
 
     /* 四季分区签牌 */
@@ -54,6 +54,7 @@
       JQ.DATA.TERMS.filter(function (t) { return t.season === s; }).forEach(function (t) {
         grid += '<a class="term-cell' + (t.id === curId ? ' now' : '') + '" style="--tc:' + (t.c || seasonColors[s]) + '" href="#/term/' + t.id + '">' +
           (t.id === curId ? '<span class="tc-now">今日</span>' : '') +
+          (JQ.marksSVG ? JQ.marksSVG(t, { cls: 'cell-mark' }) : '') +
           '<span class="ghost" aria-hidden="true">' + (t.seq < 10 ? '0' + t.seq : t.seq) + '</span>' +
           '<div class="tc-name">' + JQ.esc(t.name) + '</div>' +
           '<div class="tc-season">' + JQ.esc(t.pinyin) + '</div></a>';
@@ -128,6 +129,7 @@
       '<span class="hero-deco l" aria-hidden="true">' + JQ.esc(t.season) + '之月</span>' +
       '<span class="hero-deco r" aria-hidden="true">月令七十二候</span>' +
       '<div class="moongate" style="width:min(56vw,210px)"><svg viewBox="0 0 400 400" role="img" aria-label="' + JQ.esc(t.name) + '意象">' + JQ.moongateSVG(t) + '</svg></div>' +
+      '<span class="hero-mark">' + JQ.marksSVG(t) + '</span>' +
       '<div class="hero-kicker">第' + CN[t.seq - 1] + '气 · ' + JQ.esc(t.season) + '季</div>' +
       '<h2 class="hero-name" style="font-size:46px">' + JQ.esc(t.name) + '</h2>' +
       '<div class="hero-poem">' + JQ.esc(t.e || '') + '</div>' +
@@ -140,6 +142,9 @@
 
       '<div class="card" data-reveal><h2>物候三候</h2>' + hou +
       '<div class="small muted" style="margin-top:6px">整理自《月令七十二候集解》（演示数据 · 待核验）</div></div>' +
+
+      (JQ.SEASONAL ? JQ.SEASONAL.card(t) : '') +
+      (JQ.ECLIPTIC ? JQ.ECLIPTIC.card(t) : '') +
 
       '<div class="card" data-reveal><div class="zone-title">传统民俗</div>' +
       '<div style="font-size:14px;line-height:1.9">' + JQ.esc(t.food) + '</div>' +
@@ -155,6 +160,8 @@
       '<div style="font-size:14px;line-height:1.9">' + JQ.esc(t.nutrition) + '</div>' +
       (t.ju ? '<hr class="divider"><div class="small" style="color:var(--ink2)"><b>起居参考：</b>' + JQ.esc(t.ju) + '</div>' : '') +
       '<div class="small muted" style="margin-top:6px">以上为一般性提示，不构成医疗建议，不作疗效承诺。</div></div>' +
+
+      (JQ.TCM ? JQ.TCM.card(t) : '') +
 
       '<div class="card" data-reveal><h2>历年交节时刻（北京时间）</h2>' + onsetRows +
       '<div class="small muted" style="margin-top:6px">未列年份的数据尚未收录，不做外推。</div></div>' +
@@ -177,6 +184,8 @@
     });
 
     /* 重绘后重新激活滚动显现（收藏操作会触发整页重绘） */
+    if (JQ.SEASONAL && JQ.SEASONAL.mount) { JQ.SEASONAL.mount(view); }
+    if (JQ.ECLIPTIC && JQ.ECLIPTIC.mount) { JQ.ECLIPTIC.mount(view); }
     if (JQ.ROUTER && JQ.ROUTER.observeReveals) { JQ.ROUTER.observeReveals(); }
   };
 })();
