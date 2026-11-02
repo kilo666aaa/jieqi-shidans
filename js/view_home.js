@@ -78,12 +78,12 @@
         if (r.scenes.indexOf('takeout') >= 0) { tagHtml += '<span class="badge badge-gray">外卖友好</span>'; }
         if (r.time) { tagHtml += '<span class="badge badge-gray">' + r.time + ' 分钟</span>'; }
         dishesHtml +=
-          '<div class="dish-card" data-rid="' + JQ.esc(r.id) + '">' +
-          '<div class="d-emoji" aria-hidden="true">' + JQ.esc(r.emoji) + '</div>' +
+          '<article role="link" tabindex="0" class="dish-card" data-rid="' + JQ.esc(r.id) + '" aria-label="查看' + JQ.esc(r.name) + '菜谱">' +
+          (JQ.PHOTOS ? JQ.PHOTOS.html(r, {className:'dish-photo'}) : '<div class="photo-missing">菜品实拍<small>图片整理中</small></div>') +
           '<div class="d-main"><div class="d-name">' + JQ.esc(r.name) + '</div>' +
-          '<div class="d-meta">' + JQ.esc(r.servings) + ' · ' + JQ.esc(r.reason).slice(0, 34) + '…</div>' +
+          '<div class="d-meta">' + JQ.esc(r.servings) + ' · ' + JQ.esc(r.ing.slice(0, 2).map(function (i) { return i[0]; }).join('、')) + '</div>' +
           '<div class="d-tags">' + tagHtml + '</div></div>' +
-          '<div class="d-go">›</div></div>';
+          '<div class="d-go">›</div></article>';
       });
       if (picks.poolSize <= 3) {
         dishesHtml += '<div class="small muted" style="padding-top:8px">候选池仅有 ' + picks.poolSize + ' 道（不放宽过敏限制补足），换一换将循环推荐。</div>';
@@ -115,7 +115,7 @@
       ticker = '<div><b>' + CN[term.seq - 1] + '</b><small>节气序</small></div>' +
         '<div><b>' + daysLeft + '</b><small>日距下气</small></div>' +
         '<div><b>' + JQ.esc(nextName) + '</b><small>下一气</small></div>' +
-        '<div><b>' + JQ.esc(term.hou[0]) + '</b><small>当前候</small></div>';
+        '<div><b>' + JQ.esc(term.hou[0]) + '</b><small>本节气初候</small></div>';
     }
 
     view.innerHTML =
@@ -125,10 +125,9 @@
       browseHtml +
 
       '<div class="home-hero">' +
-      '<canvas class="ink-canvas" id="hero-ink" aria-hidden="true"></canvas>' +
       '<span class="hero-deco l" aria-hidden="true">不时不食</span>' +
       '<span class="hero-deco r" aria-hidden="true">顺时而餐</span>' +
-      '<div class="moongate" id="moongate"><svg viewBox="0 0 400 400" role="img" aria-label="' + JQ.esc(term.name) + '意象">' + JQ.moongateSVG(term) + '</svg></div>' +
+      '<div class="moongate" id="moongate">' + (JQ.SEASONAL ? JQ.SEASONAL.icon(term.id) : '<svg viewBox="0 0 400 400" role="img" aria-label="' + JQ.esc(term.name) + '意象">' + JQ.moongateSVG(term) + '</svg>') + '</div>' +
       '<div class="hero-kicker">' + (disp.browsing ? '正在浏览' : '今日节气') + '</div>' +
       '<h2 class="hero-name">' + JQ.esc(term.name) + '</h2>' +
       '<div class="hero-poem">' + JQ.esc(term.e || '') + '</div>' +
@@ -141,13 +140,11 @@
       '<div class="ticker">' + ticker + '</div>' +
       '</div>' +
 
-      '<div class="notice-amber" data-reveal><span class="badge badge-demo">演示数据</span> 食单与节气内容为课程演示数据（待小组核验），正式内容以人工审核为准。</div>' +
-      allergenNotice +
-      '<div class="card" data-reveal><h2>宜食方向</h2><div style="font-size:14px;line-height:1.9">' + JQ.esc(term.yi) + '</div>' +
-      (term.mean ? '<hr class="divider"><div class="small" style="color:var(--ink2);line-height:1.85">' + JQ.esc(term.mean) + '</div>' : '') +
-      '</div>' +
+      '<details class="home-data-note"><summary>内容审核说明</summary><p>节气与菜谱为课程展示资料；逐项审核状态和来源见详情，旧版诗词、食俗与菜谱仍待小组核验。</p></details>' +
       dishesHtml +
+      allergenNotice +
       notesHtml +
+      (JQ.SEASONAL ? JQ.SEASONAL.wellness(term, true) : '<div class="card"><h2>宜食方向</h2>' + JQ.esc(term.yi) + '</div>') +
       '<div class="card" data-reveal><h2>文化解说 <span class="badge badge-demo">待核验</span></h2>' +
       '<div style="font-size:14px;line-height:1.9">' + JQ.esc(term.food) + '</div>' +
       (term.poem
@@ -157,9 +154,6 @@
       '</div>' +
       '<div style="text-align:center" class="muted small serif">— 《论语·乡党》不时，不食 —</div>' +
       '</div>';
-
-    /* 水墨粒子 */
-    JQ.inkParticles(JQ.$('#hero-ink'));
 
     /* 事件绑定 */
     var shareBtn = JQ.$('#home-share');
@@ -188,6 +182,9 @@
     JQ.$$('.dish-card', view).forEach(function (el) {
       el.addEventListener('click', function () {
         location.hash = '#/recipe/' + el.getAttribute('data-rid');
+      });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); location.hash = '#/recipe/' + el.getAttribute('data-rid'); }
       });
     });
 

@@ -15,8 +15,7 @@
 
   /* 北京时间（UTC+8）：返回用 getUTC* 读取即为北京墙上时钟的 Date */
   JQ.bjNow = function () {
-    var d = new Date();
-    return new Date(d.getTime() + d.getTimezoneOffset() * 60000 + 8 * 3600000);
+    return new Date(Date.now() + 8 * 3600000);
   };
   JQ.bjDateStr = function () {
     var b = JQ.bjNow();

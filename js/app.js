@@ -44,7 +44,7 @@
     /* 首访偏好引导：非阻断底部邀请（可开始 / 可跳过），不当登录墙 */
     var onboarded = JQ.STORE.get(JQ.STORE.KEYS.ONBOARDED, false);
     var prefs = JQ.PREFS.get();
-    if (!onboarded && !prefs.provided) {
+    if (!onboarded && !prefs.provided && !/^#\/(login|register)(?:$|[/?])/.test(location.hash)) {
       JQ.modal({
         title: '初见 · 花 30 秒让推荐更懂你',
         body: '<div class="small" style="color:var(--ink2);line-height:1.9">三步填写：<b>过敏原（硬限制，命中即不再推荐）</b> → 口味（辣/咸/甜）→ 就餐场景。<br><br>也可以先逛逛——不填写时推荐页会保留过敏核对提示。</div>',

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>节气食单 App · 系统交互流程图 v2（含偏好调研 / 收藏闭环）</title>
+<style>
+  :root{--bg:#f7f5f0;--ink:#232620;--muted:#8a8f83;--green:#3f7d5a;--amber:#bd863a;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;}
+  .top{background:linear-gradient(150deg,#2c5c41,#3f7d5a);color:#fff;padding:30px 0 26px}
+  .wrap{max-width:1900px;margin:0 auto;padding:0 28px}
+  .top h1{margin:0 0 8px;font-size:26px;font-weight:800}
+  .top p{margin:0;font-size:13.5px;opacity:.9}
+  .bar{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:16px;font-size:12.5px;opacity:.9}
+  .canvas{max-width:1900px;margin:22px auto 0;padding:0 28px}
+  .sheet{background:#fff;border:1px solid #e6e2d8;border-radius:16px;overflow:auto;box-shadow:0 10px 30px -18px rgba(35,38,32,.3)}
+  .sheet svg{display:block;min-width:1560px;height:auto}
+  .note{max-width:1900px;margin:20px auto 60px;padding:0 28px}
+  .note .box{background:#fbf1e0;border-left:3px solid var(--amber);border-radius:0 10px 10px 0;padding:14px 18px;font-size:13.5px;color:#6b5220;line-height:1.85}
+  .note .box b{color:#96671f}
+  .note .box .k{display:inline-block;background:#efe0cb;border-radius:4px;padding:0 5px;color:#8a5a17;font-weight:700}
+  @media print{
+    .top{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .sheet{overflow:visible;border:none;box-shadow:none}
+    .sheet svg{min-width:0;width:100%}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="wrap">
+    <h1>节气食单 App · 系统交互流程图 <span style="font-size:15px;font-weight:600;opacity:.75">v2</span></h1>
+    <p>保留初始 v2 节点与连线布局：可选本机账号，<b>偏好调研（过敏原 / 口味 / 场景）可跳过</b>，再进入「今日食单 / AI 问答 / 节气百科 / 我的」四大板块；收藏菜品经「收藏池」汇总到个人中心。</p>
+    <div class="bar">
+      <span>项目：节气食单（NCMC 民族文化 · 创新表达）</span>
+      <span>文化锚点：《论语》「不时，不食」</span>
+      <span>技术主线：DeepSeek API + NFC 近场交互</span>
+      <span>本轮修订：食养 / 科普动画 / 来源 / 本机能力边界</span>
+      <span>修订：2026-11-02</span>
+    </div>
+  </div>
+</div>
+
+<div class="canvas">
+  <div class="sheet">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1990" width="2000" height="1990" font-family="Microsoft YaHei, Noto Sans SC, PingFang SC, sans-serif">
+<defs>
+<marker id="ar" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto"><path d="M0,0 L7.5,3 L0,6 z" fill="#7d8f84"/></marker>
+<marker id="ard" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto"><path d="M0,0 L7.5,3 L0,6 z" fill="#9aa89f"/></marker>
+<marker id="ara" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto"><path d="M0,0 L7.5,3 L0,6 z" fill="#c58f5c"/></marker>
+<marker id="arg" markerWidth="9" markerHeight="9" refX="7.5" refY="3" orient="auto"><path d="M0,0 L7.5,3 L0,6 z" fill="#3f7d5a"/></marker>
+</defs>
+<rect x="0" y="0" width="2000" height="1990" fill="#ffffff"/>
+<text x="44" y="46" font-size="24" font-weight="800" fill="#23402f">节气食单 App · 系统交互流程图</text>
+<text x="44" y="76" font-size="13.5" fill="#7a8a7f">AI 食养智能体 × NFC 食单卡　｜　可选本机账号 → 可跳过偏好引导 → 今日食单 / AI 问答 / 节气百科 / 我的 → 收藏池回流个人中心</text>
+
+<!-- 图例 -->
+<rect x="44" y="104" width="22" height="14" rx="4" fill="#3f7d5a" stroke="#2c5c41"/>
+<text x="76" y="115" font-size="12" fill="#5a6b60">核心页面</text>
+<rect x="176" y="104" width="22" height="14" rx="4" fill="#e7f2ea" stroke="#7aab8b"/>
+<text x="208" y="115" font-size="12" fill="#5a6b60">功能节点</text>
+<rect x="320" y="104" width="22" height="14" rx="4" fill="#e8f0f8" stroke="#7aa0c4"/>
+<text x="352" y="115" font-size="12" fill="#5a6b60">系统自动</text>
+<rect x="452" y="104" width="22" height="14" rx="4" fill="#efeaf9" stroke="#9d8cc9"/>
+<text x="484" y="115" font-size="12" fill="#5a6b60">AI 模型参与</text>
+<rect x="596" y="104" width="22" height="14" rx="4" fill="#fbf6ec" stroke="#c9a86a"/>
+<text x="628" y="115" font-size="12" fill="#5a6b60">免登录 / 跨模块跳转</text>
+<polygon points="817,104 828,111 817,118 806,111" fill="#f3f8f4" stroke="#6b9d7c"/>
+<text x="840" y="115" font-size="12" fill="#5a6b60">判断分支</text>
+<rect x="938" y="104" width="22" height="14" rx="4" fill="#f7ece1" stroke="#c58f5c"/>
+<text x="970" y="115" font-size="12" fill="#5a6b60">首次引导问卷</text>
+<rect x="1120" y="102" width="40" height="18" rx="9" fill="#c94f4f"/>
+<text x="1140" y="115" font-size="10" font-weight="700" fill="#ffffff" text-anchor="middle">NEW</text>
+<text x="1176" y="115" font-size="12" fill="#5a6b60">本次新增 / 改动</text>
+<text x="1956" y="115" font-size="12" fill="#9aa89f" text-anchor="end">v2 · 食养修订</text>
+
+<!-- ===== ① 启动 → 注册 / 登录 ===== -->
+<rect x="925" y="142" width="150" height="44" rx="22" fill="#cfe7d8" stroke="#4a8a5c" stroke-width="1.5"/>
+<text x="1000" y="169" font-size="13" font-weight="600" fill="#23402f" text-anchor="middle">开始</text>
+<path d="M 1000,186 L 1000,206" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="905" y="208" width="190" height="44" rx="22" fill="#cfe7d8" stroke="#4a8a5c" stroke-width="1.5"/>
+<text x="1000" y="235" font-size="13" font-weight="600" fill="#23402f" text-anchor="middle">直接访问 / 可选本机账号</text>
+<path d="M 1000,252 L 1000,272" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<polygon points="1000,272 1092,314 1000,356 908,314" fill="#f3f8f4" stroke="#6b9d7c" stroke-width="1.5"/>
+<text x="1000" y="319" font-size="12" fill="#2f5a45" text-anchor="middle">是否已有账号？</text>
+
+<path d="M 908,314 L 700,314 L 700,374" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="788" y="300" width="24" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="800" y="315" font-size="11.5" fill="#5a6b60" text-anchor="middle">否</text>
+<path d="M 1092,314 L 1300,314 L 1300,374" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1188" y="300" width="24" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="1200" y="315" font-size="11.5" fill="#5a6b60" text-anchor="middle">是</text>
+
+<rect x="585" y="376" width="230" height="62" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="700" y="402" font-size="12.5" fill="#23402f" text-anchor="middle">注册页</text>
+<text x="700" y="422" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">手机号格式校验 → 本机设密</text>
+<rect x="1200" y="376" width="200" height="62" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="1300" y="402" font-size="12.5" fill="#23402f" text-anchor="middle">登录页</text>
+<text x="1300" y="422" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">手机号 + 本机密码</text>
+
+<path d="M 700,438 L 700,462" fill="none" stroke="#7d8f84" stroke-width="1.5"/>
+<path d="M 1300,438 L 1300,462" fill="none" stroke="#7d8f84" stroke-width="1.5"/>
+<path d="M 700,462 L 1300,462" fill="none" stroke="#7d8f84" stroke-width="1.5"/>
+<path d="M 1000,462 L 1000,488" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="916" y="450" width="168" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="1000" y="465" font-size="11.5" fill="#5a6b60" text-anchor="middle">可跳过账号，访客使用</text>
+
+<!-- ===== ② STEP 0 偏好调研问卷 ===== -->
+<rect x="150" y="492" width="1700" height="308" rx="14" fill="#fdf8f3" stroke="#c58f5c" stroke-width="1.6" stroke-dasharray="8 6"/>
+<rect x="1534" y="482" width="40" height="20" rx="10" fill="#c94f4f"/>
+<text x="1554" y="496" font-size="10" font-weight="700" fill="#ffffff" text-anchor="middle">NEW</text>
+<text x="178" y="524" font-size="14" font-weight="800" fill="#96671f">STEP 0 · 首次使用引导：偏好调研问卷</text>
+<text x="1540" y="524" font-size="11.5" fill="#a8814b" text-anchor="end">3 步 · 约 30 秒 · 可跳过 ｜ 答案写入口味画像，反哺食单排序与 AI 回答</text>
+
+<!-- 问卷卡 1 -->
+<rect x="240" y="556" width="470" height="212" rx="10" fill="#ffffff" stroke="#e0c6ab" stroke-width="1.2"/>
+<rect x="258" y="570" width="58" height="18" rx="9" fill="#f7ece1" stroke="#c58f5c"/>
+<text x="287" y="583" font-size="9.5" font-weight="700" fill="#96671f" text-anchor="middle">STEP 1</text>
+<text x="258" y="616" font-size="13.5" font-weight="700" fill="#23402f">Q1　你对哪些食物过敏？</text>
+<text x="258" y="638" font-size="11" fill="#8a6a45">多选 · 过敏原命中即按当前偏好硬过滤</text>
+<rect x="258" y="654" width="58" height="30" rx="15" fill="#c58f5c" stroke="#a97745"/>
+<text x="287" y="673" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">海鲜</text>
+<rect x="326" y="654" width="58" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="355" y="673" font-size="12" fill="#8a6a45" text-anchor="middle">坚果</text>
+<rect x="394" y="654" width="70" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="429" y="673" font-size="12" fill="#8a6a45" text-anchor="middle">乳制品</text>
+<rect x="258" y="692" width="58" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="287" y="711" font-size="12" fill="#8a6a45" text-anchor="middle">麸质</text>
+<rect x="326" y="692" width="58" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="355" y="711" font-size="12" fill="#8a6a45" text-anchor="middle">鸡蛋</text>
+<rect x="394" y="692" width="86" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="437" y="711" font-size="12" fill="#8a6a45" text-anchor="middle">都不过敏</text>
+<text x="258" y="750" font-size="10.5" fill="#a8814b">例：勾「海鲜」→ 含虾蟹贝类菜品自动隐去</text>
+
+<!-- 问卷卡 2 -->
+<rect x="765" y="556" width="470" height="212" rx="10" fill="#ffffff" stroke="#e0c6ab" stroke-width="1.2"/>
+<rect x="783" y="570" width="58" height="18" rx="9" fill="#f7ece1" stroke="#c58f5c"/>
+<text x="812" y="583" font-size="9.5" font-weight="700" fill="#96671f" text-anchor="middle">STEP 2</text>
+<text x="783" y="616" font-size="13.5" font-weight="700" fill="#23402f">Q2　你的口味偏好？</text>
+<text x="783" y="638" font-size="11" fill="#8a6a45">单选 · 决定调味方向与烹饪手法</text>
+<rect x="783" y="654" width="58" height="30" rx="15" fill="#c58f5c" stroke="#a97745"/>
+<text x="812" y="673" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">清淡</text>
+<rect x="851" y="654" width="58" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="880" y="673" font-size="12" fill="#8a6a45" text-anchor="middle">适中</text>
+<rect x="919" y="654" width="58" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="948" y="673" font-size="12" fill="#8a6a45" text-anchor="middle">重口</text>
+<rect x="783" y="692" width="58" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="812" y="711" font-size="12" fill="#8a6a45" text-anchor="middle">嗜辣</text>
+<rect x="851" y="692" width="70" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="886" y="711" font-size="12" fill="#8a6a45" text-anchor="middle">重香辛</text>
+<rect x="931" y="692" width="58" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="960" y="711" font-size="12" fill="#8a6a45" text-anchor="middle">少甜</text>
+<text x="783" y="750" font-size="10.5" fill="#a8814b">例：选「清淡」→ 优先蒸煮炖，减盐减辣</text>
+
+<!-- 问卷卡 3 -->
+<rect x="1290" y="556" width="470" height="212" rx="10" fill="#ffffff" stroke="#e0c6ab" stroke-width="1.2"/>
+<rect x="1308" y="570" width="58" height="18" rx="9" fill="#f7ece1" stroke="#c58f5c"/>
+<text x="1337" y="583" font-size="9.5" font-weight="700" fill="#96671f" text-anchor="middle">STEP 3</text>
+<text x="1308" y="616" font-size="13.5" font-weight="700" fill="#23402f">Q3　你的用餐场景？</text>
+<text x="1308" y="638" font-size="11" fill="#8a6a45">单选 · 用于场景软排序</text>
+<rect x="1308" y="654" width="88" height="30" rx="15" fill="#c58f5c" stroke="#a97745"/>
+<text x="1352" y="673" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">少油少盐</text>
+<rect x="1404" y="654" width="100" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="1454" y="673" font-size="12" fill="#8a6a45" text-anchor="middle">家常日常</text>
+<rect x="1308" y="692" width="88" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="1352" y="711" font-size="12" fill="#8a6a45" text-anchor="middle">快手便当</text>
+<rect x="1404" y="692" width="88" height="30" rx="15" fill="#ffffff" stroke="#c9a86a"/>
+<text x="1448" y="711" font-size="12" fill="#8a6a45" text-anchor="middle">暂不设置</text>
+<text x="1308" y="750" font-size="10.5" fill="#a8814b">例：选「少油少盐」→ 清蒸 / 空气炸为主</text>
+
+<!-- 卡间递进箭头 -->
+<path d="M 710,662 L 756,662" fill="none" stroke="#c58f5c" stroke-width="1.5" marker-end="url(#ara)"/>
+<path d="M 1235,662 L 1281,662" fill="none" stroke="#c58f5c" stroke-width="1.5" marker-end="url(#ara)"/>
+
+<!-- ===== ③ 画像生成 → 首页 ===== -->
+<path d="M 1000,800 L 1000,826" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="850" y="826" width="300" height="66" rx="9" fill="#efeaf9" stroke="#9d8cc9" stroke-width="1.5"/>
+<text x="1000" y="854" font-size="12.5" fill="#23402f" text-anchor="middle">生成用户口味画像</text>
+<text x="1000" y="874" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">过敏黑名单 · 口味权重 · 用餐场景</text>
+<rect x="1108" y="834" width="34" height="17" rx="8.5" fill="#efeaf9" stroke="#9d8cc9"/>
+<text x="1125" y="846" font-size="10" font-weight="700" fill="#9d8cc9" text-anchor="middle">AI</text>
+<path d="M 1000,892 L 1000,914" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="860" y="914" width="280" height="50" rx="9" fill="#e8f0f8" stroke="#7aa0c4" stroke-width="1.5"/>
+<text x="1000" y="944" font-size="12.5" fill="#23402f" text-anchor="middle">写入本地偏好（可随时修改）</text>
+<rect x="994" y="922" width="34" height="17" rx="8.5" fill="#e8f0f8" stroke="#7aa0c4"/>
+<text x="1011" y="934" font-size="10" font-weight="700" fill="#7aa0c4" text-anchor="middle">自动</text>
+<path d="M 1000,964 L 1000,986" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="870" y="986" width="260" height="52" rx="9" fill="#3f7d5a" stroke="#2c5c41" stroke-width="1.5"/>
+<text x="1000" y="1017" font-size="14.5" font-weight="700" fill="#ffffff" text-anchor="middle">首页（今日食单）</text>
+
+<!-- 分发总线 -->
+<path d="M 1000,1038 L 1000,1072" fill="none" stroke="#7d8f84" stroke-width="1.5"/>
+<path d="M 300,1072 L 1770,1072" fill="none" stroke="#7d8f84" stroke-width="1.5"/>
+<path d="M 300,1072 L 300,1096" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 790,1072 L 790,1096" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 1280,1072 L 1280,1096" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<path d="M 1770,1072 L 1770,1096" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="906" y="1060" width="188" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="1000" y="1075" font-size="11.5" fill="#5a6b60" text-anchor="middle">四大板块 Tab 分发</text>
+
+<!-- ===== ④ 今日食单 ===== -->
+<rect x="212" y="1096" width="176" height="48" rx="9" fill="#3f7d5a" stroke="#2c5c41" stroke-width="1.5"/>
+<text x="300" y="1125" font-size="14.5" font-weight="700" fill="#ffffff" text-anchor="middle">今日食单（食单页）</text>
+<path d="M 300,1144 L 300,1168" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="212" y="1168" width="176" height="56" rx="9" fill="#e8f0f8" stroke="#7aa0c4" stroke-width="1.5"/>
+<text x="300" y="1192" font-size="12" fill="#23402f" text-anchor="middle">识别当前节气 + 忌口过滤</text>
+<text x="300" y="1212" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">过敏原菜品直接隐去</text>
+<rect x="356" y="1160" width="34" height="17" rx="8.5" fill="#e8f0f8" stroke="#7aa0c4"/>
+<text x="373" y="1172" font-size="10" font-weight="700" fill="#7aa0c4" text-anchor="middle">自动</text>
+<path d="M 300,1224 L 300,1248" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="212" y="1248" width="176" height="56" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="300" y="1272" font-size="12" fill="#23402f" text-anchor="middle">渲染今日食单</text>
+<text x="300" y="1292" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">按节气 + 口味画像排序</text>
+<path d="M 300,1304 L 300,1316" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="212" y="1316" width="176" height="52" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="300" y="1338" font-size="12" fill="#23402f" text-anchor="middle">节气卡｜食养提示</text>
+<text x="300" y="1358" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">推荐菜｜来源说明</text>
+
+<polygon points="300,1380 388,1418 300,1456 212,1418" fill="#f3f8f4" stroke="#6b9d7c" stroke-width="1.5"/>
+<text x="300" y="1423" font-size="12" fill="#2f5a45" text-anchor="middle">换一换？</text>
+<path d="M 212,1418 L 105,1418 L 105,1450" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="146" y="1404" width="24" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="158" y="1419" font-size="11.5" fill="#5a6b60" text-anchor="middle">是</text>
+<rect x="10" y="1452" width="190" height="50" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="105" y="1482" font-size="12.5" fill="#23402f" text-anchor="middle">5道池内换，最多3道</text>
+<path d="M 105,1502 L 105,1548 L 206,1548" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="120" y="1537" width="60" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="150" y="1552" font-size="11.5" fill="#5a6b60" text-anchor="middle">换好继续</text>
+<path d="M 300,1456 L 300,1508" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="312" y="1478" width="24" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="324" y="1493" font-size="11.5" fill="#5a6b60" text-anchor="middle">否</text>
+<rect x="212" y="1508" width="176" height="52" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="300" y="1539" font-size="12.5" fill="#23402f" text-anchor="middle">查看菜谱做法详情</text>
+<path d="M 300,1560 L 300,1578" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="212" y="1578" width="176" height="48" rx="9" fill="#e0f0e6" stroke="#3f7d5a" stroke-width="2"/>
+<text x="300" y="1607" font-size="12.5" font-weight="700" fill="#1d3a2b" text-anchor="middle">★ 收藏 / 打卡</text>
+<path d="M 300,1626 L 300,1648" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="212" y="1648" width="176" height="48" rx="9" fill="#fbf6ec" stroke="#c9a86a" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="300" y="1677" font-size="12.5" fill="#23402f" text-anchor="middle">问 AI 追问</text>
+<path d="M 300,1696 L 300,1718" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="212" y="1718" width="176" height="48" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="300" y="1747" font-size="12.5" fill="#23402f" text-anchor="middle">分享菜谱链接</text>
+<path d="M 300,1766 L 300,1788" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="212" y="1788" width="176" height="48" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="300" y="1817" font-size="12.5" fill="#23402f" text-anchor="middle">返回首页</text>
+
+<!-- 食单 → AI 问答（跨板块跳转）-->
+<path d="M 388,1672 L 420,1672 L 420,1262 L 696,1262" fill="none" stroke="#9aa89f" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ard)"/>
+<rect x="384" y="1470" width="72" height="21" rx="6" fill="#ffffff" fill-opacity="0.95"/>
+<text x="420" y="1485" font-size="11.5" fill="#5a6b60" text-anchor="middle">跳转追问</text>
+
+<!-- 收藏 / 打卡 → 收藏池 -->
+<path d="M 212,1602 L 170,1602 L 170,1908 L 1194,1908" fill="none" stroke="#3f7d5a" stroke-width="1.8" marker-end="url(#arg)"/>
+<rect x="646" y="1896" width="76" height="21" rx="6" fill="#ffffff" fill-opacity="0.95"/>
+<text x="684" y="1911" font-size="11.5" font-weight="700" fill="#3f7d5a" text-anchor="middle">写入收藏</text>
+
+<!-- ===== ⑤ AI 食养问答 ===== -->
+<rect x="702" y="1096" width="176" height="48" rx="9" fill="#3f7d5a" stroke="#2c5c41" stroke-width="1.5"/>
+<text x="790" y="1125" font-size="14.5" font-weight="700" fill="#ffffff" text-anchor="middle">AI 食养问答</text>
+<path d="M 790,1144 L 790,1164" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="702" y="1164" width="176" height="56" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="790" y="1188" font-size="12" fill="#23402f" text-anchor="middle">进入问答页</text>
+<text x="790" y="1208" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">（会话头带节气 + 忌口画像）</text>
+<path d="M 790,1220 L 790,1240" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="702" y="1240" width="176" height="48" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="790" y="1269" font-size="12.5" fill="#23402f" text-anchor="middle">输入问题 / 点快捷气泡</text>
+<polygon points="790,1296 880,1330 790,1364 700,1330" fill="#f3f8f4" stroke="#6b9d7c" stroke-width="1.5"/>
+<text x="790" y="1335" font-size="12" fill="#2f5a45" text-anchor="middle">涉及治疗类？</text>
+<path d="M 700,1330 L 666,1330" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="674" y="1296" width="24" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="686" y="1311" font-size="11.5" fill="#5a6b60" text-anchor="middle">是</text>
+<rect x="470" y="1302" width="190" height="56" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="565" y="1324" font-size="12" fill="#23402f" text-anchor="middle">返回免责声明</text>
+<text x="565" y="1344" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">说明边界，不诊断开方</text>
+<path d="M 790,1364 L 790,1400" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="798" y="1382" width="24" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="810" y="1397" font-size="11.5" fill="#5a6b60" text-anchor="middle">否</text>
+<rect x="702" y="1400" width="176" height="62" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="790" y="1424" font-size="12" fill="#23402f" text-anchor="middle">组装 Prompt</text>
+<text x="790" y="1444" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">食养资料 / 忌口 / 问题</text>
+<path d="M 790,1462 L 790,1484" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="702" y="1484" width="176" height="48" rx="9" fill="#efeaf9" stroke="#9d8cc9" stroke-width="1.5"/>
+<text x="790" y="1513" font-size="12.5" fill="#23402f" text-anchor="middle">调用 DeepSeek API</text>
+<rect x="844" y="1491" width="34" height="17" rx="8.5" fill="#efeaf9" stroke="#9d8cc9"/>
+<text x="861" y="1503" font-size="10" font-weight="700" fill="#9d8cc9" text-anchor="middle">AI</text>
+<path d="M 790,1532 L 790,1554" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="702" y="1554" width="176" height="48" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="790" y="1583" font-size="12.5" fill="#23402f" text-anchor="middle">流式返回并展示答案</text>
+<polygon points="790,1610 870,1644 790,1678 710,1644" fill="#f3f8f4" stroke="#6b9d7c" stroke-width="1.5"/>
+<text x="790" y="1649" font-size="12" fill="#2f5a45" text-anchor="middle">满意？</text>
+<path d="M 710,1644 L 600,1644 L 600,1710" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="638" y="1622" width="24" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="650" y="1637" font-size="11.5" fill="#5a6b60" text-anchor="middle">否</text>
+<rect x="505" y="1710" width="190" height="50" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="600" y="1740" font-size="12.5" fill="#23402f" text-anchor="middle">继续多轮追问</text>
+<path d="M 790,1678 L 790,1698" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="798" y="1686" width="24" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="810" y="1701" font-size="11.5" fill="#5a6b60" text-anchor="middle">是</text>
+<rect x="702" y="1698" width="176" height="48" rx="9" fill="#e0f0e6" stroke="#3f7d5a" stroke-width="2"/>
+<text x="790" y="1727" font-size="12.5" font-weight="700" fill="#1d3a2b" text-anchor="middle">★ 收藏答案</text>
+<path d="M 790,1746 L 790,1768" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="702" y="1768" width="176" height="48" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="790" y="1797" font-size="12.5" fill="#23402f" text-anchor="middle">返回首页 / 继续浏览</text>
+
+<!-- 多轮追问回路 -->
+<path d="M 505,1735 L 445,1735 L 445,1431 L 696,1431" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="409" y="1570" width="72" height="21" rx="6" fill="#ffffff" fill-opacity="0.95"/>
+<text x="445" y="1585" font-size="11.5" fill="#5a6b60" text-anchor="middle">多轮追问</text>
+
+<!-- 收藏答案 → 收藏池 -->
+<path d="M 878,1722 L 920,1722 L 920,1908" fill="none" stroke="#3f7d5a" stroke-width="1.8"/>
+<circle cx="920" cy="1908" r="4" fill="#3f7d5a"/>
+
+<!-- ===== ⑥ 节气百科 ===== -->
+<rect x="1192" y="1096" width="176" height="48" rx="9" fill="#3f7d5a" stroke="#2c5c41" stroke-width="1.5"/>
+<text x="1280" y="1125" font-size="14.5" font-weight="700" fill="#ffffff" text-anchor="middle">节气百科（节气历）</text>
+<path d="M 1280,1144 L 1280,1164" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1192" y="1164" width="176" height="56" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="1280" y="1188" font-size="12" fill="#23402f" text-anchor="middle">展示二十四节气</text>
+<text x="1280" y="1208" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">（圆盘 / 列表）</text>
+<path d="M 1280,1220 L 1280,1240" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1192" y="1240" width="176" height="48" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="1280" y="1269" font-size="12.5" fill="#23402f" text-anchor="middle">当前节气高亮</text>
+<path d="M 1280,1288 L 1280,1308" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1192" y="1308" width="176" height="48" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="1280" y="1337" font-size="12.5" fill="#23402f" text-anchor="middle">点选某个节气</text>
+<path d="M 1280,1356 L 1280,1376" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1192" y="1376" width="176" height="60" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="1280" y="1391" font-size="12" fill="#23402f" text-anchor="middle">节气详情 · 科普动画</text>
+<text x="1280" y="1420" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle"><tspan x="1280" y="1409">天文 / 物候 / 食俗 / 来源</tspan><tspan x="1280" y="1426">中医食养 / 生活建议</tspan></text>
+<polygon points="1280,1448 1375,1482 1280,1516 1185,1482" fill="#f3f8f4" stroke="#6b9d7c" stroke-width="1.5"/>
+<text x="1280" y="1487" font-size="12" fill="#2f5a45" text-anchor="middle">看该节气食单？</text>
+<path d="M 1185,1482 L 1090,1482 L 1090,1538" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1108" y="1460" width="24" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="1120" y="1475" font-size="11.5" fill="#5a6b60" text-anchor="middle">是</text>
+<rect x="995" y="1540" width="190" height="50" rx="9" fill="#fbf6ec" stroke="#c9a86a" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="1090" y="1570" font-size="12.5" fill="#23402f" text-anchor="middle">跳转节气食单</text>
+<path d="M 1280,1516 L 1280,1560" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1292" y="1528" width="24" height="21" rx="6" fill="#ffffff" fill-opacity="0.92"/>
+<text x="1304" y="1543" font-size="11.5" fill="#5a6b60" text-anchor="middle">否</text>
+<rect x="1192" y="1560" width="176" height="48" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="1280" y="1589" font-size="12.5" fill="#23402f" text-anchor="middle">返回节气历</text>
+<path d="M 1280,1608 L 1280,1630" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1192" y="1630" width="176" height="48" rx="9" fill="#e0f0e6" stroke="#3f7d5a" stroke-width="2"/>
+<text x="1280" y="1659" font-size="12.5" font-weight="700" fill="#1d3a2b" text-anchor="middle">★ 收藏节气知识</text>
+<path d="M 1280,1678 L 1280,1874" fill="none" stroke="#3f7d5a" stroke-width="1.8" marker-end="url(#arg)"/>
+
+<!-- 节气百科 → 今日食单（跨板块回跳）-->
+<path d="M 1090,1590 L 1090,1860 L 192,1860 L 192,1812 L 206,1812" fill="none" stroke="#9aa89f" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ard)"/>
+<rect x="560" y="1848" width="120" height="21" rx="6" fill="#ffffff" fill-opacity="0.95"/>
+<text x="620" y="1863" font-size="11.5" fill="#5a6b60" text-anchor="middle">查看该节气食单</text>
+
+<!-- ===== ⑦ 我的（个人中心）===== -->
+<rect x="1682" y="1096" width="176" height="48" rx="9" fill="#3f7d5a" stroke="#2c5c41" stroke-width="1.5"/>
+<text x="1770" y="1125" font-size="14.5" font-weight="700" fill="#ffffff" text-anchor="middle">我的（个人中心）</text>
+<path d="M 1770,1144 L 1770,1168" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1682" y="1168" width="176" height="48" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="1770" y="1197" font-size="12.5" fill="#23402f" text-anchor="middle">本机账号 / 访客状态</text>
+<path d="M 1770,1216 L 1770,1240" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1682" y="1240" width="176" height="72" rx="9" fill="#f7ece1" stroke="#c58f5c" stroke-width="1.5"/>
+<text x="1770" y="1266" font-size="12" fill="#23402f" text-anchor="middle">我的偏好</text>
+<text x="1770" y="1286" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">口味 / 过敏原 / 用餐场景</text>
+<text x="1770" y="1303" font-size="10.3" fill="#a8814b" text-anchor="middle">↺ 与 STEP 1-3 问卷同源</text>
+<path d="M 1770,1312 L 1770,1334" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1682" y="1334" width="176" height="72" rx="9" fill="#e0f0e6" stroke="#3f7d5a" stroke-width="2"/>
+<text x="1766" y="1360" font-size="12.5" font-weight="700" fill="#1d3a2b" text-anchor="middle">我的收藏</text>
+<text x="1770" y="1381" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">菜品 / AI 答案 / 节气知识</text>
+<text x="1770" y="1398" font-size="10.3" fill="#3f7d5a" text-anchor="middle">点开 → 菜谱详情 · 加回食单</text>
+<rect x="1794" y="1342" width="40" height="17" rx="8.5" fill="#c94f4f"/>
+<text x="1814" y="1354" font-size="9" font-weight="700" fill="#ffffff" text-anchor="middle">NEW</text>
+<path d="M 1770,1406 L 1770,1428" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1682" y="1428" width="176" height="56" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="1770" y="1452" font-size="12" fill="#23402f" text-anchor="middle">打卡记录</text>
+<text x="1770" y="1472" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">日期 / 防重 / 可撤销</text>
+<path d="M 1770,1484 L 1770,1506" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1682" y="1506" width="176" height="56" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="1770" y="1530" font-size="12" fill="#23402f" text-anchor="middle">设置</text>
+<text x="1770" y="1550" font-size="11.3" fill="#23402f" fill-opacity="0.85" text-anchor="middle">AI 设置 / 关于 / 本机数据</text>
+<path d="M 1770,1562 L 1770,1584" fill="none" stroke="#7d8f84" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="1682" y="1584" width="176" height="48" rx="9" fill="#e7f2ea" stroke="#7aab8b" stroke-width="1.5"/>
+<text x="1770" y="1613" font-size="12.5" fill="#23402f" text-anchor="middle">退出登录</text>
+
+<!-- ===== ⑧ 收藏池：三处入口 → 个人中心 ===== -->
+<rect x="1200" y="1878" width="360" height="60" rx="9" fill="#e3efe8" stroke="#3f7d5a" stroke-width="2"/>
+<rect x="1200" y="1878" width="8" height="60" rx="4" fill="#3f7d5a"/>
+<text x="1390" y="1906" font-size="13" font-weight="700" fill="#1d3a2b" text-anchor="middle">收藏池（仅本机存储）</text>
+<text x="1390" y="1926" font-size="11.3" fill="#3f5b4c" text-anchor="middle">菜品 · AI 答案 · 节气知识 统一入库</text>
+<path d="M 1560,1908 L 1650,1908 L 1650,1370 L 1676,1370" fill="none" stroke="#3f7d5a" stroke-width="1.8" marker-end="url(#arg)"/>
+<rect x="1608" y="1690" width="86" height="21" rx="6" fill="#ffffff" fill-opacity="0.95"/>
+<text x="1651" y="1705" font-size="11.5" font-weight="700" fill="#3f7d5a" text-anchor="middle">本机归集</text>
+
+<!-- 我的偏好 ⇢ STEP 0（重填问卷）-->
+<path d="M 1858,1276 L 1900,1276 L 1900,646 L 1856,646" fill="none" stroke="#c58f5c" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#ara)"/>
+<rect x="1857" y="990" width="86" height="21" rx="6" fill="#ffffff" fill-opacity="0.95"/>
+<text x="1900" y="1005" font-size="11.5" fill="#a8814b" text-anchor="middle">↺ 重填问卷</text>
+
+</svg>
+  </div>
+</div>
+
+<div class="note">
+  <div class="wrap">
+    <div class="box">
+      <b>读图要点 · v2 食养修订（2026-11-02）</b><br>
+      本图保留初始 v2 的全部节点外框、坐标与主要连线。注册 / 登录支路仅表达可选本机账号；直接访问及 NFC 均可免登录使用核心功能，偏好引导可跳过。旧图中的云同步、短信验证码能力已纠正。<br>
+      <b>① 今日食单：</b>节气卡补充食养摘要。推荐继续对过敏原硬过滤，再按口味与场景软排序；换一换与收藏加回不得放宽过敏限制。<br>
+      <b>② AI 食养问答：</b>上下文加入已整理节气食养资料；传统理论与现代营养分开。诊断、处方与疗效请求说明边界；未配置、失败与外部服务状态如实展示。<br>
+      <b>③ 节气百科：</b>详情包含天文原理、地域气候、传统三候与现代解释、地域食俗、诗词、中医食养、生活建议、独立科普动画、来源和逐条核验状态。图内以短行概括，详细内容不扩宽主图。<br>
+      <b>④ 我的与数据：</b>偏好、收藏、打卡与本机账号；收藏为本机三类归集，非云同步。收藏加回按最新过敏条件复检，打卡按日期防重并可撤销。不增加体质诊断或健康档案。<br>
+      <b>⑤ NFC：</b>保留原 NFC 近场入口与四大板块，参数协议为 <span class="k">?t=节气拼音</span>，如 <span class="k">?t=shuangjiang</span>。本稿不声称卡片已实机验证。<br>
+      <b>证据边界：</b>这是结构修订展示稿。手机号仅做本机格式校验，无短信验证码；无后端云同步；本机账号不跨设备、不可找回。流程图不代替实际功能、数据逐项审核或线上验收记录。
+    </div>
+  </div>
+</div>
+</body>
+</html>

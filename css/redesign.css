@@ -1,0 +1,125 @@
+/* 现代东方食养图鉴：竹青、稻纸与铜金。 */
+:root{--paper:#f4f2eb;--paper2:#eaece1;--card:#fffef8;--ink:#1d342c;--ink2:#485c51;--ink3:#637369;--green:#315c47;--green2:#173d31;--green-bg:#e6eee3;--gold:#a88a4c;--gold2:#c5b78e;--line:#dce1d3;--radius:22px;--sh:0 5px 22px #213d2b06;--serif:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;--sans:"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+html{background:#e5e9df}
+body{font-weight:600;background:var(--paper);box-shadow:0 0 80px #1b382b0c;line-height:1.75}
+body::after{display:none}
+body,button,input,textarea,select{font-weight:600}
+body h1,body h2,body h3,body .serif,body b,body strong{font-weight:800}
+body p,body span,body div,body a,body small,body label,body li,body summary,body text{font-weight:600}
+body .hero-name,body .tc-name,body .d-name,body .axis-mid .t,body .ticker b{font-weight:800}
+body :is(p,span,div,a,small,label,li,summary,text,input,textarea,select,button){font-weight:600!important}
+body :is(h1,h2,h3,b,strong,.hero-name,.tc-name,.d-name,.axis-mid .t,.ticker b){font-weight:800!important}
+body .view{padding-bottom:calc(92px + var(--safe-b))}
+.view.vin{animation:none}
+[data-reveal]{opacity:1;transform:none;transition:none}
+:focus-visible{outline:3px solid #b99a54;outline-offset:4px}
+.pagehead{background:#f4f2ebed;border-bottom:1px solid var(--line);padding-right:18px}
+.pagehead h1{font-family:var(--sans);font-size:17px;letter-spacing:.02em}
+.pagehead .back{border-radius:50%}
+.wrap{padding:18px 20px 0}
+.card{padding:20px;border-radius:22px;border-color:var(--line);margin-bottom:16px}
+.card h2{font-family:var(--sans);font-size:17px;letter-spacing:0;line-height:1.5;flex-wrap:wrap}
+.btn{min-height:44px;border-radius:14px;font-weight:700;letter-spacing:.02em;padding:10px 17px}
+.btn-sm{min-height:44px;padding:8px 12px;font-size:12px}
+.btn-primary{background:var(--green2);color:#fffdf3;box-shadow:none}
+.btn-ghost{background:transparent;border-color:#cbd4c5}
+.chip{min-height:44px;align-items:center;justify-content:center;display:inline-flex;border-radius:999px;font-weight:700;padding:7px 13px}
+.input{min-height:50px;border-radius:14px;background:#f8f9f2;border-color:#d8dfd1}
+.input:focus{border-color:var(--green);box-shadow:0 0 0 3px #315c4711}
+.field label{text-align:left;font-size:13px;margin-bottom:7px;color:var(--ink2)}
+.badge{border-radius:999px;padding:3px 8px;font-size:10px;line-height:1.5}
+.notice-amber,.notice-green,.notice-blue{border-radius:16px;border:1px solid #dfd9c5;border-left-width:1px;padding:12px 14px;font-size:12px}
+.notice-green{border-color:#cbd8c6}.notice-blue{border-color:#ccd7df}
+.home-hero{padding:12px 0 18px;margin-bottom:6px;text-align:left;display:grid;grid-template-columns:1fr 142px;align-items:center;gap:0 8px;overflow:visible}
+.home-hero .hero-kicker{grid-column:1;grid-row:1;justify-content:flex-start;font-family:var(--sans);font-size:12px;letter-spacing:.08em;color:var(--green);margin:0 0 10px}
+.home-hero .hero-kicker::before{width:7px;height:7px;background:var(--green);border-radius:50%}
+.home-hero .hero-kicker::after{display:none}
+.home-hero .hero-name{grid-column:1;grid-row:2;font-size:46px;letter-spacing:.06em;margin:0 0 10px;line-height:1.15;color:var(--green2)}
+.home-hero .hero-poem{grid-column:1;grid-row:3;letter-spacing:0;font-family:var(--sans);font-size:13px;line-height:1.7;margin:0;max-width:190px}
+.home-hero .moongate{grid-column:2;grid-row:1 / 4;width:142px!important;margin:0;filter:drop-shadow(0 9px 12px #1e3d2910)}
+.home-hero .moongate::before,.home-hero .moongate::after{display:none}
+.home-hero .hero-deco,.home-hero .ink-canvas{display:none}
+.home-hero .hero-meta{grid-column:1 / -1;font-size:11px;letter-spacing:0;margin:18px 0 10px;padding-top:12px;border-top:1px solid var(--line)}
+.home-hero .hero-actions{grid-column:1 / -1;justify-content:flex-start;margin:0;gap:7px}
+.home-hero .hero-actions .chip{font-size:12px;background:#fffdf7}
+.home-hero .ticker{grid-column:1 / -1;justify-content:space-between;gap:2px;margin-top:16px;padding-top:14px}
+.ticker div{min-width:0;flex:1;text-align:center;border-right:1px solid var(--line)}
+.ticker div:last-child{border:none}.ticker b{font-family:var(--sans);font-size:15px}.ticker small{letter-spacing:0;font-size:10px}
+.home-data-note{font-size:11px;color:var(--ink3);margin:0 2px 12px}
+.home-data-note summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px}
+.home-data-note summary::before{content:'ⓘ';font-size:15px}
+.home-data-note p{margin:0 0 8px;font-size:11px}
+.dish-card{width:100%;border:0;border-bottom:1px solid var(--line);padding:17px 0;gap:13px;text-align:left;background:transparent;color:inherit;font-family:inherit;align-items:center;border-radius:0}
+.dish-card:last-child{padding-bottom:2px}.dish-card:focus-visible{border-radius:12px}
+.dish-card .d-name{font-family:var(--sans);font-size:16px;letter-spacing:0;line-height:1.5}
+.dish-card .d-meta{font-size:11px;color:var(--ink2);line-height:1.65;margin:5px 0 8px}
+.dish-card .d-tags{gap:4px}.dish-card .d-go{display:none}
+.food-photo{margin:0;position:relative;overflow:hidden;background:#e9ede1;border-radius:16px}
+.food-photo img{width:100%;height:100%;object-fit:cover;aspect-ratio:1;display:block}
+.food-photo figcaption{font-size:9px;color:var(--ink2);line-height:1.5;padding:4px 5px;background:#f0f2e8;overflow-wrap:anywhere}
+.dish-card>.food-photo,.dish-card .dish-photo{width:100px;flex:0 0 100px}
+.food-photo.photo-detail,.recipe-photo,.recipe-cover{width:100%;margin:0 0 18px;max-height:none}
+.recipe-photo img,.recipe-cover img,.photo-detail img{aspect-ratio:4/3;width:100%;height:auto;object-fit:cover}
+.photo-missing{display:grid;place-content:center;gap:4px;min-height:100px;padding:12px;text-align:center;border:1px dashed #bdc8b5;background:#edf0e6;font-size:12px;border-radius:16px;color:var(--ink2)}
+.photo-missing small{font-size:10px;color:var(--ink3)}
+.food-photo-placeholder{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:10px;text-align:center;font-size:11px;color:var(--ink2);border:1px dashed #c5cebb;border-radius:16px}
+.food-photo-placeholder>span:first-child{font-size:25px;color:#8a9c7c}.food-photo-placeholder small{font-size:10px}
+.dish-card .food-photo-missing figcaption,.me-item .food-photo-missing figcaption{display:none}
+.food-photo-detail .food-photo-credit,.food-photo-detail .food-photo-note{display:block;margin-top:5px}
+.food-photo-detail figcaption{font-size:10px;padding:9px 12px;text-align:left}
+.food-photo-detail a{text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;min-height:24px;display:inline-block}
+.term-grid{gap:10px}.term-cell{border-radius:18px;padding:16px 4px 12px;min-height:136px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.term-cell .ghost{display:none}.term-cell .tc-name{font-family:var(--sans);font-size:16px;letter-spacing:.02em}
+.term-cell .tc-season{font-size:10px}.term-cell .tc-now{top:6px;right:6px;font-size:9px;padding:2px 6px;border-radius:999px}
+.term-cell.now{border-color:var(--green);box-shadow:inset 0 0 0 1px var(--green)}
+.term-cell.now .tc-name{color:var(--green)}
+.term-icon{width:58px;height:58px;display:block}.term-icon svg{width:100%;height:100%;display:block}
+.axis-wrap{padding:20px 8px}.axis-mid .t{font-size:29px;color:var(--green2)}
+.encyclopedia-intro summary{min-height:44px;cursor:pointer;color:var(--green2);font-size:15px;line-height:44px}
+.encyclopedia-intro h3{font-family:var(--sans);font-size:15px;margin:15px 0 5px}
+.encyclopedia-intro p{font-size:13px;line-height:1.9;margin:7px 0}
+.encyclopedia-intro a{text-decoration:underline;text-underline-offset:3px}
+.axis .node:focus-visible{outline:none}.axis .node:focus-visible circle{stroke:var(--ink);stroke-width:4px}
+.axis .node text{font-size:13px;fill:var(--ink2);font-family:var(--sans)}
+.season-title{font-family:var(--sans);letter-spacing:0;font-weight:800}.season-title .zi{font-family:var(--serif);font-weight:800}
+.zone-title{border-radius:3px;font-family:var(--sans);letter-spacing:0}
+.poem{font-size:15px;letter-spacing:.04em;line-height:2;border-radius:16px;padding:16px 12px}
+.klass-quote{font-size:13px;line-height:1.9;border-radius:4px}
+.ing-row{gap:18px}.ing-row span:last-child{text-align:right;flex-shrink:0;max-width:55%}
+.meta-grid .mg{border-radius:15px;padding:12px 6px}.meta-grid .mg b{font-family:var(--sans)}
+.me-list{border-radius:22px;box-shadow:none}.me-item{min-height:76px;padding:15px;gap:12px}.me-item>span{min-width:0}.me-item .mi-sub{line-height:1.7;margin-top:4px}.me-item .mi-emoji{width:38px;height:38px;border-radius:12px;background:var(--green-bg);display:grid;place-items:center;flex-shrink:0}
+.me-item>.food-photo{width:78px;flex:0 0 78px}.me-item>.food-photo figcaption{display:block;font-size:8px;text-align:center;padding:3px 2px;line-height:1.5}
+.fav-tabs{flex-wrap:wrap;gap:6px}.fav-tabs .chip{min-height:44px}
+.me-head .avatar{border-radius:19px;font-weight:800;background:#dfe9d8}
+.tabbar{bottom:0;border-top:1px solid #d8dfd0;background:#f9faf3f5;box-shadow:0 -5px 25px #18362a06;padding-top:8px;padding-bottom:calc(8px + var(--safe-b));height:calc(76px + var(--safe-b));backdrop-filter:blur(20px)}
+.tabbar .tab{min-height:54px;font-size:11px;gap:5px;border-radius:16px;margin:0 3px}
+.tabbar .tab.on{color:var(--green2);background:#e5eddf}.tabbar .tab svg{width:21px;height:21px}
+.tabbar .tab.on::after{display:none}
+.wrap>.seasonal-wellness{border:1px solid var(--line);border-radius:22px;margin:16px 0;padding:20px}
+.wrap>.seasonal-wellness h3{font-family:var(--sans);font-size:17px;margin:0 0 8px}
+body[data-auth='true'] .tabbar{display:none}
+body[data-auth='true'] .view{padding-bottom:24px}
+body[data-auth='true'] .pagehead{background:#163b2f;color:#faf4df;border-bottom:0}
+body[data-auth='true'] .pagehead .back{color:inherit}
+.auth-page{background:var(--paper);min-height:calc(100dvh - 60px)}
+.auth-art{position:relative;height:300px;background:#163b2f;color:#f6efd8;overflow:hidden;border-radius:0 0 36px 36px}
+.auth-art canvas{position:absolute;inset:0;width:100%;height:300px}
+.auth-brand{position:absolute;left:27px;top:19px;display:flex;align-items:center;gap:10px;font-size:14px;letter-spacing:.12em}
+.auth-brand .brand-seal{display:grid;place-items:center;width:32px;height:32px;border:1px solid #beaa73;border-radius:9px;color:#dcc99a;font-family:var(--serif);font-weight:800}
+.auth-art h2{position:absolute;left:0;right:0;bottom:33px;text-align:center;font-family:var(--serif);font-size:28px;letter-spacing:.1em;line-height:1.35;margin:0;text-shadow:0 2px 12px #163b2f}
+.auth-art p{position:absolute;bottom:8px;left:0;right:0;margin:0;text-align:center;font-size:11px;letter-spacing:.18em;color:#d4dec7}
+.auth-form{position:relative;margin:-4px 22px 0;padding:27px 0 0}
+.auth-form h3{font-family:var(--sans);font-size:24px;margin:0 0 3px;letter-spacing:.02em}
+.auth-form .auth-intro{font-size:12px;color:var(--ink3);margin:0 0 22px}
+.auth-form .field{margin-bottom:16px}.auth-form .btn-primary{height:51px;font-size:15px;border-radius:15px;width:100%}
+.auth-links{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;margin-top:18px}
+.auth-links a{display:inline-flex;align-items:center;min-height:44px}
+.auth-note{margin:13px 22px 0;color:var(--ink3);font-size:11px;line-height:1.8;border-top:1px solid var(--line);padding-top:15px}
+.auth-note summary{min-height:44px;cursor:pointer;color:var(--ink2)}
+.auth-note p{margin:0 0 10px}
+.auth-page.register-page .auth-art{height:230px}.register-page .auth-art canvas{height:230px}.register-page .auth-art h2{font-size:24px}
+.pw-wrap{display:flex;position:relative}.pw-wrap .input{padding-right:62px}.pw-toggle{position:absolute;right:5px;top:3px;min-width:48px;min-height:44px;border:0;border-radius:12px;background:transparent;font-size:11px;color:var(--green);cursor:pointer}
+.msg{border-radius:18px}.msg.ai,.msg.user{border-radius:18px}.ask-inputbar{bottom:calc(76px + var(--safe-b));background:#f9faf3f5}.chat-area{padding-bottom:175px}
+.opt{min-height:44px;border-radius:14px}.modal{border-radius:24px 24px 0 0}.toast{border-radius:14px}
+@media(max-width:375px){.wrap{padding-left:16px;padding-right:16px}.card{padding:17px}.home-hero{grid-template-columns:1fr 128px}.home-hero .moongate{width:128px!important}.home-hero .hero-name{font-size:42px}.dish-card>.food-photo,.dish-card .dish-photo{width:90px;flex-basis:90px}.auth-form{margin-left:20px;margin-right:20px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
