@@ -51,6 +51,34 @@
     var favCount = { recipe: 0, answer: 0, term: 0 };
     favs.forEach(function (f) { favCount[f.type] = (favCount[f.type] || 0) + 1; });
 
+    var tastedTerms = new Set();
+    checkins.forEach(function (record) {
+      if (typeof record.oid !== 'string') { return; }
+      var recipeId = record.oid.indexOf('recipe:') === 0 ? record.oid.slice(7) : record.oid;
+      var recipe = JQ.DATA.recipeById(recipeId);
+      if (recipe && JQ.DATA.termById(recipe.t)) { tastedTerms.add(recipe.t); }
+    });
+    var footprints = JQ.DATA.TERMS.map(function (term) {
+      var tasted = tastedTerms.has(term.id);
+      var label = term.name + (tasted ? '：已打卡' : '：尚未打卡');
+      return '<li class="footprint-stamp' + (tasted ? ' is-tasted' : '') + '" aria-label="' + JQ.esc(label) + '" title="' + JQ.esc(label) + '">' +
+        '<img src="assets/seasonal/icons/' + term.id + '.svg" alt="" width="28" height="28" loading="lazy">' +
+        '<span aria-hidden="true">' + JQ.esc(term.name) + '</span></li>';
+    }).join('');
+
+    var recentRecipes = favs.filter(function (favorite) { return favorite.type === 'recipe'; })
+      .sort(function (a, b) { return (Number(b.at) || 0) - (Number(a.at) || 0); })
+      .map(function (favorite) { return JQ.DATA.recipeById(favorite.oid); })
+      .filter(Boolean).slice(0, 2);
+    var recentHtml = recentRecipes.map(function (recipe) {
+      var term = JQ.DATA.termById(recipe.t);
+      return '<a class="recent-recipe" href="#/recipe/' + JQ.esc(recipe.id) + '">' +
+        JQ.PHOTOS.html(recipe) +
+        '<span class="recent-recipe-copy"><strong>' + JQ.esc(recipe.name) + '</strong>' +
+        '<span>' + JQ.esc(term ? term.name : '时令食单') + ' · ' + JQ.esc(recipe.servings) + '</span>' +
+        '<span class="recent-recipe-action">继续看做法 <span aria-hidden="true">↗</span></span></span></a>';
+    }).join('');
+
     var prefSummary;
     if (!prefs.provided) { prefSummary = '未提供（可跳过；未填写不等于无过敏）'; }
     else {
@@ -72,10 +100,8 @@
       '<div class="me-identity">' +
       (s
         ? '<div class="me-name">' + JQ.esc(s.nickname) + '</div>' +
-        '<div class="me-stats"><span class="me-chip">收藏 ' + favCount.recipe + '</span><span class="me-chip">打卡 ' + checkins.length + '</span></div>' +
         '<div class="muted small me-account-note">本机账号 · ' + JQ.esc(s.phone.slice(0, 3) + '****' + s.phone.slice(-4)) + '</div>'
         : '<div class="me-name">访客模式</div>' +
-        '<div class="me-stats"><span class="me-chip">收藏 ' + favCount.recipe + '</span><span class="me-chip">打卡 ' + checkins.length + '</span></div>' +
         '<div class="muted small me-account-note">不登录也可使用全部功能</div>') +
       '</div>' +
       '<div class="me-actions">' +
@@ -84,14 +110,27 @@
         : '<a class="btn btn-sm btn-primary" href="#/login">登录</a><a class="btn btn-sm btn-ghost" href="#/register">注册</a>') +
       '</div></div>' +
 
+      '<section class="me-footprints" aria-labelledby="footprints-title">' +
+      '<div class="me-section-head"><div><p class="me-eyebrow">一餐一记 · 四时有迹</p><h2 id="footprints-title">我的节气足迹</h2></div>' +
+      '<span class="footprint-count"><b>' + tastedTerms.size + '</b><span>/ 24</span></span></div>' +
+      '<ol class="footprint-grid" aria-label="二十四节气打卡状态">' + footprints + '</ol>' +
+      '<p class="footprint-note">' + (tastedTerms.size ? '已尝过 ' + tastedTerms.size + ' 个节气的菜。' : '从一顿时令饭，留下第一个印记。') + '按打卡菜品所属节气点亮。</p></section>' +
+
+      '<section class="me-recent" aria-labelledby="recent-title">' +
+      '<div class="me-section-head"><h2 id="recent-title">最近收藏</h2>' +
+      (recentRecipes.length ? '<a class="me-text-link" href="#/me/fav">查看全部 <span aria-hidden="true">↗</span></a>' : '') + '</div>' +
+      (recentHtml || '<div class="recent-empty"><p>先收藏一道时令菜，下次在这里接着看。</p><a class="btn btn-sm btn-ghost" href="#/home">去选一道菜 <span aria-hidden="true">↗</span></a></div>') + '</section>' +
+
       '<div class="me-list" aria-label="个人功能">' +
-      '<a class="me-item" href="#/me/pref"><span class="mi-emoji" aria-hidden="true">🥗</span><span class="mi-copy">我的偏好<span class="mi-sub">' + JQ.esc(prefSummary) + '</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
-      '<a class="me-item" href="#/me/fav"><span class="mi-emoji" aria-hidden="true">⭐</span><span class="mi-copy">我的收藏<span class="mi-sub">菜品 ' + favCount.recipe + ' · AI 答案 ' + favCount.answer + ' · 节气知识 ' + favCount.term + '</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
-      '<a class="me-item" href="#/me/checkin"><span class="mi-emoji" aria-hidden="true">📷</span><span class="mi-copy">打卡记录<span class="mi-sub">共 ' + checkins.length + ' 条</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
-      '<a class="me-item" href="#/me/settings"><span class="mi-emoji" aria-hidden="true">⚙️</span><span class="mi-copy">设置<span class="mi-sub">AI 服务 · 本机数据 · 免责声明 · 关于</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
+      '<a class="me-item" href="#/me/pref"><span class="mi-emoji" aria-hidden="true">' + JQ.ICONS.ui('leaf') + '</span><span class="mi-copy">我的偏好<span class="mi-sub">' + JQ.esc(prefSummary) + '</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
+      '<a class="me-item" href="#/me/fav"><span class="mi-emoji" aria-hidden="true">' + JQ.ICONS.ui('fav') + '</span><span class="mi-copy">我的收藏<span class="mi-sub">菜品 ' + favCount.recipe + ' · AI 答案 ' + favCount.answer + ' · 节气知识 ' + favCount.term + '</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
+      '<a class="me-item" href="#/me/checkin"><span class="mi-emoji" aria-hidden="true">' + JQ.ICONS.ui('checkin') + '</span><span class="mi-copy">打卡记录<span class="mi-sub">共 ' + checkins.length + ' 条</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
+      '<a class="me-item" href="#/me/settings"><span class="mi-emoji" aria-hidden="true">' + JQ.ICONS.ui('settings') + '</span><span class="mi-copy">设置<span class="mi-sub">AI 服务 · 本机数据 · 免责声明 · 关于</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
       '</div>' +
-      '<div class="notice-amber">💾 本机保存：偏好、收藏、打卡与账号都只保存在当前浏览器，清理浏览器数据后可能丢失，且不支持跨设备同步。</div>' +
+      '<details class="me-storage"><summary>记录保存在当前浏览器</summary><p>偏好、收藏、打卡与账号保存在本机。清理浏览器数据后可能丢失，跨设备使用时需分别保存。</p></details>' +
       '</div>';
+
+    JQ.PHOTOS.mount(view);
 
     var lo = JQ.$('#logout-btn');
     if (lo) {
@@ -254,7 +293,7 @@
         ? 'href="#/recipe/' + JQ.esc(f.oid) + '"'
         : 'data-open="' + i + '"';
       return '<a class="me-item" ' + open + '>' +
-        '<span class="mi-emoji">' + (tab === 'recipe' ? '🍽️' : tab === 'answer' ? '💬' : '📖') + '</span>' +
+        '<span class="mi-emoji">' + JQ.ICONS.ui(tab === 'recipe' ? 'bowl' : tab === 'answer' ? 'ask' : 'term') + '</span>' +
         '<span style="min-width:0">' + JQ.esc(f.snap.title) +
         '<span class="mi-sub">' + JQ.esc((f.snap.sub || '').slice(0, 42)) + (f.snap.sub && f.snap.sub.length > 42 ? '…' : '') +
         ' · ' + JQ.fmtDT(f.at) + '</span></span>' +
@@ -273,7 +312,7 @@
         (tab === 'recipe'
           ? '<div class="notice-blue">➕ 打开收藏的菜品 →「加回今日食单」：将按最新过敏偏好复检，冲突会被拒绝并说明原因；替换哪道由你选择。</div>'
           : '')
-        : '<div class="card state-box"><div class="big">' + (tab === 'recipe' ? '🍽️' : tab === 'answer' ? '💬' : '📖') + '</div>' +
+        : '<div class="card state-box"><div class="big">' + JQ.ICONS.ui(tab === 'recipe' ? 'bowl' : tab === 'answer' ? 'ask' : 'term') + '</div>' +
         '<div>还没有收藏' + names[tab] + '</div>' +
         '<a class="btn btn-ghost" href="#/home">去今日食单看看</a></div>') +
       '</div>';
@@ -323,7 +362,7 @@
       (list.length
         ? '<div class="card">' + rows + '</div>' +
         '<div class="notice-blue">打卡按<b>北京时间</b>记录；同一天同一对象只记一次；仅浏览不会自动打卡；只有当天记录可撤销。</div>'
-        : '<div class="card state-box"><div class="big">📷</div><div>还没有打卡记录</div>' +
+        : '<div class="card state-box"><div class="big">' + JQ.ICONS.ui('checkin') + '</div><div>还没有打卡记录</div>' +
         '<div class="small muted" style="margin:6px 0 4px">打开一道菜 → 点「打卡」主动记录</div>' +
         '<a class="btn btn-ghost" href="#/home">去今日食单</a></div>') +
       '</div>';
@@ -353,7 +392,7 @@
       JQ.HEADER('设置', '', true) +
       '<div class="wrap">' +
 
-      '<div class="card" id="sec-ai"><h3>🔌 AI 服务（DeepSeek）</h3>' +
+      '<div class="card" id="sec-ai"><h3>' + JQ.ICONS.ui('ask') + ' AI 服务（DeepSeek）</h3>' +
       (JQ.AI.cloud() && !cfg.apiKey
         ? '<div class="notice-green" style="margin-bottom:10px">✅ 当前为<b>云端免密钥接入</b>：AI 已接通，你无需填写任何密钥（密钥保存在服务端，不会出现在网页代码中）。填写个人密钥可改用你自己的额度。</div>'
         : JQ.AI.TEAM_PROXY_URL && !cfg.apiKey
@@ -375,11 +414,11 @@
       '<button class="btn btn-primary" style="flex:1" id="ai-save">保存配置</button>' +
       '</div></div>' +
 
-      '<div class="card" id="sec-data"><h3>💾 本机数据</h3>' +
+      '<div class="card" id="sec-data"><h3>' + JQ.ICONS.ui('data') + ' 本机数据</h3>' +
       '<div class="small" style="color:var(--ink-2);line-height:1.8">偏好、收藏、打卡、账号与 AI 配置均保存在<b>当前浏览器</b>：清理浏览器数据（或使用无痕窗口）后可能丢失；不支持跨设备同步。聊天记录只存在当前页面，刷新后消失；已收藏的 AI 答案会长期保存在本机。</div>' +
       '<button class="btn btn-danger btn-block" style="margin-top:12px" id="clear-data">🗑️ 清除本机全部数据</button></div>' +
 
-      '<div class="card" id="sec-disclaim"><h3>🧾 免责与说明</h3>' +
+      '<div class="card" id="sec-disclaim"><h3>' + JQ.ICONS.ui('shield') + ' 免责与说明</h3>' +
       '<div class="small" style="color:var(--ink-2);line-height:1.8">' +
       '① 本产品为课程演示项目：节气与菜谱内容为课程演示整理。<br>' +
       '② 传统食俗与现代营养建议分区呈现，民俗不作疗效承诺；涉及健康请咨询专业人士。<br>' +
@@ -387,7 +426,7 @@
       '④ 交节数据：2026 年引自香港天文台，2027–2029 年引自历表整理。' +
       '</div></div>' +
 
-      '<div class="card" id="sec-about"><h3>ℹ️ 关于</h3>' +
+      '<div class="card" id="sec-about"><h3>' + JQ.ICONS.ui('info') + ' 关于</h3>' +
       '<div class="small" style="color:var(--ink-2)">节气食单 · 第一版（访客模式 + 本机账号）<br>文化锚点：《论语·乡党》不时，不食<br>技术：纯静态 H5 · Hash 路由 · DeepSeek API（用户自配密钥）</div>' +
       (s ? '<div class="small muted" style="margin-top:8px">当前登录：' + JQ.esc(s.nickname) + '（本机账号）</div>' : '') +
       '</div>' +

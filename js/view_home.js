@@ -11,6 +11,7 @@
     '廿一', '廿二', '廿三', '廿四'];
 
   JQ.VIEWS.home = function () {
+    if (JQ.COURTYARD) { JQ.COURTYARD.dispose(); }
     var view = JQ.$('#view');
     var disp = JQ.SOLAR.displayTerm();
     var prefs = JQ.PREFS.get();
@@ -30,6 +31,7 @@
     }
 
     var term = disp.term;
+    var hasCourtyard = term.id === 'lidong' && JQ.COURTYARD;
     var ranked = JQ.PREFS.rankTermRecipes(term.id);
     var picks = JQ.PREFS.picksFor(term.id);
 
@@ -111,36 +113,40 @@
       ticker = '<div><b>' + CN[term.seq - 1] + '</b><small>节气序</small></div>' +
         '<div><b>' + daysLeft + '</b><small>日距下气</small></div>' +
         '<div><b>' + JQ.esc(nextName) + '</b><small>下一气</small></div>' +
-        '<div><b>' + JQ.esc(term.hou[0]) + '</b><small>当前候</small></div>';
+        '<div><b>' + JQ.esc(term.hou[0]) + '</b><small>本节气初候</small></div>';
     }
 
+    var dietHtml = '<div class="card" data-reveal><h2>宜食方向</h2><div style="font-size:15px;line-height:1.9">' + JQ.esc(term.yi) + '</div>' +
+      (term.mean ? '<hr class="divider"><div class="small" style="color:var(--ink2);line-height:1.85">' + JQ.esc(term.mean) + '</div>' : '') + '</div>';
+    dishesHtml = '<section id="today-recipes" class="home-recommendations" aria-label="今日推荐食单">' + dishesHtml + '</section>';
+
+    var heroHtml = hasCourtyard
+      ? '<section class="winter-hero" aria-label="立冬食单">' +
+        '<div class="winter-heading"><div class="hero-kicker">' + (disp.browsing ? '正在浏览' : '今日节气') + ' · 冬</div>' +
+        '<h2 class="hero-name">立冬</h2><p class="hero-poem">' + JQ.esc(term.e || '') + '</p><div class="hero-meta">' + metaLine + '</div></div>' +
+        JQ.COURTYARD.html(term) +
+        '<div class="winter-actions"><button class="btn btn-primary" type="button" data-courtyard-jump>直接看今日推荐 <span aria-hidden="true">↓</span></button>' +
+        '<a class="btn btn-ghost" href="#/term/lidong">认识立冬 <span aria-hidden="true">↗</span></a></div></section>'
+      : '<div class="home-hero">' +
+        '<canvas class="ink-canvas" id="hero-ink" aria-hidden="true"></canvas>' +
+        '<span class="hero-deco l" aria-hidden="true">不时不食</span><span class="hero-deco r" aria-hidden="true">顺时而餐</span>' +
+        '<div class="moongate" id="moongate"><svg viewBox="0 0 400 400" role="img" aria-label="' + JQ.esc(term.name) + '意象">' + JQ.moongateSVG(term) + '</svg></div>' +
+        '<div class="hero-kicker">' + (disp.browsing ? '正在浏览' : '今日节气') + '</div>' +
+        '<h2 class="hero-name">' + JQ.esc(term.name) + '</h2><div class="hero-poem">' + JQ.esc(term.e || '') + '</div>' +
+        '<div class="hero-meta">' + metaLine + '</div><div class="ticker">' + ticker + '</div></div>';
+
     view.innerHTML =
-      JQ.HEADER('',
+      JQ.HEADER('节气食单',
         '<button class="hdr-icon" id="home-search" aria-label="搜索节气">' +
-        '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg></button>' +
+        JQ.ICONS.ui('search') + '</button>' +
         '<button class="hdr-icon" id="home-share" aria-label="复制本页链接">' +
-        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5.5 19 11l-7 5.5v-3.4C7.6 13.1 5 15 3.5 17.8 3.9 12.4 7.6 9.6 12 9.6z"/></svg></button>') +
+        JQ.ICONS.ui('share') + '</button>') +
       JQ.SEARCH.html() +
       '<div class="wrap">' +
       browseHtml +
 
-      '<div class="home-hero">' +
-      '<canvas class="ink-canvas" id="hero-ink" aria-hidden="true"></canvas>' +
-      '<span class="hero-deco l" aria-hidden="true">不时不食</span>' +
-      '<span class="hero-deco r" aria-hidden="true">顺时而餐</span>' +
-      '<div class="moongate" id="moongate"><svg viewBox="0 0 400 400" role="img" aria-label="' + JQ.esc(term.name) + '意象">' + JQ.moongateSVG(term) + '</svg></div>' +
-      '<div class="hero-kicker">' + (disp.browsing ? '正在浏览' : '今日节气') + '</div>' +
-      '<h2 class="hero-name">' + JQ.esc(term.name) + '</h2>' +
-      '<div class="hero-poem">' + JQ.esc(term.e || '') + '</div>' +
-      '<div class="hero-meta">' + metaLine + '</div>' +
-      '<div class="ticker">' + ticker + '</div>' +
-      '</div>' +
-
-      '<div class="card" data-reveal><h2>宜食方向</h2><div style="font-size:15px;line-height:1.9">' + JQ.esc(term.yi) + '</div>' +
-      (term.mean ? '<hr class="divider"><div class="small" style="color:var(--ink2);line-height:1.85">' + JQ.esc(term.mean) + '</div>' : '') +
-      '</div>' +
-      dishesHtml +
-      notesHtml +
+      heroHtml +
+      (hasCourtyard ? dishesHtml + notesHtml + dietHtml : dietHtml + dishesHtml + notesHtml) +
       '<div class="card" data-reveal><h2>文化解说</h2>' +
       '<div style="font-size:15px;line-height:1.9">' + JQ.esc(term.food) + '</div>' +
       (term.poem
@@ -153,6 +159,7 @@
 
     /* 水墨粒子 */
     JQ.inkParticles(JQ.$('#hero-ink'));
+    if (JQ.COURTYARD) { JQ.COURTYARD.mount(view); }
 
     /* 事件绑定 */
     var shareBtn = JQ.$('#home-share');

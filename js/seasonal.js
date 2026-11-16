@@ -363,44 +363,6 @@
     });
   }
   // 独立徽记系统：120画布，在58/64px仍能读清中心意象；不缩小教学装置。
-  function icon(id){
-    var d=data[id];if(!d)return '';
-    var gold='#bc8b49',pale='#e7ecdd',shape='',i,a;
-    function P(s,f){return '<path d="'+s+'"'+(f?' fill="'+f+'"':'')+'/>';}
-    function C(x,y,r,f){return '<circle cx="'+x+'" cy="'+y+'" r="'+r+'"'+(f?' fill="'+f+'"':'')+'/>';}
-    function E(x,y,rx,ry,angle,f){return '<ellipse cx="'+x+'" cy="'+y+'" rx="'+rx+'" ry="'+ry+'" transform="rotate('+angle+' '+x+' '+y+')"'+(f?' fill="'+f+'"':'')+'/>';}
-    function L(x,y,s,r,f){return '<g transform="translate('+x+' '+y+') rotate('+r+') scale('+s+')">'+P('M0 0C-20-2-25-22 0-39C25-21 20-3 0 0Z',f||pale)+P('M0 0V-31')+'</g>';}
-    function D(x,y,s){return '<g transform="translate('+x+' '+y+') scale('+s+')">'+P('M0-21C-4-13-15-3-15 6A15 15 0 0 0 15 6C15-3 4-13 0-21Z',pale)+P('M-8 7q1 7 8 7')+'</g>';}
-    function S(x,y,r){var s=C(x,y,r,gold);for(var j=0;j<8;j++){var t=j*Math.PI/4;s+=P('M'+(x+Math.cos(t)*(r+5))+' '+(y+Math.sin(t)*(r+5))+'l'+Math.cos(t)*5+' '+Math.sin(t)*5);}return s;}
-    function F(x,y,s){var out='';for(var j=0;j<3;j++)out+='<g transform="translate('+x+' '+y+') rotate('+(j*60)+') scale('+s+')">'+P('M-18 0H18M-12-5l5 5-5 5M12-5l-5 5 5 5')+'</g>';return out;}
-    function W(x,y,s){var out='<g transform="translate('+x+' '+y+') scale('+s+')">'+P('M0 26V-28');for(var j=0;j<4;j++)out+=E(-6,9-j*9,4,7,-40,j%2?pale:gold)+E(6,5-j*9,4,7,40,j%2?gold:pale);return out+'</g>';}
-    switch(id){
-      case 'lichun':shape=P('M60 88V50M41 88H79')+L(59,64,.65,-58)+L(60,51,.65,49)+C(60,89,3,gold);break;
-      case 'yushui':shape=D(60,56,1.18)+P('M37 88q23 8 46 0M46 95q14 4 28 0');break;
-      case 'jingzhe':shape=P('M64 26L47 53H62L54 70L79 43H63L72 26Z',gold)+E(60,83,12,6,0,pale)+C(75,81,4,gold)+P('M50 78l-6-7M49 84l-8 3M55 89l-3 7M66 89l4 7M70 77l4-7');break;
-      case 'chunfen':shape=C(60,60,28,pale)+P('M60 32A28 28 0 0 1 60 88Z',gold)+P('M60 33V87M28 60H92')+C(43,59,6,'#faf7ed')+P('M73 50a10 10 0 1 0 0 18a8 8 0 0 1 0-18Z','#faf7ed');break;
-      case 'qingming':shape=P('M47 91Q58 58 48 29M52 46Q73 32 91 51M53 60Q35 48 26 63');for(i=0;i<5;i++)shape+=L(35+i*12,61-(i>1?13:0),.34,i%2?14:-18,i===3?gold:pale);break;
-      case 'guyu':shape=P('M60 91V49M38 92H82')+L(60,69,.63,-58)+L(60,55,.62,57)+D(36,36,.35)+D(83,41,.35);break;
-      case 'lixia':shape=P('M43 92q17 5 34 0M32 83q29 8 57 0M60 85V66')+E(60,55,29,17,-12,pale)+P('M33 60L60 55L83 39M60 55L78 66')+C(60,55,3,gold);break;
-      case 'xiaoman':shape=E(60,59,17,29,23,gold)+P('M48 81Q69 62 69 34M38 90H80')+L(42,88,.4,-34);break;
-      case 'mangzhong':shape=W(45,62,.83)+W(77,60,.83)+P('M39 92q20 6 42-1');break;
-      case 'xiazhi':shape=P('M27 80Q60 10 93 80M30 85H90')+S(73,43,11)+P('M60 84V67M54 91H66');break;
-      case 'xiaoshu':shape=P('M29 47H72q15 0 15-10q0-10-11-10M28 60H86q12 0 12 10q0 10-11 10M34 73H65q9 0 9 9q0 9-10 9')+C(31,34,3,gold);break;
-      case 'dashu':shape=S(60,59,22)+P('M48 88H72M53 94H67');break;
-      case 'liqiu':shape=L(60,90,1.45,5,gold)+P('M60 79L43 63M61 63L79 46M47 47L59 53');break;
-      case 'chushu':shape=P('M28 70H92M34 79H86M43 88H77')+P('M37 69A23 23 0 0 1 83 69',gold)+P('M60 28V36M32 43L39 49M88 43L81 49M60 39V60M53 54L60 61L67 54');break;
-      case 'bailu':shape=D(60,57,1.15)+P('M35 89q25-8 50 0')+C(83,35,3,gold)+C(35,45,2,gold);break;
-      case 'qiufen':shape=C(60,58,27,pale)+P('M60 31A27 27 0 0 1 60 85Z','#365449')+P('M60 31V85M30 92H90')+C(45,58,6,gold);break;
-      case 'hanlu':shape=L(54,89,1.3,-29)+D(76,48,.5)+D(60,66,.34)+C(83,81,3,gold);break;
-      case 'shuangjiang':shape=F(60,59,1.55)+C(60,59,4,gold)+P('M47 95H73');break;
-      case 'lidong':shape=P('M28 70Q60 61 92 70M35 80Q60 73 85 80M43 90H77')+E(60,53,13,18,29,gold)+P('M55 64q11-8 10-23');break;
-      case 'xiaoxue':shape=F(53,49,.85)+F(77,77,.45)+C(35,77,2.5,gold)+C(79,35,2,gold);break;
-      case 'daxue':shape=F(47,48,.95)+F(77,74,.8)+P('M29 91Q46 86 59 91T92 91')+C(81,33,2.5,gold);break;
-      case 'dongzhi':shape=P('M27 84Q48 49 68 84M29 89H91')+S(46,65,10)+P('M81 29a21 21 0 1 0 13 32a18 18 0 0 1-13-32Z',pale)+C(60,34,2,gold);break;
-      case 'xiaohan':shape=P('M29 34L59 55L87 32M59 55L61 83L84 95M59 55L32 83M42 43L43 30M78 39L90 45M61 74L75 68M40 75L28 71M61 83L51 94')+C(59,55,4,gold);break;
-      case 'dahan':shape=P('M45 93Q69 57 53 30M57 75L84 59M57 55L35 44');for(i=0;i<5;i++){a=i*Math.PI*2/5;shape+=C(70+Math.cos(a)*12,42+Math.sin(a)*12,8,pale);}shape+=C(70,42,4,gold)+C(37,43,5,gold);break;
-    }
-    return '<svg class="seasonal-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+esc(d.name+'节气徽记')+'"><circle cx="60" cy="60" r="56" fill="#faf7ed" stroke="#c9d3be" stroke-width="1.5"/><circle cx="60" cy="60" r="50" fill="none" stroke="#c1ab80" stroke-width=".7" stroke-dasharray="1 6"/><g fill="none" stroke="#365449" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">'+shape+'</g></svg>';
-  }
+  function icon(id){ return JQ.ICONS.term(id, {className:'seasonal-icon'}); }
   JQ.SEASONAL={data:data,icon:icon,card:card,wellness:wellness,mount:mount,dispose:dispose,render:render};
 })();

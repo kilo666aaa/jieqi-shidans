@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const root=require('node:path').join(__dirname,'..');
 const ctx={window:{},console}; ctx.window=ctx; vm.createContext(ctx);
-for(const file of ['js/data_terms.js','js/data_terms_rich.js','js/seasonal.js']) vm.runInContext(fs.readFileSync(root+'/'+file,'utf8'),ctx);
+for(const file of ['js/data_terms.js','js/data_terms_rich.js','js/iconography.js','js/seasonal.js']) vm.runInContext(fs.readFileSync(root+'/'+file,'utf8'),ctx);
 const S=ctx.JQ.SEASONAL;
 test('24 terms have exact astronomy, unique icons and mechanisms, honest sources',()=>{
  assert.equal(Object.keys(S.data).length,24);

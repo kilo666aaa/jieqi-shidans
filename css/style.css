@@ -6,17 +6,17 @@
    强度档：丰富 ｜ 交互档：L2（Hero 局部 L3）
    ============================================================ */
 :root{
-  --paper:#FFFFFF;   /* 纯白 · 纸底 */
-  --paper2:#F6F5F2;  /* 浅灰白 · 分区底 */
-  --card:#FFFFFF;    /* 纯白 · 卡面 */
+  --paper:#FAF9F5;   /* 暖纸 · 页面底色 */
+  --paper2:#F3F1E8;  /* 浅米白 · 分区底 */
+  --card:#FFFEFA;    /* 素纸 · 卡面 */
   --ink:#1D1B1C;     /* 墨色 · 主文字 */
   --ink2:#57534B;    /* 褐墨 · 次文字 */
   --ink3:#867E76;    /* 瓦灰 · 弱文字 */
   --line:rgba(29,27,28,.12);
-  --green:#3F7D5A;   /* 节气青 · 项目主色（定稿保留） */
+  --green:#355E50;   /* 节气青 · 与图标描线统一 */
   --green2:#223E36;  /* 苍绿 · 主色深阶 */
-  --green-bg:rgba(63,125,90,.10);
-  --seal:#C0392B;    /* 朱砂（深）· 印章红 */
+  --green-bg:rgba(53,94,80,.08);
+  --seal:#B5533E;    /* 朱砂 · 状态点色 */
   --seal2:#82111F;   /* 殷红 · 红系文字 */
   --seal-bg:rgba(192,57,43,.08);
   --gold:#D4AF37;    /* 鎏金 · 描金（极小面积） */
@@ -28,7 +28,7 @@
   --e1:cubic-bezier(.4,0,.2,1);
   --e2:cubic-bezier(.22,.61,.36,1);
   --radius:14px;
-  --sh:0 14px 34px rgba(29,27,28,.10);
+  --sh:0 4px 18px rgba(29,27,28,.045);
   --tab-h:58px;
   --safe-b:env(safe-area-inset-bottom,0px);
   --safe-t:env(safe-area-inset-top,0px);
@@ -185,6 +185,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .tab svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s var(--e2)}
 .tab.on{color:var(--green)}
 .tab.on svg{transform:translateY(-1px)}
+.tab img{width:26px;height:26px;transition:transform .3s var(--e2)}
+.tab.on img{transform:translateY(-1px)}
+.app-icon{display:inline-block;vertical-align:middle;width:24px;height:24px;flex-shrink:0}
+.state-box .big .app-icon{width:44px;height:44px;color:var(--green)}
+.mi-emoji .app-icon{color:var(--green2)}
 .tab.on::after{
   content:"";position:absolute;top:-1px;left:50%;width:22px;height:3px;margin-left:-11px;
   background:var(--seal);border-radius:0 0 3px 3px;
@@ -460,7 +465,7 @@ textarea.input{min-height:90px;resize:vertical}
 /* ---------- 我的 ---------- */
 .me-head{
   display:grid;grid-template-columns:56px minmax(0,1fr) auto;
-  align-items:center;gap:12px;padding:14px 4px 22px;
+  align-items:center;gap:10px;padding:10px 4px 18px;
 }
 .me-head .avatar{
   width:56px;height:56px;border-radius:50%;background:var(--paper2);border:1px solid var(--line);
@@ -469,8 +474,6 @@ textarea.input{min-height:90px;resize:vertical}
 }
 .me-identity{min-width:0}
 .me-name{font-size:18.5px;font-weight:700;line-height:1.4;overflow-wrap:anywhere}
-.me-stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.me-chip{display:inline-block;background:var(--paper2);border:1px solid var(--line);border-radius:999px;padding:1px 10px;font-size:12px;color:var(--ink2)}
 .me-account-note{margin-top:6px;line-height:1.6;overflow-wrap:anywhere}
 .me-actions{display:flex;gap:8px;align-items:center}
 .me-actions .btn{min-height:44px;white-space:nowrap}
@@ -490,7 +493,42 @@ textarea.input{min-height:90px;resize:vertical}
 .me-page .mi-copy{min-width:0;flex:1;font-weight:700}
 .me-page .mi-sub{margin-top:3px;line-height:1.6;font-weight:500;overflow-wrap:anywhere}
 .me-page .mi-arrow{flex-shrink:0;font-size:21px}
-.me-page > .notice-amber{font-size:12px;line-height:1.7;padding:12px 14px}
+.me-footprints{
+  border:1px solid var(--line);border-radius:18px;background:#F8F7F3;
+  padding:16px;margin-bottom:22px;
+}
+.me-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.me-section-head h2{font-size:18.5px;line-height:1.4;margin:0;letter-spacing:.03em}
+.me-eyebrow{font-size:12px;color:var(--ink3);letter-spacing:.1em;margin:0 0 5px}
+.footprint-count{display:flex;align-items:baseline;gap:4px;white-space:nowrap;color:var(--ink3);font-size:12px}
+.footprint-count b{font:600 32px/1 var(--serif);color:var(--green2)}
+.footprint-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px 4px;margin:0;padding:0;list-style:none}
+.footprint-stamp{display:flex;align-items:center;flex-direction:column;gap:3px;color:var(--ink2);font-size:12px;line-height:1.5;border-radius:8px;padding:3px 0}
+.footprint-stamp img{filter:grayscale(1);opacity:.38}
+.footprint-stamp.is-tasted{color:var(--green2);background:var(--green-bg);font-weight:800}
+.footprint-stamp.is-tasted img{filter:none;opacity:1}
+.footprint-note{font-size:12px;color:var(--ink2);line-height:1.65;margin:12px 0 0;border-top:1px solid var(--line);padding-top:10px}
+.me-recent{margin-bottom:22px}
+.me-text-link{font-size:12px;min-height:44px;display:inline-flex;align-items:center;gap:5px;color:var(--green2);white-space:nowrap}
+.recent-recipe{display:flex;gap:14px;align-items:center;text-decoration:none;color:var(--ink);padding:12px 0;border-bottom:1px solid var(--line)}
+.recent-recipe:last-child{border-bottom:0;padding-bottom:0}
+.recent-recipe .food-photo{flex:0 0 96px;width:96px;margin:0;border:0;border-radius:10px;overflow:hidden}
+.recent-recipe .food-photo img{height:76px;border-radius:10px 10px 0 0;transition:transform .25s var(--e1)}
+.recent-recipe .food-photo figcaption{padding:3px 5px;font-size:12px;line-height:1.35;justify-content:center}
+.recent-recipe .food-photo-kind{white-space:normal;letter-spacing:0}
+.recent-recipe-copy{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+.recent-recipe-copy strong{font-size:16.5px;line-height:1.5;overflow-wrap:anywhere}
+.recent-recipe-copy > span{font-size:12px;color:var(--ink3)}
+.recent-recipe-copy .recent-recipe-action{color:var(--green2);margin-top:4px}
+.recent-empty{padding:14px 16px;background:var(--paper2);border-radius:14px}
+.recent-empty p{font-size:13.5px;line-height:1.7;color:var(--ink2);margin:0 0 10px}
+.me-storage{font-size:12px;color:var(--ink3);line-height:1.7;padding:0 2px 6px}
+.me-storage summary{cursor:pointer;min-height:44px;display:list-item;padding:10px 0}
+.me-storage p{margin:0 0 8px}
+@media (hover:hover){
+  .recent-recipe:hover strong,.me-text-link:hover{color:var(--green)}
+  .recent-recipe:hover .food-photo img{transform:scale(1.025)}
+}
 @media (hover:hover){.me-page .me-item:hover{background:var(--paper2)}}
 @media (max-width:460px){
   .me-head{grid-template-columns:56px minmax(0,1fr)}

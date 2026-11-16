@@ -113,7 +113,7 @@
 
     view.innerHTML =
       JQ.HEADER(t.name + ' · 节气详情',
-        '<button class="btn btn-sm ' + (isFav ? 'btn-warm' : 'btn-ghost') + '" id="fav-btn">' + (isFav ? '★ 已收藏' : '☆ 收藏') + '</button>',
+        '<button class="btn btn-sm ' + (isFav ? 'btn-warm' : 'btn-ghost') + '" id="fav-btn">' + JQ.ICONS.ui('fav') + (isFav ? ' 已收藏' : ' 收藏') + '</button>',
         true) +
       '<div class="wrap">' +
       '<div style="--c1:' + (t.c || 'var(--green)') + '">' +
@@ -159,7 +159,7 @@
       '<div class="small muted" style="margin-top:6px">未列年份的数据尚未收录，不做外推。</div></div>' +
 
       '</div>' +
-      '<button class="btn btn-primary btn-block" id="go-menu">🥣 查看「' + JQ.esc(t.name) + '」食单</button>' +
+      '<button class="btn btn-primary btn-block" id="go-menu">' + JQ.ICONS.ui('bowl') + ' 查看「' + JQ.esc(t.name) + '」食单</button>' +
       '<div class="term-nav" data-reveal aria-label="相邻节气导航">' +
       '<a class="tn-item" href="#/term/' + prevT.id + '"><span class="tn-arrow" aria-hidden="true">←</span>' +
       '<span><small>上一气</small><b>' + JQ.esc(prevT.name) + '</b></span></a>' +

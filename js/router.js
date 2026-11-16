@@ -22,7 +22,7 @@
   JQ.HEADER = function (title, rightHtml, showBack) {
     return '<header class="pagehead">' +
       (showBack
-        ? '<button class="back" id="hdr-back" aria-label="返回">‹</button>'
+        ? '<button class="back" id="hdr-back" aria-label="返回">' + JQ.ICONS.ui('back') + '</button>'
         : '<button class="back" style="visibility:hidden" tabindex="-1" aria-hidden="true">‹</button>') +
       '<h1>' + title + '</h1>' +
       '<div class="hact">' + (rightHtml || '') + '</div>' +
@@ -37,6 +37,11 @@
   function setTab(name) {
     JQ.$$('#tabbar .tab').forEach(function (a) {
       a.classList.toggle('on', a.getAttribute('data-tab') === name);
+      var icon = a.querySelector('[data-nav-icon]');
+      if (icon) {
+        icon.src = 'assets/icons/' + icon.getAttribute('data-nav-icon') +
+          (a.getAttribute('data-tab') === name ? '-on' : '') + '.svg?v=20261116.2';
+      }
     });
   }
 
@@ -47,6 +52,7 @@
     /* 场景组件随路由销毁（粒子/图解各持全局监听或补间） */
     if (JQ.LOGIN_SCENE && JQ.LOGIN_SCENE.dispose) { JQ.LOGIN_SCENE.dispose(); }
     if (JQ.SEASONAL && JQ.SEASONAL.dispose) { JQ.SEASONAL.dispose(); }
+    if (JQ.COURTYARD) { JQ.COURTYARD.dispose(); }
 
     var hash = location.hash || '#/home';
     var path = hash.replace(/^#\/?/, '');
