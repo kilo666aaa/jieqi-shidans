@@ -3,7 +3,7 @@
 以二十四节气时令食俗为文化主线，回答「今天这个节气吃什么、为什么这样吃」的移动端 H5。
 文化锚点：《论语·乡党》**不时，不食**。
 
-- 纯静态实现：原生 HTML/CSS/JS，无框架、无构建工具，可直接托管在 GitHub Pages
+- 静态 H5 为主体；立冬庭院使用 React Three Fiber，已包含构建产物，可直接托管在 GitHub Pages
 - Hash 路由（`#/home`、`#/recipe/:id`、`#/term/:id`…），静态托管下刷新/直达不 404
 - 统一入口协议：NFC 卡 / 二维码 / 普通链接均为 `/?t=<节气拼音>`（如 `?t=hanlu` → 寒露）
 - 四大板块：今日食单 · AI 问答 · 节气百科 · 我的
@@ -86,3 +86,12 @@ js/app.js                   入口（?t= 协议、首访引导邀请）
 5. 提交推送 → 全组打开网站即显示「已接通（团队服务）」，无需任何配置
 
 优先级：个人密钥 > 团队代理。若部分同学网络打不开 `workers.dev`，可改用 Vercel Edge / Deno Deploy 部署同一份逻辑，或退回个人密钥模式（当前模式不受影响）。
+
+
+## 三维庭院开发
+
+网页预览继续使用上面的静态服务器。修改三维源码时，先执行 `npm ci`，再执行 `npm run build:3d`。入口为 `src/courtyard-3d.jsx`，构建结果写入 `js/vendor/courtyard-3d.js`。提交源码、锁文件和构建结果后，GitHub Pages 即可加载；访问网站的用户无需安装依赖。
+
+图标原图保留在本机资源库，站内使用透明 WebP。`scripts/build-icons.mjs` 接受本机生成图片的来源清单路径，输出站内资源和图标展示页。回归检查运行 `npm test`。
+
+课程第三项的交付位于 `deliver/第三部分_功能图标/`：16种功能图标、32个状态、两张展示板与两页PPT。24节气图标另算文化内容素材。原图生成后，依次运行 `node scripts/build-icons.mjs 本机来源清单.json`、`node scripts/export-functional-icons.mjs`、`python scripts/export-icon-ppt.py`。PPT文字和卡片可编辑，图标为独立位图；SVG内嵌图标位图，不是可逐路径编辑的矢量源稿。

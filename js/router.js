@@ -39,7 +39,10 @@
       a.classList.toggle('on', a.getAttribute('data-tab') === name);
       var icon = a.querySelector('[data-nav-icon]');
       if (icon) {
-        icon.src = 'assets/icons/' + icon.getAttribute('data-nav-icon') +
+        var iconName = icon.getAttribute('data-nav-icon');
+        var artwork = JQ.GENERATED_ICONS && JQ.GENERATED_ICONS.ui[iconName];
+        icon.classList.toggle('art-icon', !!artwork);
+        icon.src = artwork || 'assets/icons/' + iconName +
           (a.getAttribute('data-tab') === name ? '-on' : '') + '.svg?v=20261116.2';
       }
     });
@@ -53,6 +56,7 @@
     if (JQ.LOGIN_SCENE && JQ.LOGIN_SCENE.dispose) { JQ.LOGIN_SCENE.dispose(); }
     if (JQ.SEASONAL && JQ.SEASONAL.dispose) { JQ.SEASONAL.dispose(); }
     if (JQ.COURTYARD) { JQ.COURTYARD.dispose(); }
+    if (JQ.HOVER) { JQ.HOVER.dispose(); }
 
     var hash = location.hash || '#/home';
     var path = hash.replace(/^#\/?/, '');
@@ -119,6 +123,7 @@
   R.observeReveals = function () {
     var vEl = JQ.$('#view');
     if (!vEl) { return; }
+    if (JQ.HOVER) { JQ.HOVER.mount(vEl); }
     if (window.IntersectionObserver && !R._io) {
       R._io = new IntersectionObserver(function (es) {
         es.forEach(function (e) {

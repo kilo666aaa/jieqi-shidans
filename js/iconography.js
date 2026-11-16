@@ -1,6 +1,6 @@
-/* 节气食单 · 一碗四时图标系统。
-   功能图标使用24格，节气图标使用48格。统一圆端描线、开放轮廓和少量朱砂点色。
-   此文件同时生成页面内图标与交付SVG，避免两套图形漂移。 */
+/* 节气食单 · 瓷玉四时图标系统。
+   优先使用本地透明材质图标；小型辅助控件和显式vector选项保留原描线图形。
+   选中状态使用同一主体图，避免切换时产生形状漂移。 */
 (function () {
   'use strict';
   window.JQ = window.JQ || {};
@@ -61,6 +61,11 @@
   }
   function uiIcon(name, options) {
     options = options || {};
+    var artwork = JQ.GENERATED_ICONS && JQ.GENERATED_ICONS.ui[name];
+    if (artwork && !options.vector) {
+      var stateClass = options.active === true ? ' icon-state-on' : options.active === false ? ' icon-state-off' : '';
+      return '<img class="app-icon art-icon' + stateClass + '" src="' + escape(artwork) + '" alt="" width="28" height="28">';
+    }
     if (!ui[name]) { return ''; }
     return '<svg xmlns="http://www.w3.org/2000/svg" class="app-icon" viewBox="0 0 24 24" fill="none" stroke="' + escape(options.color || 'currentColor') + '" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ui[name] + '</svg>';
   }
@@ -68,9 +73,18 @@
     options = options || {};
     var term = JQ.DATA.termById(id);
     if (!term || !terms[id]) { return ''; }
+    var artwork = JQ.GENERATED_ICONS && JQ.GENERATED_ICONS.terms[id];
+    if (artwork && !options.vector) {
+      return '<svg xmlns="http://www.w3.org/2000/svg" class="generated-term-icon ' + escape(options.className || 'seasonal-icon') + '" viewBox="0 0 120 120" role="img" aria-label="' + escape(term.name + '节气徽记') + '">' +
+        '<image href="' + escape(artwork) + '" width="120" height="120"/>' +
+        (options.current ? '<circle cx="106" cy="14" r="4" fill="#B5533E"/>' : '') + '</svg>';
+    }
     return '<svg xmlns="http://www.w3.org/2000/svg" class="' + escape(options.className || 'seasonal-icon') + '" viewBox="0 0 120 120" role="img" aria-label="' + escape(term.name + '节气徽记') + '">' +
       '<g transform="scale(2.5)" fill="none" stroke="#355E50" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + terms[id] + '</g>' +
       (options.current ? '<circle cx="107" cy="15" r="4" fill="#B5533E"/>' : '') + '</svg>';
   }
-  JQ.ICONS = { ui: uiIcon, term: termIcon, uiNames: Object.keys(ui), termIds: Object.keys(terms) };
+  function termImage(id) {
+    return JQ.GENERATED_ICONS && JQ.GENERATED_ICONS.terms[id] || 'assets/seasonal/icons/' + id + '.svg';
+  }
+  JQ.ICONS = { ui: uiIcon, term: termIcon, termImage: termImage, uiNames: Object.keys(ui), termIds: Object.keys(terms) };
 })();

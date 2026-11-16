@@ -76,7 +76,7 @@
 
     view.innerHTML =
       JQ.HEADER(r.name,
-        '<button class="btn btn-sm ' + (isFav ? 'btn-warm' : 'btn-ghost') + '" id="fav-btn">' + JQ.ICONS.ui('fav') + (isFav ? ' 已收藏' : ' 收藏') + '</button>',
+        '<button class="btn btn-sm ' + (isFav ? 'btn-warm' : 'btn-ghost') + '" id="fav-btn">' + JQ.ICONS.ui('fav', { active: isFav }) + (isFav ? ' 已收藏' : ' 收藏') + '</button>',
         true) +
       '<div class="wrap">' +
       '<div class="card">' + heroCard + '</div>' +
@@ -95,7 +95,7 @@
       '<div style="display:flex;gap:10px;margin:4px 0 8px">' +
       '<button class="btn btn-primary" style="flex:1" id="ask-btn">' + JQ.ICONS.ui('ask') + ' 问 AI 追问</button>' +
       '<button class="btn ' + (checkedToday ? 'btn-ghost' : 'btn-plain') + '" style="flex:1" id="checkin-btn">' +
-      JQ.ICONS.ui('checkin') + (checkedToday ? ' 今日已打卡' : ' 打卡') + '</button>' +
+      JQ.ICONS.ui('checkin', { active: checkedToday }) + (checkedToday ? ' 今日已打卡' : ' 打卡') + '</button>' +
       '</div>' +
       '<button class="btn btn-ghost btn-block" id="addback-btn">➕ 加回今日食单</button>' +
       '<div style="height:12px"></div>' +

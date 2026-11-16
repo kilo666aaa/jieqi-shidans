@@ -1,0 +1,27 @@
+{
+  "count": 16,
+  "states": 32,
+  "labels": {
+    "home": "今日食单",
+    "ask": "食养问答",
+    "term": "节气百科",
+    "me": "我的",
+    "fav": "收藏",
+    "checkin": "打卡",
+    "leaf": "饮食偏好",
+    "settings": "设置",
+    "bowl": "菜谱",
+    "data": "本机数据",
+    "shield": "隐私与说明",
+    "info": "关于",
+    "search": "搜索",
+    "calendar": "节气切换",
+    "share": "分享",
+    "edit": "编辑偏好"
+  },
+  "generation": {
+    "tool": "built-in image_gen",
+    "modelVersion": "not_exposed_by_tool"
+  },
+  "stateDesign": "Same source artwork; neutral default, full colour with vermilion marker when active."
+}

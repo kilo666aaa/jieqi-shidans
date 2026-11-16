@@ -113,7 +113,7 @@
 
     view.innerHTML =
       JQ.HEADER(t.name + ' · 节气详情',
-        '<button class="btn btn-sm ' + (isFav ? 'btn-warm' : 'btn-ghost') + '" id="fav-btn">' + JQ.ICONS.ui('fav') + (isFav ? ' 已收藏' : ' 收藏') + '</button>',
+        '<button class="btn btn-sm ' + (isFav ? 'btn-warm' : 'btn-ghost') + '" id="fav-btn">' + JQ.ICONS.ui('fav', { active: isFav }) + (isFav ? ' 已收藏' : ' 收藏') + '</button>',
         true) +
       '<div class="wrap">' +
       '<div style="--c1:' + (t.c || 'var(--green)') + '">' +

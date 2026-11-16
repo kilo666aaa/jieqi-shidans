@@ -62,7 +62,7 @@
       var tasted = tastedTerms.has(term.id);
       var label = term.name + (tasted ? '：已打卡' : '：尚未打卡');
       return '<li class="footprint-stamp' + (tasted ? ' is-tasted' : '') + '" aria-label="' + JQ.esc(label) + '" title="' + JQ.esc(label) + '">' +
-        '<img src="assets/seasonal/icons/' + term.id + '.svg" alt="" width="28" height="28" loading="lazy">' +
+        '<img src="' + JQ.esc(JQ.ICONS.termImage(term.id)) + '" alt="" width="36" height="36" loading="lazy">' +
         '<span aria-hidden="true">' + JQ.esc(term.name) + '</span></li>';
     }).join('');
 
@@ -131,6 +131,7 @@
       '</div>';
 
     JQ.PHOTOS.mount(view);
+    if (JQ.HOVER) { JQ.HOVER.mount(view); }
 
     var lo = JQ.$('#logout-btn');
     if (lo) {

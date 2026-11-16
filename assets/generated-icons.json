@@ -1,0 +1,372 @@
+{
+  "generatedAt": "2026-11-17",
+  "generator": "built-in image_gen",
+  "modelVersion": "not_exposed_by_tool",
+  "style": "Celadon glaze, ivory porcelain and antique bronze miniature sculptures",
+  "terms": {
+    "lichun": "assets/seasonal/art/lichun.webp",
+    "yushui": "assets/seasonal/art/yushui.webp",
+    "jingzhe": "assets/seasonal/art/jingzhe.webp",
+    "chunfen": "assets/seasonal/art/chunfen.webp",
+    "qingming": "assets/seasonal/art/qingming.webp",
+    "xiaoman": "assets/seasonal/art/xiaoman.webp",
+    "mangzhong": "assets/seasonal/art/mangzhong.webp",
+    "xiazhi": "assets/seasonal/art/xiazhi.webp",
+    "xiaoshu": "assets/seasonal/art/xiaoshu.webp",
+    "dashu": "assets/seasonal/art/dashu.webp",
+    "liqiu": "assets/seasonal/art/liqiu.webp",
+    "chushu": "assets/seasonal/art/chushu.webp",
+    "bailu": "assets/seasonal/art/bailu.webp",
+    "qiufen": "assets/seasonal/art/qiufen.webp",
+    "hanlu": "assets/seasonal/art/hanlu.webp",
+    "shuangjiang": "assets/seasonal/art/shuangjiang.webp",
+    "lidong": "assets/seasonal/art/lidong.webp",
+    "xiaoxue": "assets/seasonal/art/xiaoxue.webp",
+    "daxue": "assets/seasonal/art/daxue.webp",
+    "dongzhi": "assets/seasonal/art/dongzhi.webp",
+    "xiaohan": "assets/seasonal/art/xiaohan.webp",
+    "dahan": "assets/seasonal/art/dahan.webp",
+    "lixia": "assets/seasonal/art/lixia.webp",
+    "guyu": "assets/seasonal/art/guyu.webp"
+  },
+  "ui": {
+    "home": "assets/icons/art/home.webp",
+    "ask": "assets/icons/art/ask.webp",
+    "term": "assets/icons/art/term.webp",
+    "me": "assets/icons/art/me.webp",
+    "fav": "assets/icons/art/fav.webp",
+    "checkin": "assets/icons/art/checkin.webp",
+    "leaf": "assets/icons/art/leaf.webp",
+    "settings": "assets/icons/art/settings.webp",
+    "data": "assets/icons/art/data.webp",
+    "shield": "assets/icons/art/shield.webp",
+    "info": "assets/icons/art/info.webp",
+    "search": "assets/icons/art/search.webp",
+    "calendar": "assets/icons/art/calendar.webp",
+    "share": "assets/icons/art/share.webp",
+    "edit": "assets/icons/art/edit.webp",
+    "bowl": "assets/icons/art/bowl.webp"
+  },
+  "images": [
+    {
+      "id": "lichun",
+      "file": "assets/seasonal/art/lichun.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 21868,
+      "sourceSha256": "0cab99cc063f94e17221a92a8b906a772e08ad4d231451a2a8aa46fa06dc7332"
+    },
+    {
+      "id": "yushui",
+      "file": "assets/seasonal/art/yushui.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 15318,
+      "sourceSha256": "d0b1fa7d1b80b276c227a87e3cecef1ac2bc3eb8aa1a68c125c5f81f77bb6f79"
+    },
+    {
+      "id": "jingzhe",
+      "file": "assets/seasonal/art/jingzhe.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 14628,
+      "sourceSha256": "0aee9cad8855fa93fa00f30dbf12ba1c4b5521fe94ab784ddfa81ef5b084e0ce"
+    },
+    {
+      "id": "chunfen",
+      "file": "assets/seasonal/art/chunfen.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 21816,
+      "sourceSha256": "827ef0f8d6af67e0a3cd5183f21e6d59722a34d527324b970cf5dae7ecc2db46"
+    },
+    {
+      "id": "qingming",
+      "file": "assets/seasonal/art/qingming.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 34134,
+      "sourceSha256": "73c2c2db6807a458f9ac1dce3c6c8861836c91e8658b171ccf1a8a96a771aeaa"
+    },
+    {
+      "id": "xiaoman",
+      "file": "assets/seasonal/art/xiaoman.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 21966,
+      "sourceSha256": "512aea242b571fe6eb2e24d10a30217d615d63295be59c98b666b31c120f3f27"
+    },
+    {
+      "id": "mangzhong",
+      "file": "assets/seasonal/art/mangzhong.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 30646,
+      "sourceSha256": "6a22fe9646d7000db49bc4836b026595bec6addffbf3a2c096cdc973a0127205"
+    },
+    {
+      "id": "xiazhi",
+      "file": "assets/seasonal/art/xiazhi.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 19826,
+      "sourceSha256": "128206869cd2c729a77da896f029522bd107da9c7f3b61525ca89484f2a21148"
+    },
+    {
+      "id": "xiaoshu",
+      "file": "assets/seasonal/art/xiaoshu.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 18580,
+      "sourceSha256": "01de9469afb272215a761018ea215f2673e07e50bc2ee4ddc0878cf4b3fe4036"
+    },
+    {
+      "id": "dashu",
+      "file": "assets/seasonal/art/dashu.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 26686,
+      "sourceSha256": "b33ea53fccfa62f0b84581f689d3c10e2d9690bea4dfbf65cc04a88405bca236"
+    },
+    {
+      "id": "liqiu",
+      "file": "assets/seasonal/art/liqiu.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 23000,
+      "sourceSha256": "3611d35ff1976803426a099591256dd8d07fb68fa1c8933f992cf588a7ca804c"
+    },
+    {
+      "id": "chushu",
+      "file": "assets/seasonal/art/chushu.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 13832,
+      "sourceSha256": "795b365260e908d5d18efd675322882a061ae67fa549bfeee1417a2b9e49bf98"
+    },
+    {
+      "id": "bailu",
+      "file": "assets/seasonal/art/bailu.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 17056,
+      "sourceSha256": "1658c53673e8b13cbd85cd883544346f62207ab992b3374d3f4140ceb2a24c71"
+    },
+    {
+      "id": "qiufen",
+      "file": "assets/seasonal/art/qiufen.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 22460,
+      "sourceSha256": "42a308bc6a9b811091850c0b7ff90502af90e3fac668a8ce545617792b0a05a0"
+    },
+    {
+      "id": "hanlu",
+      "file": "assets/seasonal/art/hanlu.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 23302,
+      "sourceSha256": "82fdbe38f20da8114c109f0025f3f564b00cb505e99b448f717ed8cc96f607b0"
+    },
+    {
+      "id": "shuangjiang",
+      "file": "assets/seasonal/art/shuangjiang.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 20736,
+      "sourceSha256": "160e83f967ed2469284a0a9770258977e786d832b7905aa5142af935bc8db4ae"
+    },
+    {
+      "id": "lidong",
+      "file": "assets/seasonal/art/lidong.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 16776,
+      "sourceSha256": "21c4ac00248dfa2ec88f21b35892e9a50e7c2fa515fccc4656234150d68b0cd3"
+    },
+    {
+      "id": "xiaoxue",
+      "file": "assets/seasonal/art/xiaoxue.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 21272,
+      "sourceSha256": "1f90a83d883982ad9b70149d6d8c49050e80260100211168da036bc159f004fd"
+    },
+    {
+      "id": "daxue",
+      "file": "assets/seasonal/art/daxue.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 29846,
+      "sourceSha256": "3c495f700dc5814c81137f68572aaf4dab54f2fe05f1a9438c9ab4bc170f057d"
+    },
+    {
+      "id": "dongzhi",
+      "file": "assets/seasonal/art/dongzhi.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 21228,
+      "sourceSha256": "81c8f6d29b0094024f0267c65ee37174ac94db5064cb735cf3670d379f6315da"
+    },
+    {
+      "id": "xiaohan",
+      "file": "assets/seasonal/art/xiaohan.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 27708,
+      "sourceSha256": "754dc3dbee4a4e3452cf7ca208f2b788a4b436bf9f2430213e2c235c8662603b"
+    },
+    {
+      "id": "dahan",
+      "file": "assets/seasonal/art/dahan.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 19636,
+      "sourceSha256": "00ad26fb523f2411078044a2060b24efdaff773e1c74af4bb016274bd5618ce3"
+    },
+    {
+      "id": "ui-home",
+      "file": "assets/icons/art/home.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 17932,
+      "sourceSha256": "e35f32858808dd10f6fa22ee06365b469090d3f08b8aa1c00639a80d69573132"
+    },
+    {
+      "id": "ui-ask",
+      "file": "assets/icons/art/ask.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 14454,
+      "sourceSha256": "c0a135ea8924b526b0076762a60babf3507207ed05dea5ef948e860ddfb3d2e2"
+    },
+    {
+      "id": "ui-term",
+      "file": "assets/icons/art/term.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 17318,
+      "sourceSha256": "f116de2337fb7b1a0e83e5c9ce18e53ca3c6f8487e31472a4d9d2bd101efdac8"
+    },
+    {
+      "id": "ui-me",
+      "file": "assets/icons/art/me.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 15452,
+      "sourceSha256": "ac8e1f2099b08ae8f6a320d376ec5e34477c751d936d610ec13b6925a44bc932"
+    },
+    {
+      "id": "ui-fav",
+      "file": "assets/icons/art/fav.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 11824,
+      "sourceSha256": "f0a3cc665bda5751a724872197306434807c071ad8cec971e357348047905188"
+    },
+    {
+      "id": "ui-checkin",
+      "file": "assets/icons/art/checkin.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 16822,
+      "sourceSha256": "7e078132fbd20dfb090b602d1ab6aeb99ec3dd9b2a7411d2175253cec25cbf4d"
+    },
+    {
+      "id": "ui-leaf",
+      "file": "assets/icons/art/leaf.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 16190,
+      "sourceSha256": "74a701f353c89c654e8f07758bb14bdcd17ee3a761c09657867eaee5b1d3d644"
+    },
+    {
+      "id": "ui-settings",
+      "file": "assets/icons/art/settings.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 15470,
+      "sourceSha256": "dd05ce27fdc17d42403ca289b39382f646c7d400a2738a3d55bebac0b7c586de"
+    },
+    {
+      "id": "lixia",
+      "file": "assets/seasonal/art/lixia.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 14460,
+      "sourceSha256": "165131dc47669270f969e64b3a3200668959cd60a85045d0934cef7900c33c50"
+    },
+    {
+      "id": "guyu",
+      "file": "assets/seasonal/art/guyu.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 24124,
+      "sourceSha256": "f641eeb4130ff281fffe1fa220c638f10ea959da69375cdc55bcb2512a5aa105"
+    },
+    {
+      "id": "ui-data",
+      "file": "assets/icons/art/data.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 16502,
+      "sourceSha256": "de0639b4a2df9013fbc89866c9cd21722290872e7cfe98cb1562c31c3ac49fba"
+    },
+    {
+      "id": "ui-shield",
+      "file": "assets/icons/art/shield.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 13720,
+      "sourceSha256": "e18554800241715e8acebcfc1be5a7c415094997f242765e210cf3e7fa6f3330"
+    },
+    {
+      "id": "ui-info",
+      "file": "assets/icons/art/info.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 12408,
+      "sourceSha256": "6b792b085a13c910406544958bfed0582c4bfc8385265e9244e47c6116f84b33"
+    },
+    {
+      "id": "ui-search",
+      "file": "assets/icons/art/search.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 12176,
+      "sourceSha256": "9105bdccdca8e38b23af257461c10e00a6abe4e35b9c4c135bbd01cbf7d75778"
+    },
+    {
+      "id": "ui-calendar",
+      "file": "assets/icons/art/calendar.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 16242,
+      "sourceSha256": "d9022a1cd9a0abf33aeaae24326c4a242eec35a8fa39145b65b8323800cbcf25"
+    },
+    {
+      "id": "ui-share",
+      "file": "assets/icons/art/share.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 14202,
+      "sourceSha256": "394e22fd150674129fb30cd01e64463bd2e2cc4b81699040f1355f378255d5b2"
+    },
+    {
+      "id": "ui-edit",
+      "file": "assets/icons/art/edit.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 12718,
+      "sourceSha256": "e90453c2a5434a162ee2fdce403f10f52ca93fa5cb5180b8cf4027e3e5fce6cc"
+    },
+    {
+      "id": "ui-bowl",
+      "file": "assets/icons/art/bowl.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 15318,
+      "sourceSha256": "4eb26b4b3859fff6ea4bbc54271333aad541fe181ad47e2731abbf767aa7c965"
+    }
+  ]
+}

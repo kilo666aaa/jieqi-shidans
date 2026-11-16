@@ -1,0 +1,35 @@
+/* 食单与节气卡片：悬停追光、抬起与物件浮动。 */
+.art-icon{object-fit:contain;display:inline-block;vertical-align:middle;flex-shrink:0}
+.generated-term-icon{overflow:visible}
+.tab img.art-icon{width:34px;height:34px;filter:saturate(.06);transition:transform .35s var(--e2),opacity .35s,filter .35s}
+.art-icon.icon-state-off{filter:saturate(.06)}
+.art-icon.icon-state-on{filter:none}
+.tab.on img.art-icon{opacity:1;filter:none;transform:translateY(-1px) scale(1.04)}
+.mi-emoji img.art-icon{width:31px;height:31px}
+.term-cell .term-mark{width:54px;height:54px;float:none;display:block;margin:0 0 7px}
+.footprint-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:8px 4px}
+.footprint-stamp img{width:38px;height:38px;object-fit:contain;opacity:.5;filter:saturate(.4)}
+.footprint-stamp.is-tasted img{opacity:1;filter:none}
+@media(max-width:359px){.footprint-stamp img{width:32px;height:32px}}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  [data-hover-fx]{position:relative;isolation:isolate;transition:transform .35s var(--e2),box-shadow .35s var(--e2)}
+  [data-hover-fx]::after{
+    content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
+    background:radial-gradient(170px circle at var(--pointer-x,50%) var(--pointer-y,50%),rgba(226,201,137,.25),transparent 75%);
+    opacity:0;transition:opacity .3s ease;
+  }
+  [data-hover-fx]:hover::after{opacity:1}
+  .dish-carousel .dish-card:hover{transform:translateY(-4px);box-shadow:0 12px 24px #273E3218}
+  .dish-carousel .dish-card .food-photo img{transition:transform .55s var(--e2)}
+  .dish-carousel .dish-card:hover .food-photo img{transform:scale(1.045)}
+  .term-cell:hover{transform:translateY(-3px);box-shadow:0 9px 20px #273E3214}
+  .term-cell .term-mark,.term-cell .seasonal-icon{transition:transform .5s var(--e2),filter .5s var(--e2)}
+  .term-cell:hover .term-mark,.term-cell:hover .seasonal-icon{transform:translateY(-5px) rotate(-4deg) scale(1.1);filter:drop-shadow(0 6px 5px #3B573027)}
+  .recent-recipe:hover{transform:translateX(3px)}
+  .footprint-stamp img{transition:transform .4s var(--e2),filter .4s var(--e2)}
+  .footprint-stamp:hover img{transform:translateY(-3px) scale(1.16)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 6px 14px #273E3214}
+  .btn:active{transform:translateY(0) scale(.98)}
+  .tab:hover img{transform:translateY(-3px) scale(1.12)}
+}
+@media (hover:none){.dish-card:active,.recent-recipe:active,.term-cell:active{background:var(--green-bg)}}

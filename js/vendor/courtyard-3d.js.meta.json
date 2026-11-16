@@ -1,0 +1,445 @@
+{
+  "inputs": {
+    "node_modules/react/cjs/react.production.js": {
+      "bytes": 18040,
+      "imports": [],
+      "format": "cjs"
+    },
+    "node_modules/react/index.js": {
+      "bytes": 186,
+      "imports": [
+        {
+          "path": "node_modules/react/cjs/react.production.js",
+          "kind": "require-call",
+          "original": "./cjs/react.production.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/scheduler/cjs/scheduler.production.js": {
+      "bytes": 10181,
+      "imports": [],
+      "format": "cjs"
+    },
+    "node_modules/scheduler/index.js": {
+      "bytes": 194,
+      "imports": [
+        {
+          "path": "node_modules/scheduler/cjs/scheduler.production.js",
+          "kind": "require-call",
+          "original": "./cjs/scheduler.production.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/react-dom/cjs/react-dom.production.js": {
+      "bytes": 7326,
+      "imports": [
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "require-call",
+          "original": "react"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/react-dom/index.js": {
+      "bytes": 1359,
+      "imports": [
+        {
+          "path": "node_modules/react-dom/cjs/react-dom.production.js",
+          "kind": "require-call",
+          "original": "./cjs/react-dom.production.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/react-dom/cjs/react-dom-client.production.js": {
+      "bytes": 625168,
+      "imports": [
+        {
+          "path": "node_modules/scheduler/index.js",
+          "kind": "require-call",
+          "original": "scheduler"
+        },
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "require-call",
+          "original": "react"
+        },
+        {
+          "path": "node_modules/react-dom/index.js",
+          "kind": "require-call",
+          "original": "react-dom"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/react-dom/client.js": {
+      "bytes": 1373,
+      "imports": [
+        {
+          "path": "node_modules/react-dom/cjs/react-dom-client.production.js",
+          "kind": "require-call",
+          "original": "./cjs/react-dom-client.production.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/three/build/three.core.js": {
+      "bytes": 1474799,
+      "imports": [],
+      "format": "esm"
+    },
+    "node_modules/three/build/three.module.js": {
+      "bytes": 658900,
+      "imports": [
+        {
+          "path": "node_modules/three/build/three.core.js",
+          "kind": "import-statement",
+          "original": "./three.core.js"
+        },
+        {
+          "path": "node_modules/three/build/three.core.js",
+          "kind": "import-statement",
+          "original": "./three.core.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "node_modules/react/cjs/react-jsx-runtime.production.js": {
+      "bytes": 976,
+      "imports": [],
+      "format": "cjs"
+    },
+    "node_modules/react/jsx-runtime.js": {
+      "bytes": 210,
+      "imports": [
+        {
+          "path": "node_modules/react/cjs/react-jsx-runtime.production.js",
+          "kind": "require-call",
+          "original": "./cjs/react-jsx-runtime.production.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.production.js": {
+      "bytes": 1967,
+      "imports": [
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "require-call",
+          "original": "react"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/use-sync-external-store/shim/index.js": {
+      "bytes": 234,
+      "imports": [
+        {
+          "path": "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.production.js",
+          "kind": "require-call",
+          "original": "../cjs/use-sync-external-store-shim.production.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.production.js": {
+      "bytes": 2685,
+      "imports": [
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "require-call",
+          "original": "react"
+        },
+        {
+          "path": "node_modules/use-sync-external-store/shim/index.js",
+          "kind": "require-call",
+          "original": "use-sync-external-store/shim"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/use-sync-external-store/shim/with-selector.js": {
+      "bytes": 262,
+      "imports": [
+        {
+          "path": "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.production.js",
+          "kind": "require-call",
+          "original": "../cjs/use-sync-external-store-shim/with-selector.production.js"
+        }
+      ],
+      "format": "cjs"
+    },
+    "node_modules/zustand/esm/vanilla.mjs": {
+      "bytes": 1001,
+      "imports": [],
+      "format": "esm"
+    },
+    "node_modules/zustand/esm/traditional.mjs": {
+      "bytes": 1097,
+      "imports": [
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "import-statement",
+          "original": "react"
+        },
+        {
+          "path": "node_modules/use-sync-external-store/shim/with-selector.js",
+          "kind": "import-statement",
+          "original": "use-sync-external-store/shim/with-selector.js"
+        },
+        {
+          "path": "node_modules/zustand/esm/vanilla.mjs",
+          "kind": "import-statement",
+          "original": "zustand/vanilla"
+        }
+      ],
+      "format": "esm"
+    },
+    "node_modules/suspend-react/index.js": {
+      "bytes": 2895,
+      "imports": [],
+      "format": "esm"
+    },
+    "node_modules/its-fine/dist/index.js": {
+      "bytes": 5337,
+      "imports": [
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "import-statement",
+          "original": "react"
+        }
+      ],
+      "format": "esm"
+    },
+    "node_modules/@react-three/fiber/dist/events-e51d7528.esm.js": {
+      "bytes": 715919,
+      "imports": [
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "import-statement",
+          "original": "react"
+        },
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "import-statement",
+          "original": "react"
+        },
+        {
+          "path": "node_modules/three/build/three.module.js",
+          "kind": "import-statement",
+          "original": "three"
+        },
+        {
+          "path": "node_modules/react/jsx-runtime.js",
+          "kind": "import-statement",
+          "original": "react/jsx-runtime"
+        },
+        {
+          "path": "node_modules/zustand/esm/traditional.mjs",
+          "kind": "import-statement",
+          "original": "zustand/traditional"
+        },
+        {
+          "path": "node_modules/suspend-react/index.js",
+          "kind": "import-statement",
+          "original": "suspend-react"
+        },
+        {
+          "path": "node_modules/its-fine/dist/index.js",
+          "kind": "import-statement",
+          "original": "its-fine"
+        },
+        {
+          "path": "node_modules/scheduler/index.js",
+          "kind": "import-statement",
+          "original": "scheduler"
+        }
+      ],
+      "format": "esm"
+    },
+    "node_modules/react-use-measure/dist/index.js": {
+      "bytes": 3174,
+      "imports": [
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "import-statement",
+          "original": "react"
+        }
+      ],
+      "format": "esm"
+    },
+    "node_modules/@react-three/fiber/dist/react-three-fiber.esm.js": {
+      "bytes": 7067,
+      "imports": [
+        {
+          "path": "node_modules/@react-three/fiber/dist/events-e51d7528.esm.js",
+          "kind": "import-statement",
+          "original": "./events-e51d7528.esm.js"
+        },
+        {
+          "path": "node_modules/@react-three/fiber/dist/events-e51d7528.esm.js",
+          "kind": "import-statement",
+          "original": "./events-e51d7528.esm.js"
+        },
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "import-statement",
+          "original": "react"
+        },
+        {
+          "path": "node_modules/three/build/three.module.js",
+          "kind": "import-statement",
+          "original": "three"
+        },
+        {
+          "path": "node_modules/react-use-measure/dist/index.js",
+          "kind": "import-statement",
+          "original": "react-use-measure"
+        },
+        {
+          "path": "node_modules/its-fine/dist/index.js",
+          "kind": "import-statement",
+          "original": "its-fine"
+        },
+        {
+          "path": "node_modules/react/jsx-runtime.js",
+          "kind": "import-statement",
+          "original": "react/jsx-runtime"
+        },
+        {
+          "path": "node_modules/zustand/esm/traditional.mjs",
+          "kind": "import-statement",
+          "original": "zustand/traditional"
+        },
+        {
+          "path": "node_modules/suspend-react/index.js",
+          "kind": "import-statement",
+          "original": "suspend-react"
+        },
+        {
+          "path": "node_modules/scheduler/index.js",
+          "kind": "import-statement",
+          "original": "scheduler"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/courtyard-3d.jsx": {
+      "bytes": 16624,
+      "imports": [
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "import-statement",
+          "original": "react"
+        },
+        {
+          "path": "node_modules/react-dom/client.js",
+          "kind": "import-statement",
+          "original": "react-dom/client"
+        },
+        {
+          "path": "node_modules/@react-three/fiber/dist/react-three-fiber.esm.js",
+          "kind": "import-statement",
+          "original": "@react-three/fiber"
+        },
+        {
+          "path": "node_modules/three/build/three.module.js",
+          "kind": "import-statement",
+          "original": "three"
+        }
+      ],
+      "format": "esm"
+    }
+  },
+  "outputs": {
+    "js/vendor/courtyard-3d.js.LEGAL.txt": {
+      "imports": [],
+      "exports": [],
+      "inputs": {},
+      "bytes": 3249
+    },
+    "js/vendor/courtyard-3d.js": {
+      "imports": [],
+      "exports": [],
+      "entryPoint": "src/courtyard-3d.jsx",
+      "inputs": {
+        "node_modules/react/cjs/react.production.js": {
+          "bytesInOutput": 8014
+        },
+        "node_modules/react/index.js": {
+          "bytesInOutput": 51
+        },
+        "node_modules/scheduler/cjs/scheduler.production.js": {
+          "bytesInOutput": 3662
+        },
+        "node_modules/scheduler/index.js": {
+          "bytesInOutput": 51
+        },
+        "node_modules/react-dom/cjs/react-dom.production.js": {
+          "bytesInOutput": 3666
+        },
+        "node_modules/react-dom/index.js": {
+          "bytesInOutput": 253
+        },
+        "node_modules/react-dom/cjs/react-dom-client.production.js": {
+          "bytesInOutput": 205803
+        },
+        "node_modules/react-dom/client.js": {
+          "bytesInOutput": 253
+        },
+        "node_modules/react/cjs/react-jsx-runtime.production.js": {
+          "bytesInOutput": 364
+        },
+        "node_modules/react/jsx-runtime.js": {
+          "bytesInOutput": 51
+        },
+        "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim.production.js": {
+          "bytesInOutput": 778
+        },
+        "node_modules/use-sync-external-store/shim/index.js": {
+          "bytesInOutput": 51
+        },
+        "node_modules/use-sync-external-store/cjs/use-sync-external-store-shim/with-selector.production.js": {
+          "bytesInOutput": 813
+        },
+        "node_modules/use-sync-external-store/shim/with-selector.js": {
+          "bytesInOutput": 51
+        },
+        "src/courtyard-3d.jsx": {
+          "bytesInOutput": 15257
+        },
+        "node_modules/@react-three/fiber/dist/events-e51d7528.esm.js": {
+          "bytesInOutput": 169267
+        },
+        "node_modules/three/build/three.module.js": {
+          "bytesInOutput": 366622
+        },
+        "node_modules/three/build/three.core.js": {
+          "bytesInOutput": 383777
+        },
+        "node_modules/zustand/esm/traditional.mjs": {
+          "bytesInOutput": 308
+        },
+        "node_modules/zustand/esm/vanilla.mjs": {
+          "bytesInOutput": 320
+        },
+        "node_modules/suspend-react/index.js": {
+          "bytesInOutput": 1029
+        },
+        "node_modules/its-fine/dist/index.js": {
+          "bytesInOutput": 3015
+        },
+        "node_modules/@react-three/fiber/dist/react-three-fiber.esm.js": {
+          "bytesInOutput": 2246
+        },
+        "node_modules/react-use-measure/dist/index.js": {
+          "bytesInOutput": 3163
+        }
+      },
+      "bytes": 1169704
+    }
+  }
+}
