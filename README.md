@@ -90,8 +90,14 @@ js/app.js                   入口（?t= 协议、首访引导邀请）
 
 ## 三维庭院开发
 
+当前首页使用圆窗水墨布局，三维庭院源码作为备用保留，不在首页加载。
+
 网页预览继续使用上面的静态服务器。修改三维源码时，先执行 `npm ci`，再执行 `npm run build:3d`。入口为 `src/courtyard-3d.jsx`，构建结果写入 `js/vendor/courtyard-3d.js`。提交源码、锁文件和构建结果后，GitHub Pages 即可加载；访问网站的用户无需安装依赖。
 
 图标原图保留在本机资源库，站内使用透明 WebP。`scripts/build-icons.mjs` 接受本机生成图片的来源清单路径，输出站内资源和图标展示页。回归检查运行 `npm test`。
 
 课程第三项的交付位于 `deliver/第三部分_功能图标/`：16种功能图标、32个状态、两张展示板与两页PPT。24节气图标另算文化内容素材。原图生成后，依次运行 `node scripts/build-icons.mjs 本机来源清单.json`、`node scripts/export-functional-icons.mjs`、`python scripts/export-icon-ppt.py`。PPT文字和卡片可编辑，图标为独立位图；SVG内嵌图标位图，不是可逐路径编辑的矢量源稿。
+
+## 首页与详情水墨交互
+
+`js/ink_wash.js` 在首页和24个节气详情页按页面标记挂载；`css/ink-wash.css` 控制圆窗降色、远山和墨色视觉。鼠标划过产生飞墨与墨晕，触屏轻触留白触发扩散。暂停选择跨路由保留；低动态、后台页面和离开路由会停止绘制，空闲时不保留帧循环。对应测试为 `tests/ink-wash.test.cjs`。

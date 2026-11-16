@@ -1,4 +1,4 @@
-/* 节气食单 · 月洞门意象（SVG 圆窗山水）与水墨粒子
+/* 节气食单 · 月洞门意象（SVG 圆窗山水）；水墨交互见ink_wash.js
    意象词汇源自舍友项目包原型（bud/rain/thunder/.../plum 24 式），按需精简适配 */
 (function () {
   'use strict';
@@ -151,43 +151,4 @@
       '</g>' + ring;
   };
 
-  /* 水墨粒子：挂在指定 canvas 上；季色取 --c2；移动端减量；隐藏时暂停；reduced-motion 不启动 */
-  JQ.inkParticles = function (canvas) {
-    if (!canvas || window.matchMedia('(prefers-reduced-motion:reduce)').matches) { return; }
-    var ctx = canvas.getContext('2d');
-    var W, H, P = [], running = true;
-    var touch = window.matchMedia('(hover:none)').matches;
-    function init() {
-      return {
-        x: Math.random() * W, y: Math.random() * H, r: 1 + Math.random() * 3,
-        vx: (Math.random() - .5) * .15, vy: .1 + Math.random() * .38,
-        o: .12 + Math.random() * .32, a: Math.random() * Math.PI * 2
-      };
-    }
-    function size() {
-      var d = window.devicePixelRatio || 1, r = canvas.getBoundingClientRect();
-      W = r.width; H = r.height;
-      canvas.width = r.width * d; canvas.height = r.height * d;
-      ctx.setTransform(d, 0, 0, d, 0, 0);
-      var n = Math.min(touch ? 14 : 26, Math.round(W * H / 26000));
-      P = []; for (var i = 0; i < n; i++) { P.push(init()); }
-    }
-    function frame() {
-      if (!running) { requestAnimationFrame(frame); return; }
-      ctx.clearRect(0, 0, W, H);
-      var col = getComputedStyle(document.body).getPropertyValue('--c2').trim() || '#C3B787';
-      ctx.fillStyle = col;
-      P.forEach(function (p) {
-        p.a += .012; p.x += p.vx + Math.sin(p.a) * .2; p.y += p.vy;
-        if (p.y > H + 6) { Object.assign(p, init(), { y: -6 }); }
-        ctx.globalAlpha = p.o;
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.284); ctx.fill();
-      });
-      ctx.globalAlpha = 1;
-      requestAnimationFrame(frame);
-    }
-    window.addEventListener('resize', size);
-    document.addEventListener('visibilitychange', function () { running = !document.hidden; });
-    size(); requestAnimationFrame(frame);
-  };
 })();

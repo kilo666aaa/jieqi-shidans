@@ -57,6 +57,7 @@
     if (JQ.SEASONAL && JQ.SEASONAL.dispose) { JQ.SEASONAL.dispose(); }
     if (JQ.COURTYARD) { JQ.COURTYARD.dispose(); }
     if (JQ.HOVER) { JQ.HOVER.dispose(); }
+    if (JQ.INK_WASH) { JQ.INK_WASH.dispose(); }
 
     var hash = location.hash || '#/home';
     var path = hash.replace(/^#\/?/, '');
@@ -124,6 +125,7 @@
     var vEl = JQ.$('#view');
     if (!vEl) { return; }
     if (JQ.HOVER) { JQ.HOVER.mount(vEl); }
+    if (JQ.INK_WASH) { JQ.INK_WASH.mount(vEl); }
     if (window.IntersectionObserver && !R._io) {
       R._io = new IntersectionObserver(function (es) {
         es.forEach(function (e) {

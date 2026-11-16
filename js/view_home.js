@@ -31,7 +31,6 @@
     }
 
     var term = disp.term;
-    var hasCourtyard = term.id === 'lidong' && JQ.COURTYARD;
     var ranked = JQ.PREFS.rankTermRecipes(term.id);
     var picks = JQ.PREFS.picksFor(term.id);
 
@@ -120,20 +119,14 @@
       (term.mean ? '<hr class="divider"><div class="small" style="color:var(--ink2);line-height:1.85">' + JQ.esc(term.mean) + '</div>' : '') + '</div>';
     dishesHtml = '<section id="today-recipes" class="home-recommendations" aria-label="今日推荐食单">' + dishesHtml + '</section>';
 
-    var heroHtml = hasCourtyard
-      ? '<section class="winter-hero" aria-label="立冬食单">' +
-        '<div class="winter-heading"><div class="hero-kicker">' + (disp.browsing ? '正在浏览' : '今日节气') + ' · 冬</div>' +
-        '<h2 class="hero-name">立冬</h2><p class="hero-poem">' + JQ.esc(term.e || '') + '</p><div class="hero-meta">' + metaLine + '</div></div>' +
-        JQ.COURTYARD.html(term) +
-        '<div class="winter-actions"><button class="btn btn-primary" type="button" data-courtyard-jump>直接看今日推荐 <span aria-hidden="true">↓</span></button>' +
-        '<a class="btn btn-ghost" href="#/term/lidong">认识立冬 <span aria-hidden="true">↗</span></a></div></section>'
-      : '<div class="home-hero">' +
-        '<canvas class="ink-canvas" id="hero-ink" aria-hidden="true"></canvas>' +
+    var heroHtml = '<div class="home-hero">' +
+        (JQ.INK_WASH ? JQ.INK_WASH.landscape() : '') +
         '<span class="hero-deco l" aria-hidden="true">不时不食</span><span class="hero-deco r" aria-hidden="true">顺时而餐</span>' +
         '<div class="moongate" id="moongate"><svg viewBox="0 0 400 400" role="img" aria-label="' + JQ.esc(term.name) + '意象">' + JQ.moongateSVG(term) + '</svg></div>' +
         '<div class="hero-kicker">' + (disp.browsing ? '正在浏览' : '今日节气') + '</div>' +
         '<h2 class="hero-name">' + JQ.esc(term.name) + '</h2><div class="hero-poem">' + JQ.esc(term.e || '') + '</div>' +
-        '<div class="hero-meta">' + metaLine + '</div><div class="ticker">' + ticker + '</div></div>';
+        '<div class="hero-meta">' + metaLine + '</div><div class="ticker">' + ticker + '</div></div>' +
+        (JQ.INK_WASH ? JQ.INK_WASH.tools() : '');
 
     view.innerHTML =
       JQ.HEADER('节气食单',
@@ -142,11 +135,11 @@
         '<button class="hdr-icon" id="home-share" aria-label="复制本页链接">' +
         JQ.ICONS.ui('share') + '</button>') +
       JQ.SEARCH.html() +
-      '<div class="wrap">' +
+      '<div class="wrap ink-page" data-ink-page="home" data-ink-season="' + JQ.esc(term.season) + '">' +
       browseHtml +
 
       heroHtml +
-      (hasCourtyard ? dishesHtml + notesHtml + dietHtml : dietHtml + dishesHtml + notesHtml) +
+      dietHtml + dishesHtml + notesHtml +
       '<div class="card" data-reveal><h2>文化解说</h2>' +
       '<div style="font-size:15px;line-height:1.9">' + JQ.esc(term.food) + '</div>' +
       (term.poem
@@ -156,10 +149,6 @@
       '</div>' +
       '<div style="text-align:center" class="muted small serif">— 《论语·乡党》不时，不食 —</div>' +
       '</div>';
-
-    /* 水墨粒子 */
-    JQ.inkParticles(JQ.$('#hero-ink'));
-    if (JQ.COURTYARD) { JQ.COURTYARD.mount(view); }
 
     /* 事件绑定 */
     var shareBtn = JQ.$('#home-share');

@@ -1,0 +1,17 @@
+/* 水墨层只在首页与节气详情挂载，正文和操作区留白。 */
+.ink-wash-page{background-color:#FAF9F5}
+.ink-wash-canvas{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;z-index:25;pointer-events:none;mix-blend-mode:multiply}
+.ink-page .home-hero{isolation:isolate;padding-top:30px}
+.ink-page .ink-mountains{position:absolute;left:-24%;top:115px;width:148%;height:260px;pointer-events:none;z-index:-1;color:#334138;opacity:.17;filter:blur(.8px);mask-image:linear-gradient(transparent,#000 30%,#000 64%,transparent)}
+.ink-page .moongate{margin-bottom:20px}
+.ink-page .moongate svg image{filter:grayscale(.78) sepia(.08) contrast(.93)}
+.ink-page .moongate::after{background:radial-gradient(circle,transparent 62%,#6F7768 100%);opacity:.1}
+.ink-page .hero-kicker{color:#AE4F3D}
+.ink-page .hero-name{color:#242624}
+.ink-page .card{border-color:rgba(49,57,48,.14);box-shadow:0 5px 18px rgba(35,43,37,.04)}
+.ink-page .hero-mark{opacity:.85}
+.ink-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:42px;margin:6px 0 14px;padding:0 2px;border-bottom:1px solid rgba(40,48,41,.08);color:#827F73;font-size:11px;letter-spacing:.08em}
+.ink-tools button{border:0;background:transparent;color:#59695C;padding:8px 3px;min-height:40px;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:4px;white-space:nowrap}
+.ink-tools button:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:4px}
+.ink-tools button:disabled{cursor:default;text-decoration:none;color:#827F73}
+@media(prefers-reduced-motion:reduce){.ink-wash-canvas{display:none}}

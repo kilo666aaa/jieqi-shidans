@@ -115,10 +115,11 @@
       JQ.HEADER(t.name + ' · 节气详情',
         '<button class="btn btn-sm ' + (isFav ? 'btn-warm' : 'btn-ghost') + '" id="fav-btn">' + JQ.ICONS.ui('fav', { active: isFav }) + (isFav ? ' 已收藏' : ' 收藏') + '</button>',
         true) +
-      '<div class="wrap">' +
+      '<div class="wrap ink-page" data-ink-page="term" data-ink-season="' + JQ.esc(t.season) + '">' +
       '<div style="--c1:' + (t.c || 'var(--green)') + '">' +
 
       '<div class="home-hero" style="padding-top:16px">' +
+      (JQ.INK_WASH ? JQ.INK_WASH.landscape() : '') +
       '<span class="hero-deco l" aria-hidden="true">' + JQ.esc(t.season) + '之月</span>' +
       '<span class="hero-deco r" aria-hidden="true">月令七十二候</span>' +
       '<div class="moongate" style="width:min(56vw,210px)"><svg viewBox="0 0 400 400" role="img" aria-label="' + JQ.esc(t.name) + '意象">' + JQ.moongateSVG(t) + '</svg></div>' +
@@ -127,6 +128,7 @@
       '<h2 class="hero-name" style="font-size:48px">' + JQ.esc(t.name) + '</h2>' +
       '<div class="hero-poem">' + JQ.esc(t.e || '') + '</div>' +
       '</div>' +
+      (JQ.INK_WASH ? JQ.INK_WASH.tools() : '') +
 
       '<div class="card" data-reveal><h2>节气释义</h2>' +
       (t.mean ? '<div style="font-size:15px;line-height:1.95">' + JQ.esc(t.mean) + '</div>' : '<div class="muted small">整理中</div>') +
