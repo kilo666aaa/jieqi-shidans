@@ -54,6 +54,34 @@
   var routine = ['根据当地气温添减衣物，保持睡眠，散步时留意花粉和大风。','户外活动避开最热时段，保证休息，闷热天气关注高温预警。','早晚按体感添衣，规律睡眠，运动强度循序渐进。','注意室内通风和保暖，避免久坐，外出留意冰雪路面。'];
   var data = {};
   rows.forEach(function(r,i){ var season=Math.floor(i/6); data[r[0]]={id:r[0],name:r[1],index:i,longitude:(315+i*15)%360,theme:r[2],meaning:r[3],climate:r[4],misconception:r[5],explanation:r[6],traditional:traditional[season],modern:modern[season][i%6],routine:routine[season],duration:8,sources:sources,review:'黄经已对照天文台；释义为资料概括；气候、图解及食养待人工逐项复核；旧三候、诗词、食俗仍待核验。'}; });
+  // 实拍自然视频版图解（Mixkit 免费素材，已在本地转码 640px / 约10秒 / 静音循环）
+  var videoMeta={
+    lichun:{src:'assets/video/lichun.mp4',theme:'草木萌动',caption:'实拍：早春枝头花簇初绽，草木自萌动中苏醒，春意悄然起步。',alt:'立春实拍：早春枝头花簇初绽'},
+    yushui:{src:'assets/video/yushui.mp4',theme:'雨润枝叶',caption:'实拍：细雨润过枝头绿叶，水珠在叶面汇聚滚动，春泥渐湿。',alt:'雨水实拍：细雨润过绿叶'},
+    jingzhe:{src:'assets/video/jingzhe.mp4',theme:'蛰虫苏振',caption:'实拍：惊蛰蛰虫苏醒，蝴蝶在春光里缓缓振翅。',alt:'惊蛰实拍：蝴蝶振翅'},
+    chunfen:{src:'assets/video/chunfen.mp4',theme:'春野晴光',caption:'实拍：春分草原大树蓝天，风和日丽，昼夜均分时节。',alt:'春分实拍：春日草原晴空'},
+    qingming:{src:'assets/video/qingming.mp4',theme:'烟雨清明',caption:'实拍：清明时节烟雨朦胧，林间雾气弥漫，气清景明。',alt:'清明实拍：烟雨朦胧的林间'},
+    guyu:{src:'assets/video/guyu.mp4',theme:'秧田水暖',caption:'实拍：谷雨时节层层梯田蓄水插秧，新绿自田垄铺展。',alt:'谷雨实拍：梯田插秧'},
+    lixia:{src:'assets/video/lixia.mp4',theme:'蝉鸣绿荫',caption:'实拍：初夏阳光穿过层层绿叶，光斑随风闪动，正是蝉鸣渐起的树荫景象。',alt:'立夏实拍：阳光穿过绿叶，光斑闪动'},
+    xiaoman:{src:'assets/video/xiaoman.mp4',theme:'麦浪青青',caption:'实拍：小满时节青麦连片，麦浪随风起伏，籽粒渐渐充实。',alt:'小满实拍：青麦田麦浪起伏'},
+    mangzhong:{src:'assets/video/mangzhong.mp4',theme:'收麦正忙',caption:'实拍：芒种时节金色麦田收割正忙，收麦与插秧两不相误。',alt:'芒种实拍：金色麦田收割'},
+    xiazhi:{src:'assets/video/xiazhi.mp4',theme:'葵田向阳',caption:'实拍：夏至阳光最盛，向日葵田金黄绽放，朵朵追光而开。',alt:'夏至实拍：向日葵田向阳'},
+    xiaoshu:{src:'assets/video/xiaoshu.mp4',theme:'林间暑光',caption:'实拍：小暑暑气渐盛，阳光穿过林间洒下斑驳光影。',alt:'小暑实拍：林间斑驳光影'},
+    dashu:{src:'assets/video/dashu.mp4',theme:'烈日原野',caption:'实拍：大暑烈日当空，原野在骄阳下蒸腾暑气。',alt:'大暑实拍：烈日下的原野'},
+    liqiu:{src:'assets/video/liqiu.mp4',theme:'枫叶初红',caption:'实拍：立秋叶色初变，红叶在风中摇曳报秋。',alt:'立秋实拍：红叶摇曳'},
+    chushu:{src:'assets/video/chushu.mp4',theme:'秋湖退暑',caption:'实拍：处暑暑气渐收，湖畔秋叶初染，早晚凉意渐生。',alt:'处暑实拍：秋叶染色的湖畔'},
+    bailu:{src:'assets/video/bailu.mp4',theme:'青草凝露',caption:'实拍：白露清晨，青草叶尖露珠晶莹，夜凉凝结成露。',alt:'白露实拍：青草叶尖露珠'},
+    qiufen:{src:'assets/video/qiufen.mp4',theme:'金浪丰收',caption:'实拍：秋分金色田野翻涌如浪，收获的时节已经到来。',alt:'秋分实拍：金色田野丰收'},
+    hanlu:{src:'assets/video/hanlu.mp4',theme:'雁阵南飞',caption:'实拍：寒露雁群结队南飞，深秋寒意一天深过一天。',alt:'寒露实拍：雁群飞过天空'},
+    shuangjiang:{src:'assets/video/shuangjiang.mp4',theme:'枝头凝霜',caption:'实拍：霜降前后，枝头覆上白色霜华，寒夜凝霜渐重。',alt:'霜降实拍：枝头覆霜'},
+    lidong:{src:'assets/video/lidong.mp4',theme:'水始成冰',caption:'实拍：立冬时节河水渐冷，碎冰开始在水面聚拢凝结。',alt:'立冬实拍：河面开始结冰'},
+    xiaoxue:{src:'assets/video/xiaoxue.mp4',theme:'雪落松林',caption:'实拍：小雪时节雪花飘落松林，天地渐白，雾气沉沉。',alt:'小雪实拍：雪花飘落松林'},
+    daxue:{src:'assets/video/daxue.mp4',theme:'雪湖凝白',caption:'实拍：大雪时节湖面凝白雪盖，远山雪林在雾气中静立，寒意深浓。',alt:'大雪实拍：雪白的湖面与雪林'},
+    dongzhi:{src:'assets/video/dongzhi.mp4',theme:'雪夜月升',caption:'实拍：冬至夜最长，雪原明月当空，静候一阳初生。',alt:'冬至实拍：雪夜明月'},
+    xiaohan:{src:'assets/video/xiaohan.mp4',theme:'冰河千里',caption:'实拍：小寒江河封冻，浮冰铺满河面，寒冷发展的时段。',alt:'小寒实拍：封冻的冰河'},
+    dahan:{src:'assets/video/dahan.mp4',theme:'雪山寒极',caption:'实拍：大寒雪山顶风云涌动，正是一年中最冷的时段。',alt:'大寒实拍：雪山寒雾'}
+  };
+  Object.keys(videoMeta).forEach(function(id){ var d=data[id]; if(d){ d.theme=videoMeta[id].theme; d.explanation=videoMeta[id].caption; } });
   Object.keys(data).forEach(function(id){data[id].tcm=data[id].traditional;data[id].daily=data[id].routine;});
   data.shuangjiang.sources=sources.concat([{title:'北京市园林绿化局 · 寒露与霜降',url:'https://yllhj.beijing.gov.cn/ztxx/lhysh/sh/202311/t20231120_3305348.shtml',scope:'霜的凝华过程补充参考；古籍露结为霜不直接当作现代物理解释'}]);
   // 改正旧增强层会继续显示的科学错误，保留古籍原文和 demo 标记。
@@ -82,42 +110,215 @@
   function drop(x,y,s,fill){return '<g transform="translate('+x+' '+y+') scale('+s+')">'+path('M0-9C-3-4-7 0-6 4C-5 12 6 12 6 4C7 0 3-4 0-9Z',fill||'#b8d5d0')+'</g>';}
   function crystal(x,y,s,angle){var out='';for(var i=0;i<3;i++)out+='<g transform="rotate('+(i*60)+' '+x+' '+y+')">'+path('M'+(x-9*s)+' '+y+'H'+(x+9*s))+path('M'+(x+6*s)+' '+(y-3*s)+'l-'+(3*s)+' '+(3*s)+' '+(3*s)+' '+(3*s))+'</g>';return '<g transform="rotate('+angle+' '+x+' '+y+')">'+out+'</g>';}
   function sun(x,y,r){var out=circle(x,y,r,'#e3bf80');for(var i=0;i<8;i++){var a=i*Math.PI/4;out+=path('M'+(x+Math.cos(a)*(r+4))+' '+(y+Math.sin(a)*(r+4))+'l'+Math.cos(a)*5+' '+Math.sin(a)*5);}return out;}
-  function grain(x,y,p){var out=path('M'+x+' '+y+'v-66');for(var i=0;i<5;i++)out+=ellipse(x-6,y-16-i*9,3+p*3,5,accent)+ellipse(x+6,y-20-i*9,3+p*3,5,accent);return out;}
+  function grain(x,y,p){var out=path('M'+x+' '+y+'v-66');for(var i=0;i<3;i++)out+=ellipse(x-5,y-24-i*13,2.5+p*2.5,4.5,accent)+ellipse(x+5,y-28-i*13,2.5+p*2.5,4.5,accent);return out;}
   function tree(p){return path('M181 155V91',mid)+ellipse(181,87,49,29,mid)+ellipse(159,82,24,20,light)+ellipse(196,74,30,22,light)+ellipse(211,92,25,18,mid);}
-  function base(){var out=ellipse(180,190,115,19,'#e4e6dc');out+=box(-65,-40,14,14,-8,8,mid)+box(49,-40,14,14,-8,8,mid)+box(-65,27,14,14,-8,8,mid)+box(49,27,14,14,-8,8,mid);out+=box(-76,-48,152,96,0,12,light);for(var i=0;i<4;i++){var p=point(i<2?-67:67,i%2?-39:39,1);out+=ellipse(p[0],p[1],2.1,1.1,ink);}return out;}
+  /* ---- 自然场景辅助：天空 / 远山 / 地面 / 飞鸟（替换原等距板台） ---- */
+  function sky(tint){return '<rect x="60" y="25" width="240" height="215" fill="'+(tint||'#edf1e6')+'" opacity=".55"/>';}
+  function hills(tint){return path('M60 196Q110 170 160 186T250 178T300 190V240H60Z',tint||'#dbe2cf');}
+  function ground(tint){return path('M60 208Q150 194 300 204V240H60Z',tint||'#c9d6b8');}
+  function pond(rx,ry){return ellipse(185,218,rx,ry,'#b6d1c7');}
+  function bird(x,y,s){return '<g transform="translate('+x+' '+y+') scale('+(s||1)+')">'+path('M0 0Q5 -6 10 0Q15 -6 20 0','none','stroke-width="1.6"')+'</g>';}
+  function rainline(x,y){return path('M'+x+' '+y+'l-3 11','none','stroke="#9db8b2" stroke-width="1"');}
+  function flake(x,y,r){return circle(x,y,r,'#fbfaf4');}
+  function blossom(x,y){return circle(x,y,3,'#c97683')+circle(x,y,1.2,'#f3ecd8');}
+  function base(){return sky()+hills()+ground();}
   function scene(id,p){
-    var d=data[id]; if(!d)return ''; p=Math.max(0,Math.min(1,p));var q=p*p*(3-2*p),out=base(),i,j,a,x,y;
+    var d=data[id]; if(!d)return ''; p=Math.max(0,Math.min(1,p));var q=p*p*(3-2*p),out='',i,j,a,x,y;
     switch(id){
-      case 'lichun': out+=box(-34,-24,68,48,3,7,'#b8a58a')+ellipse(180,160,8,5,accent)+sprout(180,160,8+q*61,.12+q*.55);break;
-      case 'yushui': out+=box(-40,-30,80,60,2,5,'#c8b79b')+box(-40,-30,80,60,3+q*2,1,'#a2b7a6');for(i=0;i<10;i++)out+=drop(130+(i%5)*25,54+((q*115+i*19)%105),.35);out+=box(-40,-30,80,60,-8-q*13,3,'#b4a087');break;
-      case 'jingzhe': out+=box(-44,-29,88,58,2,13,'#b8a58a');x=155+q*60;y=151-q*18;out+=ellipse(x,y,8,5,dark)+circle(x+9,y-1,4,ink);for(i=-1;i<2;i++)out+=path('M'+(x+i*5)+' '+y+'l-6 9M'+(x+i*5)+' '+y+'l-3 -8');out+=path('M115 132V68',light)+circle(115,133,7,accent)+path('M115 128V'+(120-q*48),'none','stroke-width="4"');break;
-      case 'chunfen': out+=circle(181,113,49,mid)+path('M181 64A49 49 0 0 1 181 162Z',light)+ellipse(181,113,49,15,'none')+path('M181 64V162');out+='<g transform="rotate('+(q*360)+' 181 113)">'+ellipse(181,113,17,49,'none')+'</g>';out+=sun(89,77,13);break;
-      case 'qingming': out+=path('M167 164Q177 127 161 73',shade)+path('M164 93Q196 71 224 103M169 115Q140 93 118 118');for(i=0;i<7;i++)out+=leaf(119+i*16,116-Math.sin(i/6*Math.PI)*22,.1+q*.45,i%2?20:-15);break;
-      case 'guyu': out+=box(-42,-30,84,60,1,10,'#b8a58a')+sprout(180,154,46,.65)+path('M180 155l-18 20m18-20l18 20m-18-20v27');for(i=0;i<5;i++){a=(q+i*.2)%1;out+=drop(180+Math.sin(a*6)*10,181-a*66,.28);}break;
-      case 'lixia': out+=box(-54,-34,108,68,2,6,'#adc6bf')+path('M180 159Q180 126 190 115');out+='<g transform="translate(190 115) scale('+(0.2+q*.8)+' 1)">'+ellipse(0,0,45,19,mid)+path('M-42 0H42M0 0l23-14M0 0l-26 13')+'</g>';break;
-      case 'xiaoman': out+=grain(180,165,q)+leaf(177,153,.6,-60);break;
-      case 'mangzhong': out+='<g opacity="'+(1-Math.min(1,q*2))+'" transform="translate(0 '+(-q*35)+')">'+grain(149,151,1)+'</g>'+box(0,-18,45,35,2,5,'#b8a58a');for(i=0;i<5;i++)out+=ellipse(197+i*6,118+Math.max(0,(q-.4)/.6)*42,2.5,4,accent);break;
-      case 'xiazhi': a=Math.PI*(1-q);out+=path('M95 146Q180-31 265 146')+sun(180+Math.cos(a)*85,146-Math.sin(a)*87,12)+path('M180 156V112',mid)+ellipse(180+q*12,158,15+Math.abs(q-.5)*60,4,shade);break;
-      case 'xiaoshu': out+=box(-40,-26,80,52,2,8,mid)+ellipse(180,143,44,19,'#b6d1c7')+ellipse(180,143+q*6,39,15,'#c6e1d6');for(i=0;i<7;i++){a=(q+i/7)%1;out+=circle(150+i*10,134-a*60,2,'#d2dfd6');}break;
-      case 'dashu': out+=ellipse(183+q*22,160,46,14,shade)+tree(q)+sun(101+q*110,48,13);break;
-      case 'liqiu': out+=path('M180 166V116',mid)+leaf(180,132,1.8,-12,'rgb('+Math.round(180+q*29)+','+Math.round(200-q*40)+',132)');break;
-      case 'chushu': out+=box(-42,-28,84,56,2,7,'#bda784');for(i=0;i<5;i++)out+='<g opacity="'+(1-q*.88)+'">'+path('M'+(145+i*18)+' 139q-10-13 0-24t0-24','none','stroke="'+accent+'"')+'</g>';out+=sun(104,56,15-q*5);break;
-      case 'bailu': out+=leaf(180,164,1.8,20);for(i=0;i<5;i++)out+=drop(166+i*6,117+i*7,.05+q*.42);break;
-      case 'qiufen': out+=circle(180,108,47,light)+'<g transform="rotate('+(q*35)+' 180 108)">'+path('M180 61A47 47 0 0 1 180 155Z',dark)+'</g>'+path('M130 165H230');for(i=0;i<12;i++)out+=box(-54+i*9,24,7,7,2,2,i<(6-q*2)?accent:mid);break;
-      case 'hanlu': out+=box(-44,-27,88,54,10,15,mid)+leaf(180,151,1.4,68);for(i=0;i<5;i++)out+=drop(154+i*12,124+i*2,.05+q*.35);out+=circle(111,106,8,accent)+path('M111 98V'+(61+q*27),'none','stroke-width="4"');break;
-      case 'shuangjiang': out+=box(-44,-27,88,54,5,8,mid);for(i=0;i<12;i++)out+=crystal(143+(i%4)*25,140+Math.floor(i/4)*9,Math.max(.02,q-i*.045)*.75,i*17);break;
-      case 'lidong': out+=box(-44,-29,88,58,4,17,'#b8a58a');out+='<g transform="translate(0 '+q*12+')">'+ellipse(180,151,13,8,accent)+path('M173 147Q181 142 185 154')+'</g>';for(i=0;i<3;i++)out+='<g opacity="'+(1-q*.85)+'">'+ellipse(180,153,20+i*9,9+i*4,'none')+'</g>';break;
-      case 'xiaoxue': for(i=0;i<10;i++)out+=crystal(120+(i%5)*29+Math.sin(q*5+i)*8,49+((q*91+i*13)%112),.47,i*20+q*30);break;
-      case 'daxue': for(i=0;i<4;i++)out+=box(-49,-30,98,60,3+q*(i+1)*4,2,'#edf1e9');for(i=0;i<8;i++)out+=crystal(123+(i%4)*37,49+((q*80+i*19)%96),.4,i*21);break;
-      case 'dongzhi': out+=path('M115 146Q180 72 245 146')+sun(115+q*130,146-Math.sin(q*Math.PI)*37,10)+path('M180 157V110',mid)+ellipse(180-q*23,160,64-q*13,6,shade);break;
-      case 'xiaohan': out+=box(-50,-31,100,62,2,7,'#a7c6be')+box(-50,-31,Math.max(.1,q*100),62,4,2,'#e2ece4');for(i=0;i<6;i++)if(q>i/6)out+=path('M'+(128+i*17)+' 145l8 9-5 8');break;
-      case 'dahan': out+=path('M170 165Q184 121 161 75M174 138l39-34M173 119l-35-17',shade);for(i=0;i<4;i++){x=141+i*20;y=100+(i%2)*12;out+=ellipse(x,y,3+q*3,5+q*2,accent);if(q>.55)for(j=0;j<5;j++)out+=circle(x+Math.cos(j*1.26)*q*9,y+Math.sin(j*1.26)*q*9,q*5,'#d4b5ac');}break;
+      /* 立春 · 土壤萌芽：残雪消融，嫩芽破土 */
+      case 'lichun':
+        out+=sky()+hills()+ground('#c9d6b8')+sun(90,64,11);
+        out+=ellipse(120,214,60-q*44,9,'#eef1ea')+ellipse(238,222,46-q*32,7,'#eef1ea');
+        out+=sprout(180,208,14+q*44,.14+q*.5);
+        for(i=0;i<3;i++)out+=sprout(126+i*54,222,6+q*22,.1+q*.3);
+        break;
+      /* 雨水 · 雨落水生：雨丝落塘，涟漪层开 */
+      case 'yushui':
+        out+=sky('#e6ecdf')+hills('#d3dcc6')+ground('#bcd0b4')+pond(88,17);
+        for(i=0;i<12;i++)out+=rainline(92+(i%6)*30,42+((q*150+i*23)%140));
+        for(i=0;i<3;i++)out+=ellipse(185,218,12+i*28*q,2.4+i*5*q,'none');
+        out+=sprout(112,226,10+q*20,.3)+sun(250,56,9);
+        break;
+      /* 惊蛰 · 惊雷春动：春雷响，蛰虫出 */
+      case 'jingzhe':
+        out+=sky('#e3e9dd')+hills()+ground('#c2cfae');
+        out+=ellipse(150,66,54,16,'#aebbb2')+ellipse(205,60,44,14,'#9cae9f');
+        if(q<.5)out+=path('M176 82l-13 36 17-4-9 32 28-42-16 4z','#e3bf80');
+        out+=ellipse(214,210,14,6,'#b8a58a');
+        out+='<g transform="translate(198 '+(214-q*11)+') rotate('+(-q*44)+')">'+ellipse(0,0,9,4,dark)+circle(10,-1,3.4,ink)+'</g>';
+        out+=sprout(138,224,8+q*18,.25);
+        break;
+      /* 春分 · 玄鸟至：花开满树，燕子归来 */
+      case 'chunfen':
+        out+=sky('#eef3e8')+hills()+ground('#c9d6b8')+sun(88,60,10);
+        out+=path('M180 210Q182 178 176 152','none','stroke="'+shade+'" stroke-width="2.6"')+path('M177 168l22-12M178 158l-20-9','none','stroke="'+shade+'" stroke-width="1.6"');
+        out+=ellipse(163,142,24,17,mid)+ellipse(197,138,26,18,mid)+ellipse(180,126,30,18,mid)+ellipse(168,120,16,12,light);
+        for(i=0;i<10;i++)out+=circle(150+(i%5)*16,120+Math.floor(i/5)*16,1.4+q*1.7,'#e8aeb9');
+        out+=bird(84+q*140,72+Math.sin(q*6)*8,1)+bird(62+q*140,88+Math.sin(q*6+2)*8,.75);
+        break;
+      /* 清明 · 烟雨柳垂：细雨柳丝摇 */
+      case 'qingming':
+        out+=sky('#e3e9dd')+hills('#ccd6c2')+ground('#b9ccb0')+ellipse(205,224,52,9,'#b6d1c7');
+        out+=path('M172 212Q176 158 168 116','none','stroke="'+shade+'" stroke-width="2.6"');
+        out+=path('M168 118Q146 112 130 118M168 118Q192 108 212 116M168 118Q180 102 196 100','none','stroke="'+shade+'" stroke-width="1.5"');
+        var strands=[[136,120],[156,116],[176,112],[196,110],[210,118]];
+        for(i=0;i<strands.length;i++){var sw=Math.sin(q*8+i*1.9)*7;out+=path('M'+strands[i][0]+' '+strands[i][1]+'C'+(strands[i][0]-3+sw*.3)+' '+(strands[i][1]+24)+','+(strands[i][0]-6+sw*.7)+' '+(strands[i][1]+46)+','+(strands[i][0]-8+sw)+' '+(strands[i][1]+66),'none','stroke="'+dark+'" stroke-width="1.2"');}
+        for(i=0;i<10;i++)out+=rainline(88+(i%5)*34,44+((q*136+i*17)%128));
+        break;
+      /* 谷雨 · 雨生百谷：水田插新秧 */
+      case 'guyu':
+        out+=sky()+hills('#d6ddc8')+path('M60 214Q150 200 300 210V240H60Z','#a9c9c0');
+        for(i=0;i<9;i++)out+=sprout(84+i*26,220+(i%3)*6,4+q*20,.16+q*.3);
+        for(i=0;i<8;i++)out+=rainline(100+(i%4)*40,36+((q*128+i*21)%112));
+        break;
+      /* 立夏 · 蛙鸣荷叶展 */
+      case 'lixia':
+        out+=sky('#eaf1e2')+hills('#d6dfc9')+ground('#c3d4b5')+pond(94,18);
+        out+='<g transform="translate(158 210) scale('+(0.25+q*.75)+')">'+ellipse(0,0,34,13,mid)+path('M-30 0H30M0 0l20-11M0 0l-22 10')+'</g>';
+        if(q>.5)out+='<g transform="translate(216 204)">'+ellipse(0,0,9,6,mid)+circle(6,-7,4,mid)+circle(7,-8,1.4,ink)+circle(4,-9,1.4,ink)+'</g>';
+        out+=bird(112+q*100,88+Math.sin(q*8)*6,.8)+sun(252,54,10);
+        break;
+      /* 小满 · 麦粒渐满 */
+      case 'xiaoman':
+        out+=sky()+hills('#d9dfc4')+ground('#c2cfa8')+sun(90,60,10);
+        for(i=0;i<7;i++){var gx=103+i*26,gy=224-(i%2)*7;out+=grain(gx,gy,.25+q*.75)+leaf(gx-4,gy-40,.5,-60);}
+        break;
+      /* 芒种 · 收麦插秧 */
+      case 'mangzhong':
+        out+=sky()+hills('#d9dfc4')+ground('#c2cfa8');
+        for(i=0;i<5;i++)out+=path('M'+(92+i*16)+' 218v-15','none')+'<circle cx="'+(92+i*16)+'" cy="203" r="1.4" fill="'+accent+'"/>';
+        out+=path('M168 216Q230 206 300 214V240H168Z','#a9c9c0');
+        for(i=0;i<5;i++)if(q>.12+i*.16)out+=sprout(194+i*22,224+(i%2)*5,10,.3);
+        break;
+      /* 夏至 · 日轨至高 */
+      case 'xiazhi':
+        out+=sky('#e9f0e0')+hills()+ground('#c6d4b2');
+        out+=path('M80 168Q180 30 280 168','none','stroke="#c9b98a" stroke-dasharray="4 5" stroke-width="1.2"');
+        a=Math.PI*(1-q);out+=sun(180+Math.cos(a)*100,168-Math.sin(a)*118,13);
+        out+=pond(62,12)+leaf(222,212,.9,-10);
+        break;
+      /* 小暑 · 蝉鸣枝头 */
+      case 'xiaoshu':
+        out+=sky('#ecf1e2')+hills('#d9e1cb')+ground('#c6d2b4')+sun(244,58,12);
+        out+=path('M118 212V152','none','stroke="'+shade+'" stroke-width="2.6"')+ellipse(112,140,34,21,mid)+ellipse(134,132,24,16,mid)+ellipse(104,132,16,12,light);
+        out+=path('M134 132l18 -10','none','stroke="'+shade+'" stroke-width="1.8"');
+        if(q>.3){out+='<g transform="translate(152 122) rotate(-18)"><ellipse rx="2.6" ry="5" fill="'+ink+'"/><ellipse rx="4.6" ry="1.8" transform="translate(-2 -3) rotate(-40)" fill="'+mid+'" stroke="none"/><ellipse rx="4.6" ry="1.8" transform="translate(1 -3) rotate(30)" fill="'+mid+'" stroke="none"/></g>';}
+        for(i=0;i<3;i++)out+='<g opacity="'+(Math.max(0,.7-q)*1)+'"><path d="M162 112a'+(12+i*8)+' '+(12+i*8)+' 0 0 1 '+(12+i*8)+' -'+(12+i*8)+'" fill="none" stroke="'+ink+'" stroke-width="1"/></g>';
+        out+=pond(58,11);
+        break;
+      /* 大暑 · 骄阳荷开 */
+      case 'dashu':
+        out+=sky('#ecf1df')+hills('#dbe2c9')+ground('#bdd1ac')+sun(96,56,14);
+        out+=ellipse(180,222,112,20,'#b6d1c7');
+        out+=ellipse(128,214,26,10,mid)+ellipse(248,216,22,9,shade);
+        out+='<g transform="translate(184 '+(216-q*7)+') scale('+(.3+q*.7)+')">'+ellipse(0,-7,3.6,9,'#e8aeb9')+'<g transform="rotate(62)">'+ellipse(0,0,3.6,9,'#e8aeb9')+'</g><g transform="rotate(-62)">'+ellipse(0,0,3.6,9,'#e8aeb9')+'</g></g>';
+        out+=ellipse(214,222,30,11,mid);
+        break;
+      /* 立秋 · 一叶知秋：叶变色而落 */
+      case 'liqiu':
+        out+=sky()+hills('#d9dfc5')+ground('#c6cfa6');
+        out+=path('M60 96Q130 84 176 104','none','stroke="'+shade+'" stroke-width="2"');
+        var lcol='rgb('+Math.round(120+q*90)+','+Math.round(170-q*60)+','+Math.round(90-q*40)+')';
+        if(q<.5)out+=leaf(168,106,1.2,-30,lcol);
+        else out+='<g transform="translate('+(168+(q-.5)*90)+' '+(106+(q-.5)*(q-.5)*300)+') rotate('+(q*160)+')"><g>'+path('M0 0C-24-5-24-24 0-36C22-22 24-6 0 0Z',lcol)+'</g></g>';
+        out+=sun(250,58,10);
+        break;
+      /* 处暑 · 暑气渐敛 */
+      case 'chushu':
+        out+=sky()+hills('#d9ddc4')+ground('#c4cba6')+sun(92,58,15-q*8);
+        for(i=0;i<4;i++)out+='<g opacity="'+(Math.max(0,1-q*.9))+'">'+path('M'+(148+i*26)+' 150q-8-10 0-20t0-20','none','stroke="'+accent+'"')+'</g>';
+        for(i=0;i<5;i++)out+=sprout(116+i*30,228,6+q*16,.2);
+        break;
+      /* 白露 · 露凝而白 */
+      case 'bailu':
+        out+=sky('#e9efe2')+hills('#d4ddc6')+ground('#c3d1b2');
+        out+='<ellipse cx="180" cy="196" rx="120" ry="26" fill="#eef2ea" opacity=".55"/>';
+        out+=leaf(180,204,1.6,15);
+        for(i=0;i<5;i++)out+=circle(165+i*8,182+i*5,1+q*3.2,'#dce9e6');
+        out+=sun(88,62,9);
+        break;
+      /* 秋分 · 稻熟月圆 */
+      case 'qiufen':
+        out+=sky('#eef0e2')+hills('#dcd8bd')+ground('#d2c489')+circle(242,72+(1-q)*26,26,'#f3ecd8');
+        for(i=0;i<8;i++)out+=grain(88+i*28,228-(i%2)*8,.2+q*.8);
+        break;
+      /* 寒露 · 鸿雁南飞 */
+      case 'hanlu':
+        out+=sky('#e9ede0')+hills('#d8dcc0')+ground('#c1c9a2');
+        for(i=0;i<5;i++)out+=bird(64+q*182+i*19-(i%2)*9,62+i*13+(i%2)*7,.9-i*.1);
+        out+=circle(228,216,7,accent);
+        for(i=0;i<6;i++){a=i*Math.PI/3;out+=ellipse(228+Math.cos(a)*9,216+Math.sin(a)*9,4,2.4,accent);}
+        for(i=0;i<4;i++)out+=circle(112+i*14,212+(i%2)*6,1.6+q*2,'#dce9e6');
+        break;
+      /* 霜降 · 霜华遍野 */
+      case 'shuangjiang':
+        out+=sky('#e8ebe0')+hills('#d5d8c2')+ground('#c3c6ab');
+        out+=leaf(150,200,1.3,10)+leaf(212,208,1.1,-20);
+        for(i=0;i<12;i++)out+=crystal(120+(i%4)*45,182+Math.floor(i/4)*17,Math.max(.02,q-i*.05)*.7,i*23);
+        for(i=0;i<3;i++)out+=leaf(84+i*96,76+i*15,.8,i*40-20,'rgb(200,120,80)');
+        break;
+      /* 立冬 · 水始冰：冰缘自岸向心合拢 */
+      case 'lidong':
+        out+=sky('#e8ece2')+hills('#cfd4c2')+ground('#c6c9b2');
+        out+=ellipse(185,218,96,18,'#b6d1c7');
+        out+='<ellipse cx="185" cy="218" rx="'+(10+q*84)+'" ry="'+(2.4+q*15)+'" fill="#e3ebe8" opacity=".92"/>';
+        for(i=0;i<4;i++)out+=path('M'+(96+i*11)+' 216q4 -20 '+(Math.sin(q*7+i)*4)+' -32','none','stroke="'+dark+'" stroke-width="1.2"')+'<ellipse cx="'+(97+i*11+Math.sin(q*7+i)*4)+'" cy="'+(184)+'" rx="2.4" ry="5" fill="'+accent+'"/>';
+        break;
+      /* 小雪 · 雪片初霁 */
+      case 'xiaoxue':
+        out+=sky('#e7ebe4')+hills('#d3d7c8');
+        out+=path('M60 212Q150 203 300 210V240H60Z','#eef0ea');
+        for(i=0;i<12;i++)out+=flake(88+(i%6)*34+Math.sin(q*6+i)*7,40+((q*160+i*29)%168),1.4+(i%2)*.7);
+        out+=path('M60 96Q130 84 182 106','none','stroke="'+shade+'" stroke-width="2"');
+        break;
+      /* 大雪 · 积雪封枝 */
+      case 'daxue':
+        out+=sky('#e4e9e2')+hills('#cfd4c6');
+        out+=path('M60 210Q150 198 300 206V240H60Z','#e9ebe2');
+        out+=path('M120 212V150','none','stroke="'+shade+'" stroke-width="2.8"');
+        out+=ellipse(120,138,42,25,'#9fb39a')+ellipse(104,130,18,13,'#b3c2ab')+ellipse(138,132,20,14,'#b3c2ab');
+        out+='<ellipse cx="120" cy="118" rx="'+(20+q*26)+'" ry="'+(5+q*7)+'" fill="#f2f3ec"/>';
+        for(i=0;i<14;i++)out+=flake(84+(i%7)*32+Math.sin(q*5+i)*8,40+((q*164+i*27)%160),1.4+(i%2)*.8);
+        break;
+      /* 冬至 · 日轨至低：短日雪原，梅含苞 */
+      case 'dongzhi':
+        out+=sky('#e6e9e0')+hills('#ced3c5');
+        out+=path('M60 214Q150 202 300 210V240H60Z','#eef0ea');
+        out+=path('M80 176Q180 120 280 176','none','stroke="#c9b98a" stroke-dasharray="4 5" stroke-width="1.2"');
+        a=Math.PI*(1-q);out+=sun(180+Math.cos(a)*100,176-Math.sin(a)*54,11);
+        out+=path('M212 214Q208 176 226 150M216 186l24-16M214 170l-22-14','none','stroke="'+shade+'" stroke-width="2"');
+        if(q>.45)for(i=0;i<4;i++)out+=blossom(230+i*7,168-i*7);
+        break;
+      /* 小寒 · 江河封冻 */
+      case 'xiaohan':
+        out+=sky('#e6eae1')+hills('#ccd2c4')+ground('#d2d5c8');
+        out+=path('M60 222Q150 210 300 218V240H60Z','#b6d1c7');
+        out+='<path d="M60 222Q150 210 300 218V240H60Z" fill="#dfe8e6" opacity="'+(q*.95)+'"/>';
+        for(i=0;i<4;i++)if(q>.5+i*.12)out+=path('M'+(108+i*42)+' 226l11 8-6 9','none','stroke="#aebbb2" stroke-width="1.2"');
+        for(i=0;i<10;i++)out+=flake(90+(i%5)*40+Math.sin(q*5+i)*8,44+((q*130+i*23)%120),1.3+(i%2)*.6);
+        break;
+      /* 大寒 · 寒梅怒放 */
+      case 'dahan':
+        out+=sky('#e5e9e1')+hills('#cdd2c6');
+        out+=path('M60 214Q150 202 300 210V240H60Z','#f0f1ea');
+        out+=path('M124 218Q152 152 202 120M166 148l32-20M148 172l-30-12M180 132l20 6','none','stroke="'+shade+'" stroke-width="2"');
+        var pts=[[198,122],[196,150],[136,160],[158,152],[212,140],[150,180]];
+        for(i=0;i<Math.round(q*6);i++)out+=blossom(pts[i][0],pts[i][1]);
+        break;
     }
     return out;
   }
   function render(id,p,icon){var d=data[id];return d?'<svg class="seasonal-svg'+(icon?' seasonal-icon':'')+'" viewBox="60 25 240 215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+esc(d.name+'：'+d.theme+'示意')+'">'+scene(id,p)+'</svg>':'';}
   function wellness(term,compact){var d=data[typeof term==='string'?term:term.id];if(!d)return '';return '<section class="seasonal-wellness"><h3>顺时食养</h3><p><b>传统食养观念</b> '+esc(d.traditional)+'</p><p><b>现代饮食建议</b> '+esc(d.modern)+'</p>'+(compact?'':'<p><b>日常起居</b> '+esc(d.routine)+'</p>')+'<small>一般科普，不能代替诊疗；食材选择先遵守你的过敏与饮食限制，不自行使用药材。</small></section>';}
-  function card(term){var d=data[typeof term==='string'?term:term.id];if(!d)return '';return '<section class="seasonal-card" data-seasonal="'+d.id+'"><div class="seasonal-heading"><span>节气观察室 · 8 秒图解</span><h3>'+esc(d.theme)+'</h3></div><div class="seasonal-stage" data-seasonal-stage>'+render(d.id,.7)+'</div><div class="seasonal-controls"><button type="button" data-seasonal-toggle aria-pressed="false">播放</button><button type="button" data-seasonal-replay>重播</button><output data-seasonal-readout>静态示意 · 8 秒</output></div><label class="seasonal-scrubber">观察进度<input type="range" min="0" max="100" value="70" aria-label="图解时间进度" data-seasonal-progress></label><p class="seasonal-caption">'+esc(d.explanation)+'</p><p class="seasonal-note">定性示意 · 时间经过压缩 · 代表意象并非各地同步实况</p><div class="seasonal-copy"><h3>天文与时令</h3><p><b>太阳黄经 '+d.longitude+'°</b> · '+esc(d.meaning)+'</p><p>每隔黄经15°为一个节气；实际交节以当年时刻为准，公历日期范围只是参考。</p><p><b>气候与地域</b> '+esc(d.climate)+'</p><h3>常见误解</h3><p>'+esc(d.misconception)+'</p></div>'+wellness(term,false)+'<details class="seasonal-sources"><summary>资料来源与审核范围</summary><p>'+esc(d.review)+'</p><p>地域食俗、三候与诗词沿用原条目，仅作待核验文化资料；未将它们纳入已核对范围。</p><ul>'+d.sources.map(function(s){return '<li><a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.title)+'</a><small>'+esc(s.scope)+'</small></li>';}).join('')+'</ul><p>资料整理：2026-11-02。未进行医学专家审核。</p></details></section>';}
+  function card(term){var d=data[typeof term==='string'?term:term.id];if(!d)return '';
+    var vm=videoMeta[d.id];
+    var stageHtml=vm
+      ?'<video class="seasonal-video" data-seasonal-video src="'+vm.src+'?v=20261110.6" muted loop playsinline preload="metadata" aria-label="'+esc(vm.alt)+'"></video>'
+      :render(d.id,.7);
+    var ctrlHtml=vm
+      ?'<button type="button" data-seasonal-toggle aria-pressed="false">播放</button><button type="button" data-seasonal-replay>重播</button><output data-seasonal-readout>实拍自然 · 10 秒循环 · 静音</output>'
+      :'<button type="button" data-seasonal-toggle aria-pressed="false">播放</button><button type="button" data-seasonal-replay>重播</button><output data-seasonal-readout>静态示意 · 8 秒</output>';
+    return '<section class="seasonal-card" data-seasonal="'+d.id+'"><div class="seasonal-heading"><span>节气观察室 · '+(vm?'实拍自然':'8 秒图解')+'</span><h3>'+esc(d.theme)+'</h3></div><div class="seasonal-stage" data-seasonal-stage>'+stageHtml+'</div><div class="seasonal-controls">'+ctrlHtml+'</div>'+(vm?'':'<label class="seasonal-scrubber">观察进度<input type="range" min="0" max="100" value="70" aria-label="图解时间进度" data-seasonal-progress></label>')+'<p class="seasonal-caption">'+esc(d.explanation)+'</p><p class="seasonal-note">'+(vm?'实拍素材经加速与剪辑 · 各地物候不同步 · 图片与视频仅供意象参考':'定性示意 · 时间经过压缩 · 代表意象并非各地同步实况')+'</p><div class="seasonal-copy"><h3>天文与时令</h3><p><b>太阳黄经 '+d.longitude+'°</b> · '+esc(d.meaning)+'</p><p>每隔黄经15°为一个节气；实际交节以当年时刻为准，公历日期范围只是参考。</p><p><b>气候与地域</b> '+esc(d.climate)+'</p><h3>常见误解</h3><p>'+esc(d.misconception)+'</p></div>'+wellness(term,false)+'</section>';}
   var cleanups=[];
   function dispose(){cleanups.splice(0).forEach(function(fn){fn();});}
   function mount(root){
@@ -125,7 +326,24 @@
     root.querySelectorAll('[data-seasonal]').forEach(function(el){
       var id=el.dataset.seasonal,stage=el.querySelector('[data-seasonal-stage]'),toggle=el.querySelector('[data-seasonal-toggle]'),replay=el.querySelector('[data-seasonal-replay]'),slider=el.querySelector('[data-seasonal-progress]'),output=el.querySelector('[data-seasonal-readout]');
       if(!data[id]||!stage)return;
+      var vid=el.querySelector('[data-seasonal-video]');
       var media=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):{matches:false},playing=false,visible=true,frame=0,elapsed=0,last=0,dead=false;
+      if(vid){
+        function vlabel(){toggle.textContent=vid.paused?'播放':'暂停';toggle.setAttribute('aria-pressed',String(!vid.paused));}
+        function vgo(){var p=vid.play();if(p&&p.catch)p.catch(function(){});}
+        function vauto(){if(dead)return;if(!media.matches&&visible&&!document.hidden){if(vid.paused)vgo();}else{if(!vid.paused)vid.pause();}}
+        function vplay(){if(vid.paused)vgo();else vid.pause();}
+        function vreplay(){try{vid.currentTime=0;}catch(e){}vgo();}
+        toggle.addEventListener('click',vplay);replay.addEventListener('click',vreplay);
+        vid.addEventListener('play',vlabel);vid.addEventListener('pause',vlabel);
+        document.addEventListener('visibilitychange',vauto);
+        if(media.addEventListener)media.addEventListener('change',vauto);
+        var vobs=window.IntersectionObserver?new window.IntersectionObserver(function(entries){entries.forEach(function(e){if(e.target===el)visible=e.isIntersecting;});vauto();},{threshold:.05}):null;
+        if(vobs)vobs.observe(el);
+        vlabel();vauto();
+        cleanups.push(function(){dead=true;if(!vid.paused)vid.pause();if(vobs)vobs.disconnect();toggle.removeEventListener('click',vplay);replay.removeEventListener('click',vreplay);document.removeEventListener('visibilitychange',vauto);if(media.removeEventListener)media.removeEventListener('change',vauto);});
+        return;
+      }
       function paint(){stage.innerHTML=render(id,elapsed/8000);slider.value=Math.round(elapsed/80);output.textContent=(elapsed/1000).toFixed(1)+' / 8 秒 · 示意';}
       function cancel(){if(frame)window.cancelAnimationFrame(frame);frame=0;last=0;}
       function label(){toggle.textContent=playing?'暂停':'播放';toggle.setAttribute('aria-pressed',String(playing));}

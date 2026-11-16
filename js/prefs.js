@@ -29,9 +29,61 @@
     { id: '20', label: '≤20 分钟' }, { id: '40', label: '≤40 分钟' }, { id: '60', label: '≤60 分钟' }
   ];
 
+  /* ============ 20 题偏好问卷（4 组 × 5 题） ============
+     每组一屏；impact:true 表示该题真的进算法，false/缺省=只做画像。
+     不假装有用：画像题在界面上明确标注，答辩时不虚。 */
+  P.QUIZ_GROUPS = [
+    {
+      id: 'profile', num: '01', title: '关于你', icon: '🧑',
+      lead: '先知道你是谁，推荐才谈得上懂你',
+      items: [
+        { id: 'ageBand', icon: '🎂', q: '你的年龄段', opts: [['u18', '18 岁以下'], ['18-22', '18–22 岁'], ['23-26', '23–26 岁'], ['27-35', '27–35 岁'], ['o35', '35 岁以上']] },
+        { id: 'identity', icon: '🎓', q: '你现在的身份', opts: [['student', '在校学生'], ['worker', '上班族'], ['freelance', '自由职业'], ['other', '其他']] },
+        { id: 'rhythm', icon: '⏰', q: '你的三餐规律', opts: [['three', '三餐规律'], ['two', '两餐为主'], ['night', '常吃夜宵'], ['random', '时间不定']] },
+        { id: 'cookFreq', icon: '🍳', q: '一周自己做几次饭', opts: [['daily', '几乎每天'], ['often', '每周 3–5 次'], ['rare', '偶尔'], ['never', '几乎不做']] },
+        { id: 'dineWith', icon: '👥', q: '通常和谁一起吃', opts: [['alone', '一个人'], ['roomie', '室友或同学'], ['family', '家人'], ['outside', '经常在外']] }
+      ]
+    },
+    {
+      id: 'taste', num: '02', title: '口味', icon: '🌶',
+      lead: '辣、咸、甜三项会直接改变推荐顺序',
+      items: [
+        { id: 'spicy', icon: '🌶', q: '你能吃多辣', impact: true, opts: [[0, '不吃辣'], [1, '微辣'], [2, '中辣'], [3, '重辣']] },
+        { id: 'salt', icon: '🧂', q: '口味咸淡', impact: true, opts: [[0, '清淡'], [1, '适中'], [2, '偏咸']] },
+        { id: 'sweet', icon: '🍬', q: '甜度接受度', impact: true, opts: [[0, '少甜'], [1, '适中'], [2, '嗜甜']] },
+        { id: 'texture', icon: '🥢', q: '你偏爱的口感', opts: [['soft', '软糯'], ['crisp', '爽脆'], ['chewy', '有嚼劲'], ['any', '不挑']] },
+        { id: 'method', icon: '🔥', q: '喜欢的做法', opts: [['steam', '蒸煮'], ['stir', '快炒'], ['stew', '炖煲'], ['cold', '凉拌'], ['any', '都可以']] }
+      ]
+    },
+    {
+      id: 'allergen', num: '03', title: '过敏与忌口', icon: '⚠️',
+      lead: '勾选即硬限制：命中的菜不会出现在推荐与 AI 回答里',
+      items: [
+        { id: 'allergens', icon: '⚠️', q: '已知的食物过敏（可多选）', multi: true, impact: true, opts: P.ALLERGEN_OPTIONS.map(function (o) { return [o.id, o.label]; }) },
+        { id: 'allergenOther', icon: '❓', q: '还有没列出来的过敏吗', opts: [['no', '没有'], ['yes', '有，稍后补充']] },
+        { id: 'intolerance', icon: '🥛', q: '有食物不耐受吗', opts: [['none', '没有'], ['lactose', '乳糖不耐'], ['gluten', '麸质敏感'], ['unsure', '不确定']] },
+        { id: 'severity', icon: '🏥', q: '误食后的反应程度', opts: [['mild', '轻微不适'], ['clear', '明显不适'], ['severe', '严重，需就医'], ['unsure', '不确定']] },
+        { id: 'taboo', icon: '🚫', q: '除过敏之外的忌口', opts: [['none', '没有'], ['beef', '不吃牛肉'], ['lamb', '不吃羊肉'], ['pork', '不吃猪肉'], ['organ', '不吃内脏'], ['veg', '素食']] }
+      ]
+    },
+    {
+      id: 'scene', num: '04', title: '吃饭场景', icon: '📍',
+      lead: '在哪吃、有多少时间，决定给你什么建议',
+      items: [
+        { id: 'scene', icon: '📍', q: '主要在哪吃饭', impact: true, opts: [['canteen', '食堂'], ['takeout', '外卖'], ['cook', '自己做']] },
+        { id: 'maxTime', icon: '⏱', q: '能接受的做饭时间', impact: true, opts: [[20, '≤20 分钟'], [40, '≤40 分钟'], [60, '≤60 分钟']] },
+        { id: 'budget', icon: '💰', q: '每餐预算', opts: [['b10', '10 元以内'], ['b20', '10–20 元'], ['b35', '20–35 元'], ['b35p', '35 元以上']] },
+        { id: 'partySize', icon: '🍽', q: '通常几个人吃', opts: [[1, '一个人'], [2, '两个人'], [4, '3–4 人'], [6, '5 人以上']] },
+        { id: 'priority', icon: '❤️', q: '选餐时最看重', opts: [['fast', '快'], ['cheap', '省'], ['healthy', '健康'], ['tasty', '好吃'], ['pretty', '好看']] }
+      ]
+    }
+  ];
+
+  P.QUIZ_TOTAL = P.QUIZ_GROUPS.reduce(function (n, g) { return n + g.items.length; }, 0);
+
   P.DEFAULT = function () {
     return {
-      v: 1,
+      v: 2,
       provided: false,          // 是否填写过偏好（false=跳过=未提供）
       allergens: [],            // 具体过敏 id 列表（硬限制）
       allergenNone: false,      // 暂无已知过敏
@@ -40,6 +92,7 @@
       spicy: null, salt: null, sweet: null,  // 0..3 / 0..2 / 0..2
       scene: null,              // canteen | takeout | cook
       maxTime: null,            // 分钟
+      quiz: {},                 // 20 题原始答案（画像）
       updatedAt: null,
       source: null              // onboard | settings
     };
@@ -47,12 +100,16 @@
 
   P.get = function () {
     var saved = JQ.STORE.get(JQ.STORE.KEYS.PREFS, null);
-    if (!saved || saved.v !== 1) { return P.DEFAULT(); }
+    if (!saved || (saved.v !== 1 && saved.v !== 2)) { return P.DEFAULT(); }
+    if (!saved.quiz) { saved.quiz = {}; }
     return saved;
   };
 
-  /* 保存失败时如实提示 */
+  /* 保存失败时如实提示；设置页只编辑旧字段，这里保住问诊画像不被覆盖 */
   P.save = function (prefs) {
+    var old = P.get();
+    if (!prefs.quiz && old && old.quiz) { prefs.quiz = old.quiz; }
+    if (!prefs.v) { prefs.v = 2; }
     prefs.updatedAt = Date.now();
     var ok = JQ.STORE.set(JQ.STORE.KEYS.PREFS, prefs);
     if (!ok) { JQ.toast('偏好保存失败：浏览器存储不可用或已满', 'err'); }

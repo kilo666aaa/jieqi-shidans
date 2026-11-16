@@ -25,6 +25,45 @@
      个人密钥（设置页填写）优先于团队代理。 */
   AI.TEAM_PROXY_URL = '';
 
+  /* ★ 云服务免密钥接入（默认通道）：密钥保存在 WorkBuddy 云服务端，前端只带 publishableKey。
+     开通云服务后由控制台返回的 publicConfig 填写；填好即全体访问者打开即已接通，
+     个人密钥（设置页填写）优先于云端通道。 */
+  AI.CLOUD = {
+    endpoint: 'https://jieqi-shidan-36422.app.workbuddy.host',
+    oauthRelayBaseUrl: 'https://www.workbuddy.cn/v2/as/genie-baas/oauth',
+    publishableKey: 'wbpk_DZb3umeEI4P8uHYhbp3wIa_jAneCcwR8KD43vuqxidWGtvKbeTkOB2h'
+  };
+
+  var cloudClient = null;
+  var cloudModelId = '';
+
+  /* 云客户端（懒初始化，SDK 未加载时返回 null） */
+  AI.cloud = function () {
+    if (!AI.CLOUD || !AI.CLOUD.endpoint) { return null; }
+    var W = window.WorkBuddyCloud;
+    if (!W || !W.createWorkBuddyCloud) { return null; }
+    if (!cloudClient) {
+      cloudClient = W.createWorkBuddyCloud({
+        endpoint: AI.CLOUD.endpoint,
+        oauthRelayBaseUrl: AI.CLOUD.oauthRelayBaseUrl,
+        publishableKey: AI.CLOUD.publishableKey
+      });
+    }
+    return cloudClient;
+  };
+
+  /* 取云端可用模型（缓存首个可选模型） */
+  AI.cloudModel = function () {
+    var c = AI.cloud();
+    if (!c) { return Promise.resolve(''); }
+    if (cloudModelId) { return Promise.resolve(cloudModelId); }
+    return c.llm.models.list().then(function (list) {
+      var pick = (list || []).filter(function (m) { return m.disabled !== true; })[0];
+      cloudModelId = pick ? pick.id : '';
+      return cloudModelId;
+    }).catch(function () { return ''; });
+  };
+
   var lastCallTs = 0;
 
   AI.cfg = function () {
@@ -42,10 +81,11 @@
     if (!ok) { JQ.toast('AI 配置保存失败：本机存储不可用', 'err'); }
     return ok;
   };
-  /* 接入状态：personal=个人密钥（本机）/ team=团队代理（全体已接通）/ none=未接通 */
+  /* 接入状态：personal=个人密钥（本机）/ cloud=云服务免密钥 / team=团队代理 / none=未接通 */
   AI.status = function () {
     var c = AI.cfg();
     if (c.apiKey) { return { ready: true, mode: 'personal', cfg: c }; }
+    if (AI.cloud()) { return { ready: true, mode: 'cloud', cfg: c }; }
     if (AI.TEAM_PROXY_URL) { return { ready: true, mode: 'team', cfg: c }; }
     return { ready: false, mode: 'none', cfg: c };
   };
@@ -99,7 +139,7 @@
       '你是「节气食单」的节气食养助手，围绕二十四节气的时令饮食、食材替换、家常做法与食俗文化回答问题。文化锚点：《论语·乡党》「不时，不食」。',
       '回答结构：先给【建议】，再给【原因】，最后给【可执行做法或替代方案】。语言简洁，适合手机阅读。',
       '严格边界：',
-      '1) 只能引用对话上下文中实际提供的节气与菜谱知识，不得编造民俗出处、诗句或文献；不确定就明说「待核验」。',
+      '1) 只能引用对话上下文中实际提供的节气与菜谱知识，不得编造民俗出处、诗句或文献；不确定就明确说明该说法依据不足，不得使用「待核验」「演示数据」等字样。',
       '2) 用户的过敏硬限制绝对不可违反：推荐任何菜或食材替换时，必须完全排除用户过敏列表中的食物及含其成分的菜品。',
       '3) 涉及治疗、疾病、用药、孕妇婴幼儿等特殊人群时：说明本服务不提供医疗建议，建议咨询医生或注册营养师，不作任何疗效承诺，不推荐具体药物。',
       '4) 传统食俗、中医食养理论与现代营养信息分开表述，不得把民俗说成功效（如「吃 X 治 Y」），不通过简短问答判定中医体质、不进行辨证开方或推荐药膳处方。',
@@ -162,7 +202,8 @@
       setTimeout(function () { handlers.onDone(err); }, 0);
     }
     var useTeam = !cfg.apiKey && !!AI.TEAM_PROXY_URL;
-    if (!cfg.apiKey && !AI.TEAM_PROXY_URL) {
+    var useCloud = !cfg.apiKey && !!AI.cloud();
+    if (!cfg.apiKey && !useCloud && !AI.TEAM_PROXY_URL) {
       failNow({ ok: false, error: 'unconfigured' });
       return null;
     }
@@ -180,6 +221,11 @@
       return null;
     }
     lastCallTs = now;
+
+    /* ---- 云端免密钥通道（SDK 流式） ---- */
+    if (useCloud) {
+      return AI._askCloud(question, handlers);
+    }
 
     var ctrl = new AbortController();
     var timedOut = false;
@@ -262,7 +308,72 @@
     return ctrl;
   };
 
-  /* 连接测试（设置页用）：优先测个人密钥，其次测团队代理 */
+  /* ---------- 云端免密钥通道（流式） ----------
+     与个人密钥通道返回同样的 {onDelta, onDone} 契约与错误类型 */
+  AI._askCloud = function (question, handlers) {
+    var ctrl = new AbortController();
+    var timedOut = false;
+    var timer = setTimeout(function () { timedOut = true; ctrl.abort(); }, AI.TIMEOUT);
+    var full = '';
+
+    (async function () {
+      try {
+        var model = await AI.cloudModel();
+        if (!model) {
+          clearTimeout(timer);
+          handlers.onDone({ ok: false, error: 'http', status: 0, message: '云端暂无可用模型' });
+          return;
+        }
+        var stream = AI.cloud().llm.chat.completions.create({
+          model: model,
+          messages: AI.messagesFor(question),
+          stream: true,
+          stream_options: { include_usage: true },
+          temperature: 0.6,
+          signal: ctrl.signal
+        });
+        for await (var chunk of stream) {
+          var choice = chunk && chunk.choices && chunk.choices[0];
+          var delta = choice && choice.delta;
+          if (delta && delta.content) {
+            full += delta.content;
+            if (handlers.onDelta) { handlers.onDelta(full); }
+          }
+        }
+        clearTimeout(timer);
+        if (!full || !full.trim()) {
+          handlers.onDone({ ok: false, error: 'empty' });
+          return;
+        }
+        var medical = AI.isMedical(question) || AI.isMedical(full);
+        var v = AI.validate(full);
+        handlers.onDone({ ok: true, text: full, medical: medical, conflicts: v.conflicts });
+      } catch (err) {
+        clearTimeout(timer);
+        if (ctrl.signal.aborted) {
+          handlers.onDone({ ok: false, error: timedOut ? 'timeout' : 'abort' });
+          return;
+        }
+        var code = (err && err.error && err.error.code) || '';
+        if (code.indexOf('quota_') === 0) {
+          handlers.onDone({ ok: false, error: 'rate' });
+          return;
+        }
+        if (code.indexOf('auth_') === 0) {
+          handlers.onDone({ ok: false, error: 'http', status: 403, message: '云端未授权（来源校验失败）' });
+          return;
+        }
+        handlers.onDone({
+          ok: false, error: 'network',
+          message: (err && err.message) ? String(err.message).slice(0, 160) : '云端调用失败'
+        });
+      }
+    })();
+
+    return ctrl;
+  };
+
+  /* 连接测试（设置页用）：优先测个人密钥，其次测云端免密钥，最后测团队代理 */
   AI.test = function () {
     var cfg = AI.cfg();
     if (cfg.apiKey) {
@@ -273,6 +384,14 @@
         return { ok: false, message: '服务返回 ' + r.status + '（密钥无效或无权限）' };
       }).catch(function (e) {
         return { ok: false, message: '网络失败：' + (e && e.message ? e.message : '无法连接') };
+      });
+    }
+    if (AI.cloud()) {
+      return AI.cloudModel().then(function (m) {
+        if (m) { return { ok: true, mode: 'cloud', model: m }; }
+        return { ok: false, message: '云端服务已连通，但暂无可用模型' };
+      }).catch(function (e) {
+        return { ok: false, message: '云端服务无法连接：' + (e && e.message ? e.message : '') };
       });
     }
     if (AI.TEAM_PROXY_URL) {

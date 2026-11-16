@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPhone 16 预览壳 · 节气食单</title>
+<style>
+  :root{ --paper:#F1EEE7; --ink:#1D1B1C; --ink2:#57534B; --line:rgba(29,27,28,.14); }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+    display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 16px 40px}
+  h1{font-size:14px;font-weight:500;letter-spacing:.12em;margin:0 0 14px;color:var(--ink2)}
+  .bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+  .bar button{font-size:12px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);
+    background:#fff;color:var(--ink);cursor:pointer;letter-spacing:.04em}
+  .bar button:hover{border-color:#3F7D5A;color:#3F7D5A}
+  .phone{position:relative;width:415px;height:874px;background:#0d0d0f;border-radius:56px;padding:11px;
+    box-shadow:0 24px 60px rgba(29,27,28,.28)}
+  .phone .screen{position:relative;width:393px;height:852px;border-radius:46px;overflow:hidden;background:#F8F4ED}
+  .phone .screen iframe{width:393px;height:852px;border:0;display:block}
+  /* 灵动岛 */
+  .phone .island{position:absolute;left:50%;top:23px;transform:translateX(-50%);width:118px;height:34px;
+    border-radius:20px;background:#0d0d0f;z-index:9;pointer-events:none}
+  .note{margin-top:16px;font-size:11.5px;color:var(--ink2);letter-spacing:.05em;line-height:1.8;text-align:center}
+</style>
+</head>
+<body>
+<h1>节气食单 · iPhone 16 预览壳（393 × 852）</h1>
+<div class="bar">
+  <button data-h="#/home">今日食单</button>
+  <button data-h="#/term">节气百科</button>
+  <button data-h="#/ask">AI 问答</button>
+  <button data-h="#/me">我的</button>
+  <button data-h="#/me/prefs">偏好</button>
+  <button data-h="#/me/favs">收藏</button>
+  <button data-h="#/me/auth">登录</button>
+  <button data-h="#reload-splash">重播启动页</button>
+</div>
+<div class="phone">
+  <div class="screen">
+    <iframe id="app" src="../../index.html" title="节气食单"></iframe>
+    <div class="island"></div>
+  </div>
+</div>
+<p class="note">所有界面统一在此壳内验收：393 × 852 逻辑像素，圆角裁切与灵动岛遮挡一目了然。<br>
+截图导出用无头浏览器直接访问 index.html 加对应参数。</p>
+<script>
+  var f = document.getElementById('app');
+  document.querySelectorAll('.bar button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var h = b.getAttribute('data-h');
+      if (h === '#reload-splash') { f.src = '../../index.html?splash=1&t=' + Date.now(); return; }
+      f.src = '../../index.html?splash=0' + h;
+    });
+  });
+</script>
+</body>
+</html>

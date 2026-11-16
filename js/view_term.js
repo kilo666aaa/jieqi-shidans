@@ -62,31 +62,20 @@
       grid += '</div>';
     });
 
-    view.innerHTML = JQ.HEADER('节气百科', '') +
+    view.innerHTML = JQ.HEADER('节气百科', JQ.hdrTools('term-search', 'term-gear')) +
+      JQ.SEARCH.html() +
       '<div class="wrap">' +
       (cur.ok
-        ? '<div class="notice-green">📍 当前节气：<b>' + JQ.esc(cur.term.name) + '</b>（' + JQ.fmtMD(cur.onset) + ' 交节 · 来源：' + JQ.esc(cur.source) + '）</div>'
+        ? '<div class="notice-green">📍 当前节气：<b>' + JQ.esc(cur.term.name) + '</b>（' + JQ.fmtMD(cur.onset) + ' 交节）</div>'
         : '<div class="notice-amber">📍 ' + JQ.esc(cur.reason || '当前年份交节数据不可用。') + '</div>') +
 
-      '<div class="card axis-wrap" data-reveal>' +
-      '<div class="kicker-h" style="text-align:center">节气轮 · 周天三百六十度</div>' +
-      '<div class="axis">' +
-      '<svg viewBox="0 0 400 400" aria-label="二十四节气环形时间轴">' + ringSVG(curId) + '</svg>' +
-      '<div class="axis-mid">' + mid + '</div>' +
-      '</div>' +
-      '<div class="small muted" style="text-align:center;margin-top:4px">点任一节点进入详解 · 八节为大站</div>' +
-      '</div>' +
-
       '<div class="card" data-reveal>' + grid + '</div>' +
-
-      '<div class="notice-amber" data-reveal><span class="badge badge-demo">演示数据</span> 百科内容为演示版（物候与古籍引文整理自《月令七十二候集解》，待核验）；交节时刻 2026 年引自香港天文台，2027–2029 年引自历表整理（待核验）。</div>' +
       '</div>';
 
-    /* 圆盘节点点击 */
-    JQ.$$('.axis .node').forEach(function (g) {
-      g.addEventListener('click', function () {
-        location.hash = '#/term/' + g.getAttribute('data-tid');
-      });
+    /* 顶栏：节气搜索 + 设置（与首页右上角同位） */
+    JQ.SEARCH.bind(JQ.$('#term-search'));
+    JQ.$('#term-gear').addEventListener('click', function () {
+      location.hash = '#/me/settings';
     });
   };
 
@@ -111,10 +100,14 @@
     });
 
     var isFav = JQ.FAV.isFav('term', t.id);
+    /* 相邻节气（环绕：冬至→立春） */
+    var tIdx = t.seq - 1;
+    var prevT = JQ.DATA.TERMS[(tIdx + 23) % 24];
+    var nextT = JQ.DATA.TERMS[(tIdx + 1) % 24];
     var hou = t.hou.map(function (h, i) {
       var ex = t.houEx ? t.houEx[i] : '';
       return '<div class="hou-row"><div class="hou-i">' + ['初', '二', '三'][i] + '</div>' +
-        '<div style="align-self:center;min-width:0"><div class="serif" style="font-size:16px;letter-spacing:.06em">' + JQ.esc(h) + '</div>' +
+        '<div style="align-self:center;min-width:0"><div class="serif" style="font-size:16.5px;letter-spacing:.06em">' + JQ.esc(h) + '</div>' +
         (ex ? '<div class="small muted">' + JQ.esc(ex) + '</div>' : '') + '</div></div>';
     }).join('');
 
@@ -131,25 +124,24 @@
       '<div class="moongate" style="width:min(56vw,210px)"><svg viewBox="0 0 400 400" role="img" aria-label="' + JQ.esc(t.name) + '意象">' + JQ.moongateSVG(t) + '</svg></div>' +
       '<span class="hero-mark">' + JQ.marksSVG(t) + '</span>' +
       '<div class="hero-kicker">第' + CN[t.seq - 1] + '气 · ' + JQ.esc(t.season) + '季</div>' +
-      '<h2 class="hero-name" style="font-size:46px">' + JQ.esc(t.name) + '</h2>' +
+      '<h2 class="hero-name" style="font-size:48px">' + JQ.esc(t.name) + '</h2>' +
       '<div class="hero-poem">' + JQ.esc(t.e || '') + '</div>' +
       '</div>' +
 
-      '<div class="card" data-reveal><h2>节气释义 <span class="badge badge-demo">待核验</span></h2>' +
-      (t.mean ? '<div style="font-size:14px;line-height:1.95">' + JQ.esc(t.mean) + '</div>' : '<div class="muted small">整理中</div>') +
+      '<div class="card" data-reveal><h2>节气释义</h2>' +
+      (t.mean ? '<div style="font-size:15px;line-height:1.95">' + JQ.esc(t.mean) + '</div>' : '<div class="muted small">整理中</div>') +
       (t.klass ? '<hr class="divider"><div class="klass-quote">' + JQ.esc(t.klass) + '</div>' : '') +
       '</div>' +
 
       '<div class="card" data-reveal><h2>物候三候</h2>' + hou +
-      '<div class="small muted" style="margin-top:6px">整理自《月令七十二候集解》（演示数据 · 待核验）</div></div>' +
+      '<div class="small muted" style="margin-top:6px">整理自《月令七十二候集解》</div></div>' +
 
       (JQ.SEASONAL ? JQ.SEASONAL.card(t) : '') +
-      (JQ.ECLIPTIC ? JQ.ECLIPTIC.card(t) : '') +
 
       '<div class="card" data-reveal><div class="zone-title">传统民俗</div>' +
-      '<div style="font-size:14px;line-height:1.9">' + JQ.esc(t.food) + '</div>' +
+      '<div style="font-size:15px;line-height:1.9">' + JQ.esc(t.food) + '</div>' +
       '<div class="zone-title">宜食方向</div>' +
-      '<div style="font-size:14px;line-height:1.9">' + JQ.esc(t.yi) + '</div>' +
+      '<div style="font-size:15px;line-height:1.9">' + JQ.esc(t.yi) + '</div>' +
       (t.poem
         ? '<div class="zone-title">诗词</div><div class="poem">' + JQ.esc(t.poem.text) +
         '<div class="small muted" style="margin-top:4px;letter-spacing:.1em">—— ' + JQ.esc(t.poem.from) + '</div></div>'
@@ -157,7 +149,7 @@
       '</div>' +
 
       '<div class="card" data-reveal><div class="zone-title warm">现代营养视角（与民俗分区）</div>' +
-      '<div style="font-size:14px;line-height:1.9">' + JQ.esc(t.nutrition) + '</div>' +
+      '<div style="font-size:15px;line-height:1.9">' + JQ.esc(t.nutrition) + '</div>' +
       (t.ju ? '<hr class="divider"><div class="small" style="color:var(--ink2)"><b>起居参考：</b>' + JQ.esc(t.ju) + '</div>' : '') +
       '<div class="small muted" style="margin-top:6px">以上为一般性提示，不构成医疗建议，不作疗效承诺。</div></div>' +
 
@@ -168,6 +160,13 @@
 
       '</div>' +
       '<button class="btn btn-primary btn-block" id="go-menu">🥣 查看「' + JQ.esc(t.name) + '」食单</button>' +
+      '<div class="term-nav" data-reveal aria-label="相邻节气导航">' +
+      '<a class="tn-item" href="#/term/' + prevT.id + '"><span class="tn-arrow" aria-hidden="true">←</span>' +
+      '<span><small>上一气</small><b>' + JQ.esc(prevT.name) + '</b></span></a>' +
+      '<a class="tn-center" href="#/term" aria-label="回节气环形盘">环</a>' +
+      '<a class="tn-item r" href="#/term/' + nextT.id + '"><span class="tn-arrow" aria-hidden="true">→</span>' +
+      '<span><small>下一气</small><b>' + JQ.esc(nextT.name) + '</b></span></a>' +
+      '</div>' +
       '<div style="height:12px"></div>' +
       '</div>';
 
@@ -185,7 +184,6 @@
 
     /* 重绘后重新激活滚动显现（收藏操作会触发整页重绘） */
     if (JQ.SEASONAL && JQ.SEASONAL.mount) { JQ.SEASONAL.mount(view); }
-    if (JQ.ECLIPTIC && JQ.ECLIPTIC.mount) { JQ.ECLIPTIC.mount(view); }
     if (JQ.ROUTER && JQ.ROUTER.observeReveals) { JQ.ROUTER.observeReveals(); }
   };
 })();

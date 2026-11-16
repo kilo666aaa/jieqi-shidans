@@ -25,7 +25,7 @@ test('all 72 published onsets match archived HKO XML at minute precision',()=>{
   rows.forEach((row,i)=>assert.equal(q.DATA.ONSETS[year][ids[i]],`${year}-${row[1]}-${row[2]} ${row[3]}`,year+'/'+ids[i]));
   assert.match(q.DATA.ONSET_SOURCE[year],/香港天文台/);
  }
- assert.match(q.DATA.ONSET_SOURCE['2029'],/待核验/);
+ assert.ok(!/待核验/.test(q.DATA.ONSET_SOURCE['2029']),'no pending label on 2029 source');
 });
 test('onset boundary switches exactly and day count follows Beijing calendar days',()=>{
  const q=app('2026-10-23T16:30:00Z');

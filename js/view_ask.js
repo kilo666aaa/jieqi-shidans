@@ -9,6 +9,17 @@
   var sending = false;
   var ctrl = null;      // AbortController
   var lastQ = '';       // 供重试
+  var emptyBoxHtml = ''; // 空状态占位（问候+推荐），由 VIEWS.ask 注入，renderMessages 读取
+
+  /* 图标（SVG 线性） */
+  var ICON_SEND = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>';
+  var ICON_STOP = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2.5"/></svg>';
+  var ICON_SMILE = '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 14s1.2 1.8 3.5 1.8S15.5 14 15.5 14"/><path d="M9 9.6h.01M15 9.6h.01" stroke-width="2.4"/></svg>';
+  var ICON_WARN = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 2.8 19.5h18.4L12 3.5z"/><path d="M12 10v4.2"/><path d="M12 17h.01"/></svg>';
+
+  var EMOJIS = ['😊', '😄', '😋', '🤤', '😍', '🥰', '😌', '🤗',
+    '🙂', '😆', '🤔', '😯', '😴', '😎', '🥳', '👍',
+    '🙏', '❤️', '🔥', '🎉', '🍜', '🥣', '🍵', '🍂'];
 
   function msgHtml(m, idx) {
     if (m.role === 'user') {
@@ -71,7 +82,9 @@
   function renderMessages() {
     var box = JQ.$('#chat-box');
     if (!box) { return; }
-    box.innerHTML = JQ.CHAT.messages.map(msgHtml).join('');
+    box.innerHTML = JQ.CHAT.messages.length
+      ? JQ.CHAT.messages.map(msgHtml).join('')
+      : emptyBoxHtml;
     box.scrollTop = box.scrollHeight;
   }
 
@@ -81,7 +94,6 @@
     var disp = JQ.SOLAR.displayTerm();
 
     var ctxChips = '';
-    if (disp.term) { ctxChips += '<span class="ctx-chip">🌤️ ' + JQ.esc(disp.term.name) + (disp.browsing ? '（浏览中）' : '（当前）') + '</span>'; }
     if (JQ.CHAT.contextRecipe) {
       var r = JQ.DATA.recipeById(JQ.CHAT.contextRecipe);
       if (r) { ctxChips += '<span class="ctx-chip" id="ctx-recipe">🍲 ' + JQ.esc(r.name) + ' ✕</span>'; }
@@ -94,41 +106,49 @@
       '对某种食材过敏，帮我看看替代方案'
     ] : ['今天适合吃什么？', '讲讲节气食俗'];
 
-    view.innerHTML =
-      JQ.HEADER('AI 食养问答', '') +
-      (st.ready
-        ? (st.mode === 'team'
-          ? '<div class="ai-status-banner ready" style="margin:12px 16px 0">🔌 已接通：' + JQ.esc(st.cfg.model) + '（DeepSeek · 团队服务，无需自配密钥）</div>'
-          : '<div class="ai-status-banner ready" style="margin:12px 16px 0">🔌 已接通：' + JQ.esc(st.cfg.model) + '（DeepSeek）· 密钥仅存本机</div>')
-        : '<div class="ai-status-banner unconfigured" style="margin:12px 16px 0">🔌 AI 服务未接通——未配置 API Key。食单与百科不受影响。<a href="#/me/settings"><b>去设置 →</b></a></div>') +
-      '<div style="padding:8px 16px 0">' + ctxChips + '</div>' +
-      '<div class="quick-chips">' + quicks.map(function (q) {
-        return '<button class="chip" data-quick="' + JQ.esc(q) + '">' + JQ.esc(q) + '</button>';
+    /* 空状态：居中问候 + 纵排推荐（存入模块级变量，renderMessages 统一渲染） */
+    emptyBoxHtml =
+      '<div class="ask-empty">' +
+      '<div class="ask-hero"><div class="ask-h1">AI 食养问答</div><div class="ask-sub">我可以帮到你的</div></div>' +
+      '<div class="rec-title">为你推荐</div>' +
+      '<div class="rec-list">' + quicks.map(function (q) {
+        return '<button class="rec-chip" data-quick="' + JQ.esc(q) + '">' + JQ.esc(q) + '</button>';
       }).join('') + '</div>' +
+      '</div>';
+
+    view.innerHTML =
+      JQ.HEADER('', JQ.hdrTools('ask-search', 'ask-gear')) +
+      JQ.SEARCH.html() +
+      (st.ready ? '' : '<div class="ai-status-banner unconfigured" style="margin:12px 16px 0">🔌 AI 服务未接通——未配置 API Key。食单与百科不受影响。<a href="#/me/settings"><b>去设置 →</b></a></div>') +
+      (ctxChips ? '<div style="padding:8px 16px 0">' + ctxChips + '</div>' : '') +
       '<div class="chat-area" id="chat-area">' +
-      '<div id="chat-box">' +
-      (JQ.CHAT.messages.length ? '' :
-        '<div class="state-box"><div class="big">💬</div><div>围绕节气食养、食材替换、做法与食俗文化提问<br>回答会结合当前节气与你的偏好（不发送身份信息）</div></div>') +
-      '</div>' +
+      '<div id="chat-box"></div>' +
       '</div>' +
       '<div class="ask-inputbar">' +
-      '<div class="row">' +
-      '<textarea id="ask-input" rows="1" maxlength="' + JQ.AI.MAX_INPUT + '" placeholder="问点什么…（' + JQ.AI.MAX_INPUT + ' 字内）" aria-label="输入问题"></textarea>' +
-      '<button class="send" id="send-btn" aria-label="发送">➤</button>' +
+      '<div class="emoji-panel" id="emoji-panel" hidden>' +
+      EMOJIS.map(function (em) { return '<button type="button" data-emoji="' + em + '">' + em + '</button>'; }).join('') +
       '</div>' +
-      '<div class="disclaim">回答为时令饮食文化参考，不构成医疗建议；民俗不作疗效承诺。聊天记录仅存本页，刷新后丢失（收藏的答案会保存到本机）。</div>' +
+      '<div class="row">' +
+      '<button class="warn-btn" id="warn-btn" aria-label="完整免责声明">' + ICON_WARN + '</button>' +
+      '<textarea id="ask-input" rows="1" maxlength="' + JQ.AI.MAX_INPUT + '" placeholder="问点什么…" aria-label="输入问题"></textarea>' +
+      '<button class="emoji-btn" id="emoji-btn" aria-label="插入表情">' + ICON_SMILE + '</button>' +
+      '<button class="send" id="send-btn" aria-label="发送">' + ICON_SEND + '</button>' +
+      '</div>' +
       '</div>';
 
     renderMessages();
 
     var input = JQ.$('#ask-input');
     var sendBtn = JQ.$('#send-btn');
+    var emojiBtn = JQ.$('#emoji-btn');
+    var emojiPanel = JQ.$('#emoji-panel');
 
     function setSending(on) {
       sending = on;
-      sendBtn.textContent = on ? '■' : '➤';
+      sendBtn.innerHTML = on ? ICON_STOP : ICON_SEND;
       sendBtn.setAttribute('aria-label', on ? '停止生成' : '发送');
       input.disabled = on;
+      if (on && emojiPanel) { emojiPanel.hidden = true; }
     }
 
     function doAsk(q) {
@@ -204,6 +224,31 @@
       }
     });
 
+    /* 顶栏：节气搜索 + 设置（与首页右上角同位） */
+    JQ.SEARCH.bind(JQ.$('#ask-search'));
+    JQ.$('#ask-gear').addEventListener('click', function () {
+      location.hash = '#/me/settings';
+    });
+
+    /* 表情面板：点笑脸展开，点表情插入到光标处 */
+    if (emojiBtn && emojiPanel) {
+      emojiBtn.addEventListener('click', function () {
+        emojiPanel.hidden = !emojiPanel.hidden;
+      });
+      emojiPanel.addEventListener('click', function (e) {
+        var t = e.target.closest ? e.target.closest('[data-emoji]') : null;
+        if (!t) { return; }
+        var em = t.getAttribute('data-emoji');
+        var s = input.selectionStart, epos = input.selectionEnd;
+        if (s == null) { s = epos = input.value.length; }
+        input.value = input.value.slice(0, s) + em + input.value.slice(epos);
+        input.focus();
+        var pos = s + em.length;
+        try { input.setSelectionRange(pos, pos); } catch (err) { /* ignored */ }
+        emojiPanel.hidden = true;
+      });
+    }
+
     /* 快捷气泡 / 重试 / 收藏 / 复制（事件委托） */
     view.addEventListener('click', function (e) {
       var t = e.target.closest ? e.target.closest('[data-quick],[data-retry],[data-fav],[data-copy]') : null;
@@ -233,6 +278,15 @@
         var m2 = JQ.CHAT.messages[+t.getAttribute('data-copy')];
         if (m2) { JQ.copyText(m2.text); }
       }
+    });
+
+    /* 警示按钮：完整免责声明 */
+    JQ.$('#warn-btn').addEventListener('click', function () {
+      JQ.modal({
+        title: '使用须知',
+        body: '<div class="small" style="color:var(--ink2);line-height:2">回答为时令饮食文化参考，<b>不构成医疗建议</b>；民俗内容不作疗效承诺。<br>聊天记录仅存本页，刷新后丢失（收藏的答案会保存到本机）。</div>',
+        actions: [{ label: '知道了', cls: 'btn-primary' }]
+      });
     });
 
     /* 移除菜谱上下文 */

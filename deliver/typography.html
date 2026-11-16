@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>节气食单 · 字体规范</title>
+<link rel="stylesheet" href="../css/font-serif.css">
+<style>
+  :root{
+    --paper:#FFFFFF;--card:#FFFFFF;--ink:#1D1B1C;--ink2:#57534B;--ink3:#867E76;
+    --line:rgba(29,27,28,.12);--green:#3F7D5A;--seal:#C0392B;--gold:#D4AF37;
+  }
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",system-ui,sans-serif;padding:36px 40px}
+  h1{font-family:"Noto Serif SC",serif;font-weight:600;font-size:26px;letter-spacing:.14em;margin:0 0 6px}
+  .sub{font-size:13px;color:var(--ink3);letter-spacing:.22em;margin-bottom:28px}
+  .band{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-bottom:20px;max-width:780px}
+  .band h2{font-family:"Noto Serif SC",serif;font-weight:600;font-size:15.5px;letter-spacing:.14em;margin:0 0 16px;color:var(--ink2)}
+  .sampler{display:flex;gap:18px;align-items:baseline;flex-wrap:wrap;margin-bottom:14px}
+  .tag{font-size:12px;color:var(--ink3);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:3px 10px;letter-spacing:.1em}
+  .t-serif{font-family:"Noto Serif SC",serif;font-weight:600}
+  .t-serif-r{font-family:"Noto Serif SC",serif;font-weight:400}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{font-weight:600;color:var(--ink2);text-align:left;padding:8px 10px;border-bottom:1.5px solid var(--line);letter-spacing:.06em}
+  td{padding:9px 10px;border-bottom:1px dashed var(--line);color:var(--ink2);vertical-align:middle}
+  .swatch{display:inline-block;width:15px;height:15px;border-radius:4px;vertical-align:-2px;margin-right:7px;border:1px solid rgba(29,27,28,.14)}
+  .big-demo{font-family:"Noto Serif SC",serif;font-weight:600;font-size:52px;letter-spacing:.12em;line-height:1.15}
+  .spec{font-size:12.5px;color:var(--ink3);line-height:2}
+</style>
+</head>
+<body>
+<h1>字体规范 · Typography</h1>
+<div class="sub">标题 = 思源宋体 · 正文 = 系统黑体 · 数字 = 等宽变体</div>
+
+<div class="band">
+  <h2>标题字 · 思源宋体 SemiBold（Noto Serif SC 600，本地分发 · SIL OFL）</h2>
+  <div class="big-demo">立冬 · 水始冰</div>
+  <div class="spec">用于：节气名（32–66px）/ 页面标题（21px）/ 卡片标题（18.5–21px）/ 诗句引文。<br>特征：衬线笔锋、宽字距（0.06–0.34em），承担"书卷气"气质。</div>
+</div>
+
+<div class="band">
+  <h2>正文字 · 系统黑体（PingFang SC / HarmonyOS Sans SC / Microsoft YaHei）</h2>
+  <div style="font-size:15px;line-height:1.9;max-width:620px">宜温补驱寒：饺子、姜母鸭、涮羊肉、萝卜羊骨汤。传统冬季的开端，含收藏之意；北方降温明显，南方气象入冬通常较晚。</div>
+  <div class="spec">用于：正文、说明、表单。行高 1.7–1.95；正文 15–16.5px；辅助 13.5px；注释 12px。</div>
+</div>
+
+<div class="band">
+  <h2>特殊字 · 诗句与题字（思源宋体 Regular + 大字距）</h2>
+  <div class="t-serif-r" style="font-size:17px;letter-spacing:.34em;color:var(--seal)">今 日 节 气</div>
+  <div class="t-serif-r" style="font-size:15px;letter-spacing:.42em;color:var(--ink2);margin-top:10px">不 时不 食　·　顺 时而 餐</div>
+  <div class="spec">用于：眉题（kicker）、两侧竖排题字、印章字。字距 0.28–0.42em。</div>
+</div>
+
+<div class="band">
+  <h2>字号阶梯 · 9 档收敛</h2>
+  <table>
+    <tr><th>层级</th><th>字号</th><th>字重</th><th>字体</th><th>样张</th></tr>
+    <tr><td>节气名 / 数据大字</td><td>32–66px</td><td>600</td><td>宋体</td><td class="t-serif" style="font-size:28px">立冬</td></tr>
+    <tr><td>页面标题 H2</td><td>21px</td><td>600</td><td>宋体</td><td class="t-serif" style="font-size:21px">物候三候</td></tr>
+    <tr><td>卡片标题 H3</td><td>18.5px</td><td>600</td><td>宋体</td><td class="t-serif" style="font-size:18.5px">顺时食养</td></tr>
+    <tr><td>强调 / 小标</td><td>16.5px</td><td>400</td><td>黑体</td><td style="font-size:16.5px">今日交节 11月7日</td></tr>
+    <tr><td>正文</td><td>15px</td><td>400</td><td>黑体</td><td style="font-size:15px">宜温补驱寒，少冷饮。</td></tr>
+    <tr><td>辅助说明</td><td>13.5px</td><td>400</td><td>黑体</td><td style="font-size:13.5px;color:#867E76">定性示意 · 时间经过压缩</td></tr>
+    <tr><td>注释 / 标签</td><td>12px</td><td>400</td><td>黑体</td><td style="font-size:12px;color:#867E76">JIEQI SHIDAN</td></tr>
+  </table>
+</div>
+
+<div class="band">
+  <h2>色彩系统</h2>
+  <table>
+    <tr><th>色</th><th>值</th><th>用途</th></tr>
+    <tr><td><span class="swatch" style="background:#FFFFFF"></span>纯白</td><td>#FFFFFF</td><td>页面底色</td></tr>
+    <tr><td><span class="swatch" style="background:#1D1B1C"></span>墨色</td><td>#1D1B1C</td><td>主文字 / 主按钮</td></tr>
+    <tr><td><span class="swatch" style="background:#3F7D5A"></span>节气青</td><td>#3F7D5A</td><td>项目主色：选中态、链接、tab</td></tr>
+    <tr><td><span class="swatch" style="background:#C0392B"></span>朱砂</td><td>#C0392B</td><td>印章红：眉题、警示、红系文字</td></tr>
+    <tr><td><span class="swatch" style="background:#D4AF37"></span>鎏金</td><td>#D4AF37</td><td>描金点缀（极小面积）</td></tr>
+  </table>
+</div>
+
+<div class="band">
+  <h2>规则要点</h2>
+  <div class="spec">
+    ① 全站仅两种字族：宋体（标题/引文/数字大字）+ 黑体（正文/控件），禁止第三种字族；<br>
+    ② 宋体只用于"读起来像内容"的文字，按钮与标签一律黑体；<br>
+    ③ 数字展示用 tabular-nums 等宽变体，交节时刻与倒计时不跳动；<br>
+    ④ 思源宋体按 unicode-range 分包本地分发（204 个 woff2），首屏增量约 80KB。
+  </div>
+</div>
+</body>
+</html>

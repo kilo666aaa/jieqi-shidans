@@ -69,7 +69,12 @@
     else if (seg[0] === 'login') { tab = ''; JQ.VIEWS.login(); }
     else if (seg[0] === 'register') { tab = ''; JQ.VIEWS.register(); }
     else if (seg[0] === 'onboard') { tab = ''; JQ.VIEWS.onboard(); }
-    else { tab = 'home'; JQ.VIEWS.home(); }
+    else if (seg[0] === 'about') { tab = 'me'; JQ.VIEWS.about(); }
+    else if (seg[0] === 'disclaimer') { tab = 'me'; JQ.VIEWS.disclaimer(); }
+    else if (seg[0] === 'data') { tab = 'me'; JQ.VIEWS.data(); }
+    else if (seg[0] === 'ai') { tab = 'me'; JQ.VIEWS.aiInfo(); }
+    else if (seg[0] === 'share') { tab = 'me'; JQ.VIEWS.shareCard(); }
+    else { tab = ''; JQ.VIEWS.notFound(seg.join('/')); }
 
     setTab(tab);
     window.scrollTo(0, scrollMem[R._currentPath] || 0);

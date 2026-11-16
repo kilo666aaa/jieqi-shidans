@@ -1,0 +1,37 @@
+/* ============================================================
+   节气食单 · 线框模式（?wire=1）
+   灰阶皮肤：结构、层级、占位全部保留，色彩与照片退场。
+   用途：线框图交付（与高保真图同一套页面代码，一一对应）
+   ============================================================ */
+body.wire{
+  --paper:#FFFFFF; --paper2:#F6F6F6; --card:#FFFFFF;
+  --ink:#262626; --ink2:#4A4A4A; --ink3:#7A7A7A;
+  --line:#C9C9C9;
+  --green:#3D3D3D; --green2:#222; --green-bg:#F3F3F3;
+  --seal:#4A4A4A; --seal2:#3A3A3A; --seal-bg:#F3F3F3;
+  --gold:#8A8A8A; --gold2:#B4B4B4; --amber-bg:#F3F3F3; --amber-deep:#4A4A4A;
+  --blue-bg:#F3F3F3; --blue-line:#B0B0B0; --blue-deep:#333;
+  --red-bg:#F3F3F3; --red-line:#B8B8B8;
+  --sh:none;
+  --c1:#555; --c2:#888; --c3:#555;
+}
+/* 去纸纹噪点 */
+body.wire::after{display:none}
+/* 位图与视频：灰阶占位感 */
+body.wire img{filter:grayscale(1) contrast(.82) brightness(1.06)}
+body.wire video{filter:grayscale(1) contrast(.82) brightness(1.06)}
+/* SVG 场景（月洞门实景/观察室）整体灰阶 */
+body.wire .moongate svg{filter:grayscale(1) contrast(.85)}
+body.wire .seasonal-stage svg,
+body.wire .seasonal-video{filter:grayscale(1) contrast(.85)}
+/* 大图容器叠加对角斜线占位纹理，强调"此处为图片占位" */
+body.wire .moongate svg{opacity:.94}
+body.wire .dish-img{filter:grayscale(1) contrast(.8)}
+/* 装饰题字弱化为占位 */
+body.wire .hero-deco{opacity:.5}
+/* 线框角标（截图时可见，说明这是线框版本） */
+body.wire::before{
+  content:"WIREFRAME";position:fixed;right:0;top:44px;z-index:200;
+  font:600 10px/1 var(--sans);letter-spacing:.2em;color:#fff;background:#4a4a4a;
+  padding:5px 8px;border-radius:6px 0 0 6px;opacity:.85;pointer-events:none;
+}

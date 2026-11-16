@@ -71,12 +71,27 @@
       '<div class="avatar" aria-hidden="true">' + (s ? JQ.esc(s.nickname.slice(0, 1)) : '客') + '</div>' +
       '<div style="flex:1;min-width:0">' +
       (s
-        ? '<div style="font-size:17px;font-weight:700">' + JQ.esc(s.nickname) + '</div><div class="muted small">本机账号 · ' + JQ.esc(s.phone.slice(0, 3) + '****' + s.phone.slice(-4)) + '</div>'
-        : '<div style="font-size:17px;font-weight:700">访客模式</div><div class="muted small">不登录也能使用全部功能；登录仅在本机生效</div>') +
+        ? '<div style="font-size:18.5px;font-weight:700">' + JQ.esc(s.nickname) + '</div>' +
+        '<div style="margin-top:5px"><span class="me-chip">收藏 ' + favCount.recipe + '</span><span class="me-chip">打卡 ' + checkins.length + '</span></div>' +
+        '<div class="muted small" style="margin-top:4px">本机账号 · ' + JQ.esc(s.phone.slice(0, 3) + '****' + s.phone.slice(-4)) + '</div>'
+        : '<div style="font-size:18.5px;font-weight:700">访客模式</div>' +
+        '<div style="margin-top:5px"><span class="me-chip">收藏 ' + favCount.recipe + '</span><span class="me-chip">打卡 ' + checkins.length + '</span></div>' +
+        '<div class="muted small" style="margin-top:4px">不登录也可使用全部功能</div>') +
       '</div>' +
       (s
         ? '<button class="btn btn-sm btn-ghost" id="logout-btn">退出</button>'
         : '<a class="btn btn-sm btn-primary" href="#/login" style="margin-right:8px">登录</a><a class="btn btn-sm btn-ghost" href="#/register">注册</a>') +
+      '</div>' +
+
+      '<div class="me-grid">' +
+      '<a href="#/me/pref"><span class="mg-ico" aria-hidden="true">🥗</span>我的偏好</a>' +
+      '<a href="#/me/fav"><span class="mg-ico" aria-hidden="true">⭐</span>我的收藏</a>' +
+      '<a href="#/me/checkin"><span class="mg-ico" aria-hidden="true">📷</span>打卡记录</a>' +
+      '<a href="#/me/settings"><span class="mg-ico" aria-hidden="true">⚙️</span>设置</a>' +
+      '<a href="#/me/settings" data-sec="sec-ai"><span class="mg-ico" aria-hidden="true">🔌</span>AI 服务</a>' +
+      '<a href="#/me/settings" data-sec="sec-data"><span class="mg-ico" aria-hidden="true">💾</span>本机数据</a>' +
+      '<a href="#/me/settings" data-sec="sec-disclaim"><span class="mg-ico" aria-hidden="true">🧾</span>免责声明</a>' +
+      '<a href="#/me/settings" data-sec="sec-about"><span class="mg-ico" aria-hidden="true">ℹ️</span>关于</a>' +
       '</div>' +
 
       '<div class="me-list">' +
@@ -88,6 +103,10 @@
 
       '<div class="notice-amber">💾 本机保存：偏好、收藏、打卡与账号都只保存在当前浏览器，清理浏览器数据后可能丢失，且不支持跨设备同步。</div>' +
       '</div>';
+
+    JQ.$$('[data-sec]').forEach(function (a) {
+      a.addEventListener('click', function () { JQ._SEC = a.getAttribute('data-sec'); });
+    });
 
     var lo = JQ.$('#logout-btn');
     if (lo) {
@@ -285,7 +304,7 @@
         JQ.modal({
           title: JQ.esc(f.snap.title),
           body: '<div class="small muted" style="margin-bottom:8px">收藏于 ' + JQ.fmtDT(f.at) + '（内容快照）</div>' +
-            '<div style="font-size:14px;line-height:1.9;white-space:pre-wrap">' + JQ.esc(f.snap.sub || '（无快照内容）') + '</div>',
+            '<div style="font-size:15px;line-height:1.9;white-space:pre-wrap">' + JQ.esc(f.snap.sub || '（无快照内容）') + '</div>',
           actions: [
             { label: '取消收藏', cls: 'btn-danger', onClick: function () {
               var res = JQ.FAV.toggle(f.type, f.oid, f.snap);
@@ -349,10 +368,12 @@
       JQ.HEADER('设置', '', true) +
       '<div class="wrap">' +
 
-      '<div class="card"><h3>🔌 AI 服务（DeepSeek）</h3>' +
-      (JQ.AI.TEAM_PROXY_URL && !cfg.apiKey
-        ? '<div class="notice-green" style="margin-bottom:10px">✅ 当前为<b>团队共享接入</b>：AI 已接通，无需填写密钥（密钥安全地保存在团队代理服务端）。个人密钥填写后将优先生效。</div>'
-        : '<div class="small muted" style="margin-bottom:10px">API Key 只保存在你当前浏览器（本机），不会写入网页代码、不会随链接分享、不会发送给除 DeepSeek 以外的任何一方。</div>') +
+      '<div class="card" id="sec-ai"><h3>🔌 AI 服务（DeepSeek）</h3>' +
+      (JQ.AI.cloud() && !cfg.apiKey
+        ? '<div class="notice-green" style="margin-bottom:10px">✅ 当前为<b>云端免密钥接入</b>：AI 已接通，你无需填写任何密钥（密钥保存在服务端，不会出现在网页代码中）。填写个人密钥可改用你自己的额度。</div>'
+        : JQ.AI.TEAM_PROXY_URL && !cfg.apiKey
+          ? '<div class="notice-green" style="margin-bottom:10px">✅ 当前为<b>团队共享接入</b>：AI 已接通，无需填写密钥（密钥安全地保存在团队代理服务端）。个人密钥填写后将优先生效。</div>'
+          : '<div class="small muted" style="margin-bottom:10px">API Key 只保存在你当前浏览器（本机），不会写入网页代码、不会随链接分享、不会发送给除 DeepSeek 以外的任何一方。</div>') +
       '<div class="field"><label for="ai-key">API Key（可选，个人模式）</label>' +
       '<input class="input" id="ai-key" type="password" placeholder="sk-…（DeepSeek 开放平台获取）" value="' + JQ.esc(cfg.apiKey) + '" autocomplete="off">' +
       '<div class="hint">连接测试成功后，AI 问答页即可真实调用。</div></div>' +
@@ -369,24 +390,31 @@
       '<button class="btn btn-primary" style="flex:1" id="ai-save">保存配置</button>' +
       '</div></div>' +
 
-      '<div class="card"><h3>💾 本机数据</h3>' +
+      '<div class="card" id="sec-data"><h3>💾 本机数据</h3>' +
       '<div class="small" style="color:var(--ink-2);line-height:1.8">偏好、收藏、打卡、账号与 AI 配置均保存在<b>当前浏览器</b>：清理浏览器数据（或使用无痕窗口）后可能丢失；不支持跨设备同步。聊天记录只存在当前页面，刷新后消失；已收藏的 AI 答案会长期保存在本机。</div>' +
       '<button class="btn btn-danger btn-block" style="margin-top:12px" id="clear-data">🗑️ 清除本机全部数据</button></div>' +
 
-      '<div class="card"><h3>🧾 免责与说明</h3>' +
+      '<div class="card" id="sec-disclaim"><h3>🧾 免责与说明</h3>' +
       '<div class="small" style="color:var(--ink-2);line-height:1.8">' +
-      '① 本产品为课程演示项目：全部节气与菜谱内容为<b>演示数据（待核验）</b>，正式内容以人工审核为准。<br>' +
+      '① 本产品为课程演示项目：节气与菜谱内容为课程演示整理。<br>' +
       '② 传统食俗与现代营养建议分区呈现，民俗不作疗效承诺；涉及健康请咨询专业人士。<br>' +
       '③ AI 回答由大模型生成，可能存在错误，请核验后采纳；过敏硬限制之外的内容请自行判断。<br>' +
-      '④ 交节数据：2026 年引自香港天文台，2027–2029 年引自历表整理（待核验）。' +
+      '④ 交节数据：2026 年引自香港天文台，2027–2029 年引自历表整理。' +
       '</div></div>' +
 
-      '<div class="card"><h3>ℹ️ 关于</h3>' +
+      '<div class="card" id="sec-about"><h3>ℹ️ 关于</h3>' +
       '<div class="small" style="color:var(--ink-2)">节气食单 · 第一版（访客模式 + 本机账号）<br>文化锚点：《论语·乡党》不时，不食<br>技术：纯静态 H5 · Hash 路由 · DeepSeek API（用户自配密钥）</div>' +
       (s ? '<div class="small muted" style="margin-top:8px">当前登录：' + JQ.esc(s.nickname) + '（本机账号）</div>' : '') +
       '</div>' +
       '<div style="height:8px"></div>' +
       '</div>';
+
+    /* 从「我的」九宫格带定位进入：滚到对应设置区块 */
+    if (JQ._SEC) {
+      var secEl = JQ.$('#' + JQ._SEC);
+      JQ._SEC = null;
+      if (secEl) { setTimeout(function () { secEl.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 60); }
+    }
 
     JQ.$('#ai-save').addEventListener('click', function () {
       var c = {
@@ -408,7 +436,7 @@
       btn.textContent = '测试中…'; btn.disabled = true;
       JQ.AI.test().then(function (r) {
         btn.textContent = '测试连接'; btn.disabled = false;
-        if (r.ok) { JQ.toast('连接成功：AI 问答已接通 ✓（' + (r.mode === 'team' ? '团队服务' : '个人密钥') + '）', 'ok', 3200); }
+        if (r.ok) { JQ.toast('连接成功：AI 问答已接通 ✓（' + (r.mode === 'cloud' ? '云端免密钥' : r.mode === 'team' ? '团队服务' : '个人密钥') + '）', 'ok', 3200); }
         else { JQ.toast('连接失败：' + r.message, 'err', 4000); }
       });
     });

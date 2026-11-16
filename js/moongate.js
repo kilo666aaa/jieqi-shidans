@@ -8,6 +8,22 @@
   var MOUNTAIN2 = 'M0,300 L60,262 L110,292 L180,248 L245,290 L320,255 L400,300 L400,400 L0,400 Z';
   var BRANCH = 'M-10,372 C60,344 96,300 118,250 C132,216 150,196 176,182 M118,250 C136,240 158,238 176,244 M96,300 C78,286 62,272 52,254 M150,196 C158,178 172,166 188,162';
 
+  /* 节气实景图（图源 Lorem Picsum / Unsplash 授权图床，离线打包于 assets/scenery/） */
+  JQ.SCENERY = {
+    lichun: 'assets/scenery/lichun.jpg', yushui: 'assets/scenery/yushui.jpg',
+    jingzhe: 'assets/scenery/jingzhe.jpg', chunfen: 'assets/scenery/chunfen.jpg',
+    qingming: 'assets/scenery/qingming.jpg', guyu: 'assets/scenery/guyu.jpg',
+    lixia: 'assets/scenery/lixia.jpg?v=20261110.6', xiaoman: 'assets/scenery/xiaoman.jpg',
+    mangzhong: 'assets/scenery/mangzhong.jpg', xiazhi: 'assets/scenery/xiazhi.jpg',
+    xiaoshu: 'assets/scenery/xiaoshu.jpg', dashu: 'assets/scenery/dashu.jpg',
+    liqiu: 'assets/scenery/liqiu.jpg', chushu: 'assets/scenery/chushu.jpg',
+    bailu: 'assets/scenery/bailu.jpg', qiufen: 'assets/scenery/qiufen.jpg',
+    hanlu: 'assets/scenery/hanlu.jpg', shuangjiang: 'assets/scenery/shuangjiang.jpg',
+    lidong: 'assets/scenery/lidong.jpg', xiaoxue: 'assets/scenery/xiaoxue.jpg',
+    daxue: 'assets/scenery/daxue.jpg?v=20261110.6', dongzhi: 'assets/scenery/dongzhi.jpg',
+    xiaohan: 'assets/scenery/xiaohan.jpg', dahan: 'assets/scenery/dahan.jpg'
+  };
+
   function motif(mo, c) {
     var P = [];
     function blossom(x, y, r) {
@@ -91,30 +107,48 @@
     return P.join('');
   }
 
-  /* 生成月洞门 SVG 内部结构（term 需含 c/mo/s 字段；size 视觉盒 400） */
+  /* 生成月洞门 SVG 内部结构（term 需含 c/mo/s 字段；size 视觉盒 400）
+     有实景图（assets/scenery/{id}.jpg）时优先用照片，无图回退矢量山水 */
   JQ.moongateSVG = function (term) {
+    var gid = 'g' + term.id;
+    var defs =
+      '<defs>' +
+      '<clipPath id="c' + gid + '"><circle cx="200" cy="200" r="182"/></clipPath>' +
+      '<linearGradient id="s' + gid + '" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" style="stop-color:var(--paper)"/>' +
+      '<stop offset="1" style="stop-color:' + (term.c || 'var(--c1)') + '" stop-opacity=".24"/>' +
+      '</linearGradient>' +
+      '<linearGradient id="p' + gid + '" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0" style="stop-color:var(--paper)" stop-opacity=".5"/>' +
+      '<stop offset=".28" style="stop-color:var(--paper)" stop-opacity="0"/>' +
+      '<stop offset="1" style="stop-color:#1D1B1C" stop-opacity=".18"/>' +
+      '</linearGradient></defs>';
+    var ring =
+      '<circle cx="200" cy="200" r="182" fill="none" stroke="var(--line)" stroke-width="1.2"/>' +
+      '<circle cx="200" cy="200" r="190" fill="none" stroke="' + (term.c || 'var(--c1)') + '" stroke-width=".8" opacity=".35"/>';
+
+    if (JQ.SCENERY && JQ.SCENERY[term.id]) {
+      return defs +
+        '<g clip-path="url(#c' + gid + ')">' +
+        '<image href="' + JQ.SCENERY[term.id] + '" x="18" y="18" width="364" height="364" preserveAspectRatio="xMidYMid slice"/>' +
+        '<rect width="400" height="400" fill="url(#p' + gid + ')"/>' +
+        '</g>' + ring;
+    }
+
     var night = term.season === '冬' || term.mo === 'moon';
     var disc = term.mo === 'sun'
       ? '<circle cx="200" cy="132" r="42" fill="var(--c2)" opacity=".5"/>'
       : (night
         ? '<circle cx="200" cy="126" r="34" fill="var(--paper)" opacity=".92"/><circle cx="214" cy="118" r="30" fill="var(--c1)" opacity=".22"/>'
         : '<circle cx="200" cy="132" r="42" fill="var(--c2)" opacity=".42"/>');
-    var gid = 'g' + term.id;
-    return '<defs>' +
-      '<clipPath id="c' + gid + '"><circle cx="200" cy="200" r="182"/></clipPath>' +
-      '<linearGradient id="s' + gid + '" x1="0" y1="0" x2="0" y2="1">' +
-      '<stop offset="0" style="stop-color:var(--paper)"/>' +
-      '<stop offset="1" style="stop-color:' + (term.c || 'var(--c1)') + '" stop-opacity=".24"/>' +
-      '</linearGradient></defs>' +
+    return defs +
       '<g clip-path="url(#c' + gid + ')">' +
       '<rect width="400" height="400" fill="url(#s' + gid + ')"/>' + disc +
       '<path d="' + MOUNTAIN + '" fill="' + (term.c || 'var(--c1)') + '" opacity=".13"/>' +
       '<path d="' + MOUNTAIN2 + '" fill="' + (term.c || 'var(--c1)') + '" opacity=".25"/>' +
       motif(term.mo, term.c || 'var(--c1)') +
       '<path d="' + BRANCH + '" stroke="var(--ink)" stroke-width="2" fill="none" opacity=".5" stroke-linecap="round"/>' +
-      '</g>' +
-      '<circle cx="200" cy="200" r="182" fill="none" stroke="var(--line)" stroke-width="1.2"/>' +
-      '<circle cx="200" cy="200" r="190" fill="none" stroke="' + (term.c || 'var(--c1)') + '" stroke-width=".8" opacity=".35"/>';
+      '</g>' + ring;
   };
 
   /* 水墨粒子：挂在指定 canvas 上；季色取 --c2；移动端减量；隐藏时暂停；reduced-motion 不启动 */

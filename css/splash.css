@@ -1,0 +1,119 @@
+/* ============================================================
+   节气食单 · 启动过渡页（Splash）
+   基准画布 iPhone 16 · 393 × 852（逻辑像素）
+   动效 2.6s 自动退场；点击可跳过；尊重 prefers-reduced-motion
+   ============================================================ */
+.splash{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding-top:58px; /* 视觉重心下移，抵消底部定-foot 的留白差 */
+  background:var(--paper);overflow:hidden;
+  opacity:1;transition:opacity .55s var(--e2);
+  -webkit-user-select:none;user-select:none;
+}
+.splash.out{opacity:0;pointer-events:none}
+.splash.gone{display:none}
+
+/* 纸纹叠层（与 body::after 同源纹样，启动页独立一层保证质感） */
+.splash::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.24'/%3E%3C/svg%3E");
+}
+/* 顶部与底部的极淡季节光晕 */
+.splash::after{
+  content:"";position:absolute;left:50%;top:-14%;width:130%;height:52%;
+  transform:translateX(-50%);pointer-events:none;opacity:.5;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--c1) 16%,transparent),transparent);
+}
+
+/* ---------- 标志舞台 ---------- */
+.splash-stage{position:relative;width:246px;height:246px;display:flex;align-items:center;justify-content:center}
+/* 外层 24 刻度环：缓慢自转，呼应黄经每 15° 一气 */
+.splash-orbit{position:absolute;inset:0;opacity:.6;animation:spSpin 34s linear infinite}
+.splash-orbit svg{width:100%;height:100%;display:block}
+.splash-orbit line{stroke:var(--green)}
+.splash-orbit line.big{stroke:var(--c1)}
+@keyframes spSpin{to{transform:rotate(360deg)}}
+
+.splash-logo{
+  width:124px;height:124px;display:block;
+  opacity:0;transform:scale(.94);
+  animation:spLogo .95s var(--e2) .12s both;
+}
+@keyframes spLogo{to{opacity:1;transform:none}}
+/* 标志的一束呼吸光，只做一次，不循环 */
+.splash-logo::after{content:""}
+
+/* ---------- 文字层 ---------- */
+.splash-copy{position:relative;display:flex;flex-direction:column;align-items:center;margin-top:26px}
+.splash-word{
+  font-family:var(--serif);font-size:28px;line-height:1;color:var(--ink);
+  letter-spacing:.3em;text-indent:.3em;opacity:0;
+  animation:spWord 1.05s var(--e2) .5s both;
+}
+@keyframes spWord{from{opacity:0;letter-spacing:.52em;text-indent:.52em}to{opacity:1;letter-spacing:.3em;text-indent:.3em}}
+
+.splash-rule{
+  display:flex;align-items:center;gap:12px;margin-top:15px;
+  font-size:13.5px;letter-spacing:.34em;text-indent:.34em;color:var(--seal);
+  opacity:0;animation:spFade .85s var(--e2) .92s both;
+}
+.splash-rule i{display:block;width:36px;height:1px}
+.splash-rule i:first-child{background:linear-gradient(90deg,transparent,var(--gold2))}
+.splash-rule i:last-child{background:linear-gradient(90deg,var(--gold2),transparent)}
+
+.splash-sub{
+  margin:24px 0 0;font-size:15px;line-height:1.7;color:var(--ink2);
+  letter-spacing:.1em;text-indent:.1em;opacity:0;
+  animation:spFade .85s var(--e2) 1.22s both;
+}
+@keyframes spFade{to{opacity:1}}
+
+.splash-foot{
+  position:absolute;left:0;right:0;bottom:calc(40px + env(safe-area-inset-bottom));
+  text-align:center;font-size:12px;letter-spacing:.26em;text-indent:.26em;color:var(--ink3);
+  opacity:0;animation:spFade .8s var(--e2) 1.55s both;
+}
+/* 底部一条金线，作为「有来源」的克制暗示 */
+.splash-foot::before{
+  content:"";display:block;width:28px;height:1px;margin:0 auto 12px;
+  background:var(--gold2);opacity:.7;
+}
+
+/* ---------- 跳过提示（仅悬停设备显示） ---------- */
+.splash-skip{
+  position:absolute;right:14px;top:calc(12px + env(safe-area-inset-top));
+  font-size:12px;letter-spacing:.1em;color:var(--ink3);
+  padding:8px 10px;border-radius:999px;border:1px solid var(--line);
+  background:rgba(255,254,248,.6);opacity:0;
+  animation:spFade .6s var(--e2) 1.8s both;
+}
+
+.splash-rule b{font-weight:400}
+
+/* ---------- 启动页期间锁滚动 ---------- */
+html.sp-lock,body.sp-lock{overflow:hidden}
+
+/* ---------- 截图/校样定格（?splash=still：跳过动画直接呈现完成态） ---------- */
+.splash.still .splash-logo,
+.splash.still .splash-word,
+.splash.still .splash-rule,
+.splash.still .splash-sub,
+.splash.still .splash-foot,
+.splash.still .splash-skip{animation:none;opacity:1;transform:none}
+.splash.still .splash-orbit{animation:none;opacity:.6}
+
+/* ---------- 低动态 ---------- */
+@media (prefers-reduced-motion: reduce){
+  .splash-orbit{animation:none}
+  .splash-logo,.splash-word,.splash-rule,.splash-sub,.splash-foot,.splash-skip{animation:none;opacity:1;transform:none}
+  .splash.out{transition:opacity .2s linear}
+}
+
+/* ---------- 小高度机型（iPhone SE 等）压缩间距 ---------- */
+@media (max-height:700px){
+  .splash-stage{width:196px;height:196px}
+  .splash-logo{width:100px;height:100px}
+  .splash-word{font-size:28px}
+  .splash-sub{margin-top:16px}
+}

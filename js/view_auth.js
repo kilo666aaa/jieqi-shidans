@@ -17,7 +17,6 @@
     view.innerHTML =
       '<div class="auth-scene">' +
       '<button class="btn btn-sm btn-ghost auth-back" id="auth-back">‹ 返回首页</button>' +
-      '<canvas class="auth-canvas" id="auth-canvas" aria-hidden="true"></canvas>' +
       '<div class="auth-brand" id="auth-brand">' +
       (mark || '') +
       '<div class="brand-name">节气食单</div>' +
@@ -51,8 +50,6 @@
       '</div>' +
       '</div>';
 
-    /* 3D 粒子场景 */
-    if (JQ.LOGIN_SCENE && JQ.LOGIN_SCENE.mount) { JQ.LOGIN_SCENE.mount(JQ.$('#auth-canvas')); }
     /* GSAP 入场（缺席时靠 CSS 自然呈现） */
     if (window.gsap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       gsap.from('#auth-brand', { y: 26, opacity: 0, duration: .8, ease: 'power2.out' });
@@ -108,139 +105,167 @@
   JQ.VIEWS.login = function () { scene('login'); };
   JQ.VIEWS.register = function () { scene('register'); };
 
-  /* ---------- 首次偏好引导（可填写可跳过；跳过=未提供） ---------- */
+  /* ---------- 偏好问卷（20 题 · 4 组 · 每组一屏） ----------
+     题目配置在 prefs.js 的 QUIZ_GROUPS；本视图只负责渲染与收集答案。
+     impact:true 的题真进算法，画像题在界面明确标注，不假装有用。 */
   JQ.VIEWS.onboard = function () {
     var view = JQ.$('#view');
-    var step = 1;
-    var data = {
-      allergens: [], allergenNone: false, allergenUnsure: false, allergenOther: false,
-      spicy: null, salt: null, sweet: null, scene: null, maxTime: null
-    };
+    var gi = 0;
+    var ans = {};
+    /* 深链参数：#/onboard?gq=1..4 直接打开某一组（截图/回填定位用） */
+    var gm = (location.hash.match(/[?&]gq=(\d+)/) || [])[1];
+    if (gm) { gi = Math.min(JQ.PREFS.QUIZ_GROUPS.length - 1, Math.max(0, (+gm) - 1)); }
+
+    function answered() {
+      var n = 0;
+      JQ.PREFS.QUIZ_GROUPS.forEach(function (g) {
+        g.items.forEach(function (it) {
+          var v = ans[it.id];
+          var hit = it.multi ? (v && v.length) : (v !== undefined && v !== null);
+          if (hit) { n++; }
+          if (it.multi && ans.allergenNone) { n++; }
+        });
+      });
+      return n;
+    }
 
     function finish(provided) {
       var p = JQ.PREFS.DEFAULT();
+      p.v = 2;
       p.provided = provided;
       if (provided) {
-        p.allergens = data.allergens;
-        p.allergenNone = data.allergenNone;
-        p.allergenUnsure = data.allergenUnsure;
-        p.allergenOther = data.allergenOther;
-        p.spicy = data.spicy; p.salt = data.salt; p.sweet = data.sweet;
-        p.scene = data.scene; p.maxTime = data.maxTime;
+        p.quiz = ans;
+        p.allergens = (ans.allergens || []).slice();
+        p.allergenNone = !!ans.allergenNone;
+        p.allergenOther = ans.allergenOther === 'yes';
+        p.allergenUnsure = ans.severity === 'unsure' || (!p.allergens.length && !p.allergenNone);
+        p.spicy = numOrNull(ans.spicy);
+        p.salt = numOrNull(ans.salt);
+        p.sweet = numOrNull(ans.sweet);
+        p.scene = ans.scene || null;
+        p.maxTime = ans.maxTime == null ? null : +ans.maxTime;
       }
       p.source = 'onboard';
-      if (JQ.STORE.set(JQ.STORE.KEYS.PREFS, p)) {
-        JQ.toast(provided ? '偏好已保存，推荐已按你的限制过滤' : '已跳过：稍后可在「我的偏好」填写');
+      if (JQ.PREFS.save(p)) {
+        JQ.toast(provided ? '已记录 ' + answered() + ' 项 · 推荐已按你的限制过滤' : '已跳过：稍后可在「我的偏好」填写');
       } else {
-        JQ.toast('偏好保存失败：浏览器存储不可用（可稍后在「我的偏好」重试）', 'err', 4000);
+        JQ.toast('保存失败：浏览器存储不可用（可稍后在「我的偏好」重试）', 'err', 4000);
       }
       JQ.STORE.set(JQ.STORE.KEYS.ONBOARDED, true);
       location.hash = '#/home';
     }
 
-    function render() {
-      var stepsBar = '<div class="onboard-steps">' + [1, 2, 3].map(function (i) {
-        return '<i class="' + (i <= step ? 'done' : '') + '"></i>';
-      }).join('') + '</div>';
+    function numOrNull(v) { return (v === undefined || v === null) ? null : +v; }
 
-      var body = '';
-      if (step === 1) {
-        body = '<div class="card">' +
-          '<h2>你对哪些食物过敏？</h2>' +
-          '<div class="small muted" style="margin-bottom:12px">多选 · 这是<b>硬限制</b>：命中的菜品不会再出现在推荐和 AI 回答里</div>' +
-          '<div class="opt-grid" style="margin-bottom:10px">' +
-          JQ.PREFS.ALLERGEN_OPTIONS.map(function (o) {
-            return '<button class="opt' + (data.allergens.indexOf(o.id) >= 0 ? ' on' : '') + '" data-alg="' + o.id + '">' + JQ.esc(o.label) + '</button>';
-          }).join('') + '</div>' +
-          '<div class="opt-grid">' +
-          '<button class="opt' + (data.allergenNone ? ' warn-on' : '') + '" data-alg="__none">暂无已知过敏</button>' +
-          '<button class="opt' + (data.allergenUnsure ? ' warn-on' : '') + '" data-alg="__unsure">不确定</button>' +
-          '<button class="opt' + (data.allergenOther ? ' warn-on' : '') + '" data-alg="__other">其他</button></div>' +
-          '<div class="hint">「暂无已知过敏」与具体项互斥；未填写不等于无过敏。</div></div>';
-      } else if (step === 2) {
-        function cyc(g, label, opts) {
-          return '<div class="field"><label>' + label + '</label><div class="opt-grid" data-g="' + g + '">' +
-            opts.map(function (o, i) {
-              return '<button class="opt' + (data[g] === i ? ' on' : '') + '" data-val="' + i + '">' + JQ.esc(o) + '</button>';
-            }).join('') + '</div></div>';
-        }
-        body = '<div class="card"><h2>口味偏好</h2>' +
-          '<div class="small muted" style="margin-bottom:12px">软偏好：只影响排序，满足不了会向你说明</div>' +
-          cyc('spicy', '辣度', JQ.PREFS.SPICY_OPTIONS) +
-          cyc('salt', '咸淡', JQ.PREFS.SALT_OPTIONS) +
-          cyc('sweet', '甜度', JQ.PREFS.SWEET_OPTIONS) + '</div>';
-      } else {
-        body = '<div class="card"><h2>平时在哪吃饭？</h2>' +
-          '<div class="opt-grid" style="margin-bottom:16px" data-g="scene">' +
-          JQ.PREFS.SCENE_OPTIONS.map(function (o) {
-            return '<button class="opt' + (data.scene === o.id ? ' on' : '') + '" data-scene="' + o.id + '">' + JQ.esc(o.label) + '</button>';
-          }).join('') + '</div>' +
-          '<div class="field" style="margin-bottom:0"><label>自己做饭时的耗时上限（可选）</label>' +
-          '<div class="opt-grid" data-g="maxTime">' +
-          JQ.PREFS.TIME_OPTIONS.map(function (o) {
-            return '<button class="opt' + (data.maxTime === +o.id ? ' on' : '') + '" data-time="' + o.id + '">' + JQ.esc(o.label) + '</button>';
-          }).join('') + '</div></div>' +
-          '<div class="hint">食堂/外卖场景会显示选餐建议，而不是强行看教程。</div></div>';
+    function isOn(it, raw) {
+      var cur = ans[it.id];
+      if (it.multi) { return !!(cur && cur.indexOf(raw) >= 0); }
+      return cur !== undefined && cur !== null && String(cur) === String(raw);
+    }
+
+    function rawOf(it, str) {
+      for (var k = 0; k < it.opts.length; k++) {
+        if (String(it.opts[k][0]) === String(str)) { return it.opts[k][0]; }
       }
+      return str;
+    }
+
+    function tagOf(it) {
+      if (it.id === 'allergens') { return '<span class="qz-tag qz-tag-hard">硬限制</span>'; }
+      if (it.impact) { return '<span class="qz-tag qz-tag-live">影响推荐</span>'; }
+      return '<span class="qz-tag">画像</span>';
+    }
+
+    function itemHtml(it) {
+      var opts = it.opts.map(function (o) {
+        var on = isOn(it, o[0]) ? ' on' : '';
+        return '<button type="button" class="qz-opt' + on + '" data-item="' + it.id + '" data-val="' + o[0] + '">' + JQ.esc(o[1]) + '</button>';
+      }).join('');
+      if (it.multi) {
+        opts += '<button type="button" class="qz-opt qz-opt-none' + (ans.allergenNone ? ' warn-on' : '') + '" data-item="' + it.id + '" data-val="__none">暂无已知过敏</button>';
+      }
+      return '<div class="qz-item">' +
+        '<div class="qz-head"><span class="qz-icon" aria-hidden="true">' + it.icon + '</span>' +
+        '<div class="qz-qt">' + JQ.esc(it.q) + tagOf(it) + '</div></div>' +
+        '<div class="qz-opts">' + opts + '</div></div>';
+    }
+
+    function render() {
+      var G = JQ.PREFS.QUIZ_GROUPS[gi];
+      var last = gi === JQ.PREFS.QUIZ_GROUPS.length - 1;
+      var bars = JQ.PREFS.QUIZ_GROUPS.map(function (g, k) {
+        return '<i class="' + (k < gi ? 'done' : (k === gi ? 'cur' : '')) + '"></i>';
+      }).join('');
 
       view.innerHTML =
-        JQ.HEADER('首次偏好引导 <span class="badge badge-demo">约 30 秒</span>', '', false) +
-        '<div class="wrap">' + stepsBar + body +
-        '<div class="onboard-actions">' +
-        (step > 1 ? '<button class="btn btn-ghost" id="ob-prev">上一步</button>' : '') +
-        (step < 3 ? '<button class="btn btn-primary" id="ob-next">下一步</button>'
-          : '<button class="btn btn-primary" id="ob-done">完成</button>') +
+        JQ.HEADER('偏好问卷', '', false) +
+        '<div class="wrap qz-wrap">' +
+        '<div class="qz-top"><span class="qz-count">第 <b>' + (gi + 1) + '</b> / 4 组</span>' +
+        '<span class="qz-done">已答 ' + answered() + ' / ' + JQ.PREFS.QUIZ_TOTAL + '</span></div>' +
+        '<div class="qz-progress">' + bars + '</div>' +
+        '<div class="qz-hero">' +
+        '<span class="qz-hero-icon" aria-hidden="true">' + G.icon + '</span>' +
+        '<h1 class="qz-h1">' + G.title + '</h1>' +
+        '<p class="qz-lead">' + G.lead + '</p>' +
         '</div>' +
-        '<div style="text-align:center;margin-top:14px"><button class="btn btn-sm btn-ghost" id="ob-skip">跳过引导（稍后可在「我的偏好」填写）</button></div>' +
+        G.items.map(itemHtml).join('') +
+        '<div class="qz-foot">' +
+        (gi > 0 ? '<button type="button" class="btn btn-ghost qz-prev" data-act="prev">上一组</button>' : '') +
+        '<button type="button" class="btn btn-primary qz-next" data-act="' + (last ? 'done' : 'next') + '">' +
+        (last ? '完成，去看看推荐' : '下一组') + '</button>' +
+        '</div>' +
+        '<div class="qz-skipwrap"><button type="button" class="qz-skip" data-act="skip">跳过问卷（稍后可在「我的偏好」填）</button></div>' +
         '</div>';
-
-      /* 事件 */
-      var prev = JQ.$('#ob-prev');
-      if (prev) { prev.addEventListener('click', function () { step--; render(); }); }
-      var next = JQ.$('#ob-next');
-      if (next) { next.addEventListener('click', function () { step++; render(); }); }
-      var done = JQ.$('#ob-done');
-      if (done) { done.addEventListener('click', function () { finish(true); }); }
-      JQ.$('#ob-skip').addEventListener('click', function () {
-        JQ.confirm('跳过引导？', '跳过后记为「未提供」：推荐页会保留过敏核对提示，你随时可以在「我的 → 我的偏好」填写。', '跳过', function () { finish(false); });
-      });
-
-      view.addEventListener('click', function (e) {
-        var t = e.target.closest ? e.target.closest('button[data-alg],button[data-val],button[data-scene],button[data-time]') : null;
-        if (!t) { return; }
-        if (t.hasAttribute('data-alg')) {
-          var id = t.getAttribute('data-alg');
-          if (id === '__none') {
-            data.allergenNone = !data.allergenNone;
-            if (data.allergenNone) {
-              data.allergens = []; data.allergenUnsure = false; data.allergenOther = false;
-            }
-          } else if (id === '__unsure') { data.allergenUnsure = !data.allergenUnsure; }
-          else if (id === '__other') { data.allergenOther = !data.allergenOther; }
-          else {
-            var i = data.allergens.indexOf(id);
-            if (i >= 0) { data.allergens.splice(i, 1); }
-            else { data.allergens.push(id); data.allergenNone = false; }
-          }
-          render();
-          return;
-        }
-        var box = t.closest('[data-g]');
-        if (!box) { return; }
-        var g = box.getAttribute('data-g');
-        if (g === 'scene') {
-          var sc = t.getAttribute('data-scene');
-          data.scene = data.scene === sc ? null : sc;
-        } else if (g === 'maxTime') {
-          var v = +t.getAttribute('data-time');
-          data.maxTime = data.maxTime === v ? null : v;
-        } else {
-          var val = +t.getAttribute('data-val');
-          data[g] = data[g] === val ? null : val;
-        }
-        render();
-      });
     }
+
+    /* 委托一次，避免每次 render 叠加监听 */
+    view.onclick = function (e) {
+      var t = e.target.closest ? e.target.closest('[data-act],[data-item]') : null;
+      if (!t) { return; }
+      var act = t.getAttribute('data-act');
+      if (act) {
+        if (act === 'prev' && gi > 0) { gi--; render(); window.scrollTo(0, 0); }
+        else if (act === 'next') { gi++; render(); window.scrollTo(0, 0); }
+        else if (act === 'done') { finish(true); }
+        else if (act === 'skip') {
+          JQ.confirm('跳过问卷？', '跳过后记为「未提供」：过敏不会被自动过滤，你随时可以在「我的 → 我的偏好」填写。', '跳过', function () { finish(false); });
+        }
+        return;
+      }
+
+      var itemId = t.getAttribute('data-item');
+      var raw = t.getAttribute('data-val');
+      var it = null;
+      JQ.PREFS.QUIZ_GROUPS.forEach(function (g) {
+        g.items.forEach(function (x) { if (x.id === itemId) { it = x; } });
+      });
+      if (!it) { return; }
+
+      if (it.multi && raw === '__none') {
+        ans.allergenNone = !ans.allergenNone;
+        if (ans.allergenNone) { ans.allergens = []; }
+      } else if (it.multi) {
+        ans.allergenNone = false;
+        var arr = ans.allergens || (ans.allergens = []);
+        var v = raw;
+        var k = arr.indexOf(v);
+        if (k >= 0) { arr.splice(k, 1); } else { arr.push(v); }
+      } else {
+        var val = rawOf(it, raw);
+        ans[it.id] = (ans[it.id] !== undefined && ans[it.id] !== null && String(ans[it.id]) === String(val)) ? null : val;
+      }
+      /* 只重绘本题的选中态，避免整页跳动 */
+      var box = t.parentNode;
+      Array.prototype.forEach.call(box.querySelectorAll('[data-item="' + itemId + '"]'), function (b) {
+        if (b.getAttribute('data-val') === '__none') {
+          b.classList.toggle('warn-on', !!ans.allergenNone);
+        } else {
+          b.classList.toggle('on', isOn(it, b.getAttribute('data-val')));
+        }
+      });
+      var cnt = view.querySelector('.qz-done');
+      if (cnt) { cnt.textContent = '已答 ' + answered() + ' / ' + JQ.PREFS.QUIZ_TOTAL; }
+    };
 
     render();
   };

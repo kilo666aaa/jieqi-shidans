@@ -59,18 +59,18 @@
     var heroCard = heroPhoto
       ? '<div class="dish-hero">' + heroPhoto +
         '<div class="dish-hero-side">' +
-        '<h2 class="serif" style="font-size:20px;margin:2px 0 4px">' + JQ.esc(r.name) + '</h2>' +
+        '<h2 class="serif" style="font-size:21px;margin:2px 0 4px">' + JQ.esc(r.name) + '</h2>' +
         '<div class="muted small">' +
-        (term ? '<a href="#/term/' + term.id + '">' + JQ.esc(term.name) + '</a> · ' : '') +
-        '<span class="badge badge-demo">演示数据 · 待核验</span></div>' +
+        (term ? '<a href="#/term/' + term.id + '">' + JQ.esc(term.name) + '</a>' : '') +
+        '</div>' +
         '<div class="allergen-tags">' + allergenHtml + '</div>' +
         '</div></div>'
       : '<div style="text-align:center">' +
-        '<div style="font-size:52px;margin:6px 0" aria-hidden="true">' + JQ.esc(r.emoji) + '</div>' +
-        '<h2 class="serif" style="font-size:20px">' + JQ.esc(r.name) + '</h2>' +
+        '<div style="font-size:54px;margin:6px 0" aria-hidden="true">' + JQ.esc(r.emoji) + '</div>' +
+        '<h2 class="serif" style="font-size:21px">' + JQ.esc(r.name) + '</h2>' +
         '<div class="muted small">' +
-        (term ? '<a href="#/term/' + term.id + '">' + JQ.esc(term.name) + '</a> · ' : '') +
-        '<span class="badge badge-demo">演示数据 · 待核验</span></div>' +
+        (term ? '<a href="#/term/' + term.id + '">' + JQ.esc(term.name) + '</a>' : '') +
+        '</div>' +
         '<div class="allergen-tags" style="justify-content:center">' + allergenHtml + '</div>' +
         '</div>';
 
@@ -90,7 +90,7 @@
       '<div class="card"><h2>做法步骤</h2>' + stepsHtml +
       (r.equip.length ? '<div class="small muted">需要：' + JQ.esc(r.equip.join('、')) + '</div>' : '') +
       '</div>' +
-      '<div class="card"><h2>为什么推荐</h2><div style="font-size:14px;line-height:1.8">' + JQ.esc(r.reason) + '</div>' +
+      '<div class="card"><h2>为什么推荐</h2><div style="font-size:15px;line-height:1.8">' + JQ.esc(r.reason) + '</div>' +
       '<hr class="divider"><div class="small" style="color:var(--ink-2)"><b>文化出处：</b>' + JQ.esc(r.source) + '</div></div>' +
       '<div style="display:flex;gap:10px;margin:4px 0 8px">' +
       '<button class="btn btn-primary" style="flex:1" id="ask-btn">💬 问 AI 追问</button>' +

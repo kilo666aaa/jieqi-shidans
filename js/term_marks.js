@@ -25,7 +25,7 @@
     var current = opts.current
       ? '<circle cx="40" cy="40" r="37.5" fill="none" stroke="' + SEAL + '" stroke-width="1.6" opacity=".9"/>' +
         '<g transform="translate(61 61)"><rect x="-8" y="-8" width="16" height="16" rx="3" fill="' + SEAL + '"/>' +
-        '<text x="0" y="3.8" text-anchor="middle" font-size="10" fill="#F8F4ED" style="font-family:\'KaiTi\',\'STKaiti\',serif">今</text></g>'
+        '<text x="0" y="3.8" text-anchor="middle" font-size="10" fill="#FFFFFF" style="font-family:\'KaiTi\',\'STKaiti\',serif">今</text></g>'
       : '';
     return '<svg class="term-mark' + (opts.cls ? ' ' + opts.cls : '') + '" viewBox="0 0 80 80" role="img" aria-label="' +
       JQ.esc(t.name + '徽记') + '">' +

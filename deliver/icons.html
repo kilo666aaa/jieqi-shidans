@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>节气食单 · 图标规范</title>
+<link rel="stylesheet" href="../css/font-serif.css">
+<style>
+  :root{
+    --paper:#FFFFFF;--card:#FFFFFF;--ink:#1D1B1C;--ink2:#57534B;--ink3:#867E76;
+    --line:rgba(29,27,28,.12);--green:#3F7D5A;--seal:#C0392B;
+  }
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",system-ui,sans-serif;padding:36px 40px}
+  h1{font-family:"Noto Serif SC",serif;font-weight:600;font-size:26px;letter-spacing:.14em;margin:0 0 6px}
+  .sub{font-size:13px;color:var(--ink3);letter-spacing:.22em;margin-bottom:28px}
+  .band{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:20px;max-width:760px}
+  .band h2{font-family:"Noto Serif SC",serif;font-weight:600;font-size:16.5px;letter-spacing:.12em;margin:0 0 14px;color:var(--ink2)}
+  .row{display:flex;flex-wrap:wrap;gap:6px}
+  .cell{width:86px;text-align:center;padding:10px 0 8px;border-radius:12px}
+  .cell svg{width:30px;height:30px;display:block;margin:0 auto 8px}
+  .cell span{font-size:11.5px;color:var(--ink3);letter-spacing:.08em;display:block}
+  .off svg{fill:none;stroke:#57534B;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .on{background:rgba(63,125,90,.08)}
+  .on svg{fill:#3F7D5A;stroke:#3F7D5A}
+  .on .nofill{fill:none;stroke:#3F7D5A;stroke-width:2}
+  .on span{color:#3F7D5A;font-weight:600}
+  .on::after{content:"";display:block;width:16px;height:2.5px;border-radius:2px;background:#3F7D5A;margin:8px auto 0}
+  .spec{font-size:12.5px;color:var(--ink3);line-height:2}
+</style>
+</head>
+<body>
+<h1>图标规范 · Icon Set</h1>
+<div class="sub">24 × 24 · 线性 1.7px · 未选中 墨灰描边 / 选中 节气青填充 · 16 组</div>
+
+<div class="band">
+  <h2>未选中状态 · Default</h2>
+  <div class="row off" id="row-off"></div>
+</div>
+
+<div class="band">
+  <h2>选中状态 · Active（节气青填充 + 指示条）</h2>
+  <div class="row on" id="row-on"></div>
+</div>
+
+<div class="band">
+  <h2>规格说明</h2>
+  <div class="spec">
+    画布 24×24，安全边距 2px；线性图标描边统一 1.7px、圆角端点；<br>
+    选中态整图填充「节气青 #3F7D5A」并叠加底部 16×2.5px 指示条；<br>
+    底部导航、卡片操作与设置项共用同一套图标，不再单独起稿；<br>
+    源文件：assets/icons/（SVG 矢量，可编辑）
+  </div>
+</div>
+
+<script>
+var ICONS = [
+ ['首页','<path d="M4 11.2 12 4l8 7.2V20a1 1 0 0 1-1 1h-4.6v-5.4h-4.8V21H5a1 1 0 0 1-1-1z"/>'],
+ ['节气百科','<circle cx="12" cy="12" r="8.4"/><circle cx="12" cy="12" r="4.2"/><path d="M12 3.6v2M20.4 12h-2M12 20.4v-2M3.6 12h2"/>'],
+ ['AI 问答','<path d="M4 6.4A2.4 2.4 0 0 1 6.4 4h11.2A2.4 2.4 0 0 1 20 6.4v8a2.4 2.4 0 0 1-2.4 2.4H9.6L5 20.6V16.8A2.4 2.4 0 0 1 4 14.4z"/><circle class="dot" cx="9" cy="10.4" r="1.1"/><circle class="dot" cx="13" cy="10.4" r="1.1"/><circle class="dot" cx="17" cy="10.4" r="1.1"/>'],
+ ['我的','<circle cx="12" cy="8.2" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/>'],
+ ['收藏','<path d="m12 3.6 2.6 5.4 5.8.8-4.2 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.6 9.8l5.8-.8z"/>'],
+ ['搜索','<circle cx="11" cy="11" r="6.6"/><path d="m16 16 4.6 4.6"/>'],
+ ['设置','<path d="M12 15.4a3.4 3.4 0 1 0 0-6.8 3.4 3.4 0 0 0 0 6.8z"/><path d="M19.2 12c0-.4 0-.7-.1-1l1.7-1.3-1.6-2.8-2 .8c-.5-.4-1-.7-1.6-.9L15.2 5h-3.2l-.4 1.8c-.6.2-1.1.5-1.6.9l-2-.8-1.6 2.8L8.1 11c-.1.3-.1.7-.1 1s0 .7.1 1l-1.7 1.3 1.6 2.8 2-.8c.5.4 1 .7 1.6.9l.4 1.8h3.2l.4-1.8c.6-.2 1.1-.5 1.6-.9l2 .8 1.6-2.8-1.7-1.3c.1-.3.1-.7.1-1z"/>'],
+ ['分享','<path d="M12 4.4 4.8 11h3.6v6.4h7.2V11h3.6z"/><path class="nofill" d="M12 17.4v3"/>'],
+ ['打卡','<circle cx="12" cy="12" r="8.4"/><path d="m8.4 12.2 2.5 2.5 4.9-5.2"/>'],
+ ['节气历','<rect x="4.4" y="5.6" width="15.2" height="14" rx="2"/><path d="M4.4 10h15.2M8.6 3.6v3.6M15.4 3.6v3.6"/><circle class="dot" cx="12" cy="14.6" r="1.3"/>'],
+ ['时令碗','<path d="M4.6 12.4h14.8a7.4 7.4 0 0 1-14.8 0z"/><path class="nofill" d="M9.2 10.6 15.6 4M12 10.6l4.8-6"/>'],
+ ['喜欢','<path d="M12 19.6S4.4 15.2 4.4 9.8a4.2 4.2 0 0 1 7.6-2.4 4.2 4.2 0 0 1 7.6 2.4c0 5.4-7.6 9.8-7.6 9.8z"/>'],
+ ['返回','<path d="M14.5 5 8 12l6.5 7"/>'],
+ ['更多','<circle class="dot" cx="5.4" cy="12" r="1.5"/><circle class="dot" cx="12" cy="12" r="1.5"/><circle class="dot" cx="18.6" cy="12" r="1.5"/>'],
+ ['警示','<path d="M12 4.2 21 19.4H3z"/><path class="nofill" d="M12 9.6v4.4M12 16.6v.9"/>'],
+ ['编辑偏好','<path d="M4.8 19.2h4l10-10a2 2 0 0 0 0-2.8l-1.2-1.2a2 2 0 0 0-2.8 0l-10 10z"/><path class="nofill" d="m13.6 6.4 4 4"/>']
+];
+function row(el, on) {
+  el.innerHTML = ICONS.map(function (p) {
+    return '<div class="cell"><svg viewBox="0 0 24 24">' + p[1] + '</svg><span>' + p[0] + '</span></div>';
+  }).join('');
+}
+row(document.getElementById('row-off'), false);
+row(document.getElementById('row-on'), true);
+</script>
+</body>
+</html>

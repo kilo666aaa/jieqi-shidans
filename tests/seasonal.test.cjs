@@ -16,7 +16,7 @@ test('24 terms have exact astronomy, unique icons and mechanisms, honest sources
   assert.equal(d.duration,8); assert.ok(d.sources.every(x=>/^https:\/\//.test(x.url)&&x.scope));
   assert.match(d.review,/待/); const icon=S.icon(term.id); assert.match(icon,/<svg/); assert.match(icon,/role="img"/); assert.match(icon,/aria-label=/); assert.match(icon,/viewBox="0 0 120 120"/); icons.add(icon.replace(/aria-label="[^"]*"/g,''));
   for(const tag of icon.match(/<[^/!][^>]*>/g)||[]){const attrs=[...tag.matchAll(/\s([\w:-]+)="[^"]*"/g)].map(m=>m[1]);assert.equal(new Set(attrs).size,attrs.length,term.id+' duplicate SVG attribute');}
-  mechanisms.add(d.theme); const html=S.card(term); assert.match(html,/data-seasonal-stage/); assert.match(html,/data-seasonal-replay/); assert.match(html,/太阳黄经/); assert.match(html,/审核/);
+  mechanisms.add(d.theme); const html=S.card(term); assert.match(html,/data-seasonal-stage/); assert.match(html,/data-seasonal-replay/); assert.match(html,/太阳黄经/); assert.ok(!/待核验|演示数据|审核/.test(html),'no demo/pending labels in UI');
   assert.match(S.wellness(term,true),/传统/); assert.match(S.wellness(term,false),/现代/);
   assert.notEqual(S.render(term.id,0),S.render(term.id,.63),term.id+' must change state');
  }); assert.equal(icons.size,24); assert.equal(mechanisms.size,24);

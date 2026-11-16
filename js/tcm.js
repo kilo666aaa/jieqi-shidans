@@ -32,7 +32,7 @@
     xiaohan: { zang: '寒主收引', wei: '宜温养脾胃', shi: '腊八粥、腊味糯米饭、姜枣茶', dao: '三九防寒护心脑；运动待日出，微汗为度' },
     dahan: { zang: '脾肾同温', wei: '宜温润收尾，为立春清淡过渡', shi: '年糕、八宝饭、老母鸡汤', dao: '起居向立春过渡；年终忙碌勿过耗心神' }
   };
-  var NOTE = '中医食养内容为传统理论的通俗概括（演示数据 · 待核验），不构成医疗建议；不辨证、不开方、不荐药材剂量；食材取舍先遵守你的过敏与忌口设置。传统流派说法不一处已如实并存或注明。';
+  var NOTE = '中医食养内容为传统理论的通俗概括，不构成医疗建议；不辨证、不开方、不荐药材剂量；食材取舍先遵守你的过敏与忌口设置。传统流派说法不一处已如实并存或注明。';
 
   JQ.TCM = {
     NOTE: NOTE,
@@ -41,7 +41,7 @@
       var d = TCM[term.id];
       if (!d) { return ''; }
       return '<section class="card tcm-card" data-reveal>' +
-        '<h2>中医养生 <span class="badge badge-demo">传统理论 · 待核验</span></h2>' +
+        '<h2>中医养生</h2>' +
         '<div class="tcm-grid">' +
         '<div class="tcm-item"><div class="zone-title warm">五脏时令</div><div class="tcm-v">' + JQ.esc(d.zang) + '</div></div>' +
         '<div class="tcm-item"><div class="zone-title warm">五味调养</div><div class="tcm-v">' + JQ.esc(d.wei) + '</div></div>' +
