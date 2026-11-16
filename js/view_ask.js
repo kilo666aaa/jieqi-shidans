@@ -10,6 +10,21 @@
   var ctrl = null;      // AbortController
   var lastQ = '';       // 供重试
   var emptyBoxHtml = ''; // 空状态占位（问候+推荐），由 VIEWS.ask 注入，renderMessages 读取
+  var pageSession = null;
+  function disposePage() {
+    if (!pageSession) { return; }
+    var session = pageSession; session.active = false;
+    if (session.delegate) { session.view.removeEventListener('click', session.delegate); }
+    if (sending) {
+      var last = JQ.CHAT.messages[JQ.CHAT.messages.length - 1];
+      if (last && last.streaming) { JQ.CHAT.messages.pop(); JQ.CHAT.messages.push({ role: 'assistant-error', error: 'abort' }); }
+    }
+    var request = ctrl; ctrl = null; sending = false;
+    if (request && request.abort) { request.abort(); }
+    if (JQ.HEZHI) { JQ.HEZHI.dispose(); }
+    pageSession = null;
+  }
+  JQ.ASK_PAGE = { dispose: disposePage };
 
   /* 图标（SVG 线性） */
   var ICON_SEND = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>';
@@ -26,7 +41,7 @@
       return '<div class="msg user">' + JQ.esc(m.text) + '</div>';
     }
     if (m.role === 'assistant') {
-      var label = '<div class="msg-label"><span class="badge badge-green">节气食单助手</span>' +
+      var label = '<div class="msg-label"><span class="badge badge-green">禾知 · 食养助手</span>' +
         (m.streaming ? '<span class="badge badge-blue">生成中…</span>' : '') + '</div>';
       var body = JQ.esc(m.text);
       var warn = '';
@@ -86,10 +101,14 @@
       ? JQ.CHAT.messages.map(msgHtml).join('')
       : emptyBoxHtml;
     box.scrollTop = box.scrollHeight;
+    if (JQ.HEZHI) { JQ.HEZHI.setConversation(JQ.CHAT.messages.length > 0); }
   }
 
   JQ.VIEWS.ask = function () {
+    disposePage();
     var view = JQ.$('#view');
+    var session = { active: true, view: view, delegate: null };
+    pageSession = session;
     var st = JQ.AI.status();
     var disp = JQ.SOLAR.displayTerm();
 
@@ -106,21 +125,25 @@
       '对某种食材过敏，帮我看看替代方案'
     ] : ['今天适合吃什么？', '讲讲节气食俗'];
 
-    /* 空状态：居中问候 + 纵排推荐（存入模块级变量，renderMessages 统一渲染） */
+    var quickTitles = ['今天吃什么', '了解食俗', JQ.CHAT.contextRecipe && r ? '菜谱追问' : '食堂怎么选', '替代食材'];
+    var quickDescriptions = ['顺着时令安排一餐', '聊聊节气里的饮食文化', JQ.CHAT.contextRecipe && r ? '看看食材如何调整' : '用常见菜品搭配一餐', '说出需要避开的食材'];
+    var quickIcons = ['bowl', 'term', 'leaf', 'edit'];
+    /* 形象独立于消息列表，流式更新不会反复创建WebGL。 */
     emptyBoxHtml =
       '<div class="ask-empty">' +
-      '<div class="ask-hero"><div class="ask-h1">AI 食养问答</div><div class="ask-sub">我可以帮到你的</div></div>' +
-      '<div class="rec-title">为你推荐</div>' +
-      '<div class="rec-list">' + quicks.map(function (q) {
-        return '<button class="rec-chip" data-quick="' + JQ.esc(q) + '">' + JQ.esc(q) + '</button>';
+      '<div class="rec-title">从一个问题开始</div>' +
+      '<div class="rec-list">' + quicks.map(function (q, i) {
+        return '<button class="rec-chip" data-quick="' + JQ.esc(q) + '" aria-label="' + JQ.esc(q) + '">' +
+          JQ.ICONS.ui(quickIcons[i]) + '<span class="rec-chip-title">' + quickTitles[i] + '</span><small>' + quickDescriptions[i] + '</small></button>';
       }).join('') + '</div>' +
       '</div>';
 
     view.innerHTML =
-      JQ.HEADER('', JQ.hdrTools('ask-search', 'ask-gear')) +
+      JQ.HEADER('食养问答', JQ.hdrTools('ask-search', 'ask-gear')) +
       JQ.SEARCH.html() +
       (st.ready ? '' : '<div class="ai-status-banner unconfigured" style="margin:12px 16px 0">🔌 AI 服务未接通——未配置 API Key。食单与百科不受影响。<a href="#/me/settings"><b>去设置 →</b></a></div>') +
       (ctxChips ? '<div style="padding:8px 16px 0">' + ctxChips + '</div>' : '') +
+      (JQ.HEZHI ? JQ.HEZHI.html(disp.term, st.ready) : '') +
       '<div class="chat-area" id="chat-area">' +
       '<div id="chat-box"></div>' +
       '</div>' +
@@ -130,13 +153,16 @@
       '</div>' +
       '<div class="row">' +
       '<button class="warn-btn" id="warn-btn" aria-label="完整免责声明">' + ICON_WARN + '</button>' +
-      '<textarea id="ask-input" rows="1" maxlength="' + JQ.AI.MAX_INPUT + '" placeholder="问点什么…" aria-label="输入问题"></textarea>' +
+      '<textarea id="ask-input" rows="1" maxlength="' + JQ.AI.MAX_INPUT + '" placeholder="问禾知：这餐怎么吃…" aria-label="输入问题"></textarea>' +
       '<button class="emoji-btn" id="emoji-btn" aria-label="插入表情">' + ICON_SMILE + '</button>' +
       '<button class="send" id="send-btn" aria-label="发送">' + ICON_SEND + '</button>' +
       '</div>' +
       '</div>';
 
+    if (JQ.HEZHI) { JQ.HEZHI.mount(view); }
     renderMessages();
+    var previousMessage = JQ.CHAT.messages[JQ.CHAT.messages.length - 1];
+    if (JQ.HEZHI && previousMessage) { JQ.HEZHI.setState(previousMessage.role === 'assistant-error' ? 'error' : 'answered'); }
 
     var input = JQ.$('#ask-input');
     var sendBtn = JQ.$('#send-btn');
@@ -149,6 +175,7 @@
       sendBtn.setAttribute('aria-label', on ? '停止生成' : '发送');
       input.disabled = on;
       if (on && emojiPanel) { emojiPanel.hidden = true; }
+      if (on && JQ.HEZHI) { JQ.HEZHI.setState('thinking'); }
     }
 
     function doAsk(q) {
@@ -164,6 +191,8 @@
 
       ctrl = JQ.AI.ask(q, {
         onDelta: function (full) {
+          if (!session.active) { return; }
+          if (JQ.HEZHI) { JQ.HEZHI.setState('answering'); }
           aiMsg.text = full;
           var box = JQ.$('#chat-box');
           if (box) {
@@ -172,7 +201,7 @@
             if (last && last.classList.contains('ai')) {
               var body = last.querySelector('.msg-body');
               if (!body) {
-                last.innerHTML = '<div class="msg-label"><span class="badge badge-green">节气食单助手</span><span class="badge badge-blue">生成中…</span></div><div class="msg-body"></div>';
+                last.innerHTML = '<div class="msg-label"><span class="badge badge-green">禾知 · 食养助手</span><span class="badge badge-blue">生成中…</span></div><div class="msg-body"></div>';
                 body = last.querySelector('.msg-body');
               }
               body.textContent = full;
@@ -181,6 +210,7 @@
           }
         },
         onDone: function (res) {
+          if (!session.active) { return; }
           setSending(false);
           ctrl = null;
           JQ.CHAT.messages.pop(); // 移除流式占位
@@ -196,13 +226,14 @@
             });
           }
           renderMessages();
+          if (JQ.HEZHI) { JQ.HEZHI.setState(res.ok ? 'answered' : 'error'); }
         }
       });
       /* 流式占位消息渲染成带 msg-body 的结构，供 onDelta 局部更新（若已同步失败则跳过） */
       var box0 = JQ.$('#chat-box');
       var lastMsg = JQ.CHAT.messages[JQ.CHAT.messages.length - 1];
       if (box0 && box0.lastElementChild && lastMsg && lastMsg.streaming) {
-        box0.lastElementChild.innerHTML = '<div class="msg-label"><span class="badge badge-green">节气食单助手</span><span class="badge badge-blue">生成中…</span></div><div class="msg-body"></div>';
+        box0.lastElementChild.innerHTML = '<div class="msg-label"><span class="badge badge-green">禾知 · 食养助手</span><span class="badge badge-blue">生成中…</span></div><div class="msg-body"></div>';
       }
     }
 
@@ -250,7 +281,7 @@
     }
 
     /* 快捷气泡 / 重试 / 收藏 / 复制（事件委托） */
-    view.addEventListener('click', function (e) {
+    session.delegate = function (e) {
       var t = e.target.closest ? e.target.closest('[data-quick],[data-retry],[data-fav],[data-copy]') : null;
       if (!t) { return; }
       if (t.hasAttribute('data-quick')) { doAsk(t.getAttribute('data-quick')); }
@@ -278,7 +309,8 @@
         var m2 = JQ.CHAT.messages[+t.getAttribute('data-copy')];
         if (m2) { JQ.copyText(m2.text); }
       }
-    });
+    };
+    view.addEventListener('click', session.delegate);
 
     /* 警示按钮：完整免责声明 */
     JQ.$('#warn-btn').addEventListener('click', function () {

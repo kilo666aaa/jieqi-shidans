@@ -101,3 +101,7 @@ js/app.js                   入口（?t= 协议、首访引导邀请）
 ## 首页与详情水墨交互
 
 `js/ink_wash.js` 在首页和24个节气详情页按页面标记挂载；`css/ink-wash.css` 控制圆窗降色、远山和墨色视觉。鼠标划过产生飞墨与墨晕，触屏轻触留白触发扩散。暂停选择跨路由保留；低动态、后台页面和离开路由会停止绘制，空闲时不保留帧循环。对应测试为 `tests/ink-wash.test.cjs`。
+
+## 禾知点阵
+
+问答页使用独立的React Three Fiber点云岛：`src/hezhi-3d.jsx`，构建命令`npm run build:hezhi`，输出`js/vendor/hezhi-3d.js`及完整依赖许可。`js/hezhi.js`负责延迟加载、静态降级、暂停、低动态和离页清理；`css/hezhi.css`负责问答页布局。形象由6220个程序化点、眼睛与嘴部组成，无外部模型和贴图。请求状态来自现有AI回调；新增点阵不会自动接通AI服务。

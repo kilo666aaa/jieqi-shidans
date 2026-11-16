@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build:3d": "node scripts/build-3d.mjs",
+    "build:hezhi": "node scripts/build-3d.mjs hezhi",
     "test": "node --test tests/*.test.cjs"
   },
   "dependencies": {

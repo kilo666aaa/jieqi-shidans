@@ -58,6 +58,7 @@
     if (JQ.COURTYARD) { JQ.COURTYARD.dispose(); }
     if (JQ.HOVER) { JQ.HOVER.dispose(); }
     if (JQ.INK_WASH) { JQ.INK_WASH.dispose(); }
+    if (JQ.ASK_PAGE) { JQ.ASK_PAGE.dispose(); }
 
     var hash = location.hash || '#/home';
     var path = hash.replace(/^#\/?/, '');
