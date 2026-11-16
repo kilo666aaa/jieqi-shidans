@@ -66,47 +66,32 @@
 
     view.innerHTML =
       JQ.HEADER('我的', '') +
-      '<div class="wrap">' +
+      '<div class="wrap me-page">' +
       '<div class="me-head">' +
       '<div class="avatar" aria-hidden="true">' + (s ? JQ.esc(s.nickname.slice(0, 1)) : '客') + '</div>' +
-      '<div style="flex:1;min-width:0">' +
+      '<div class="me-identity">' +
       (s
-        ? '<div style="font-size:18.5px;font-weight:700">' + JQ.esc(s.nickname) + '</div>' +
-        '<div style="margin-top:5px"><span class="me-chip">收藏 ' + favCount.recipe + '</span><span class="me-chip">打卡 ' + checkins.length + '</span></div>' +
-        '<div class="muted small" style="margin-top:4px">本机账号 · ' + JQ.esc(s.phone.slice(0, 3) + '****' + s.phone.slice(-4)) + '</div>'
-        : '<div style="font-size:18.5px;font-weight:700">访客模式</div>' +
-        '<div style="margin-top:5px"><span class="me-chip">收藏 ' + favCount.recipe + '</span><span class="me-chip">打卡 ' + checkins.length + '</span></div>' +
-        '<div class="muted small" style="margin-top:4px">不登录也可使用全部功能</div>') +
+        ? '<div class="me-name">' + JQ.esc(s.nickname) + '</div>' +
+        '<div class="me-stats"><span class="me-chip">收藏 ' + favCount.recipe + '</span><span class="me-chip">打卡 ' + checkins.length + '</span></div>' +
+        '<div class="muted small me-account-note">本机账号 · ' + JQ.esc(s.phone.slice(0, 3) + '****' + s.phone.slice(-4)) + '</div>'
+        : '<div class="me-name">访客模式</div>' +
+        '<div class="me-stats"><span class="me-chip">收藏 ' + favCount.recipe + '</span><span class="me-chip">打卡 ' + checkins.length + '</span></div>' +
+        '<div class="muted small me-account-note">不登录也可使用全部功能</div>') +
       '</div>' +
+      '<div class="me-actions">' +
       (s
         ? '<button class="btn btn-sm btn-ghost" id="logout-btn">退出</button>'
-        : '<a class="btn btn-sm btn-primary" href="#/login" style="margin-right:8px">登录</a><a class="btn btn-sm btn-ghost" href="#/register">注册</a>') +
-      '</div>' +
+        : '<a class="btn btn-sm btn-primary" href="#/login">登录</a><a class="btn btn-sm btn-ghost" href="#/register">注册</a>') +
+      '</div></div>' +
 
-      '<div class="me-grid">' +
-      '<a href="#/me/pref"><span class="mg-ico" aria-hidden="true">🥗</span>我的偏好</a>' +
-      '<a href="#/me/fav"><span class="mg-ico" aria-hidden="true">⭐</span>我的收藏</a>' +
-      '<a href="#/me/checkin"><span class="mg-ico" aria-hidden="true">📷</span>打卡记录</a>' +
-      '<a href="#/me/settings"><span class="mg-ico" aria-hidden="true">⚙️</span>设置</a>' +
-      '<a href="#/me/settings" data-sec="sec-ai"><span class="mg-ico" aria-hidden="true">🔌</span>AI 服务</a>' +
-      '<a href="#/me/settings" data-sec="sec-data"><span class="mg-ico" aria-hidden="true">💾</span>本机数据</a>' +
-      '<a href="#/me/settings" data-sec="sec-disclaim"><span class="mg-ico" aria-hidden="true">🧾</span>免责声明</a>' +
-      '<a href="#/me/settings" data-sec="sec-about"><span class="mg-ico" aria-hidden="true">ℹ️</span>关于</a>' +
+      '<div class="me-list" aria-label="个人功能">' +
+      '<a class="me-item" href="#/me/pref"><span class="mi-emoji" aria-hidden="true">🥗</span><span class="mi-copy">我的偏好<span class="mi-sub">' + JQ.esc(prefSummary) + '</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
+      '<a class="me-item" href="#/me/fav"><span class="mi-emoji" aria-hidden="true">⭐</span><span class="mi-copy">我的收藏<span class="mi-sub">菜品 ' + favCount.recipe + ' · AI 答案 ' + favCount.answer + ' · 节气知识 ' + favCount.term + '</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
+      '<a class="me-item" href="#/me/checkin"><span class="mi-emoji" aria-hidden="true">📷</span><span class="mi-copy">打卡记录<span class="mi-sub">共 ' + checkins.length + ' 条</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
+      '<a class="me-item" href="#/me/settings"><span class="mi-emoji" aria-hidden="true">⚙️</span><span class="mi-copy">设置<span class="mi-sub">AI 服务 · 本机数据 · 免责声明 · 关于</span></span><span class="mi-arrow" aria-hidden="true">›</span></a>' +
       '</div>' +
-
-      '<div class="me-list">' +
-      '<a class="me-item" href="#/me/pref"><span class="mi-emoji">🥗</span><span>我的偏好<span class="mi-sub">' + JQ.esc(prefSummary) + '</span></span><span class="mi-arrow">›</span></a>' +
-      '<a class="me-item" href="#/me/fav"><span class="mi-emoji">⭐</span><span>我的收藏<span class="mi-sub">菜品 ' + favCount.recipe + ' · AI 答案 ' + favCount.answer + ' · 节气知识 ' + favCount.term + '</span></span><span class="mi-arrow">›</span></a>' +
-      '<a class="me-item" href="#/me/checkin"><span class="mi-emoji">📷</span><span>打卡记录<span class="mi-sub">共 ' + checkins.length + ' 条</span></span><span class="mi-arrow">›</span></a>' +
-      '<a class="me-item" href="#/me/settings"><span class="mi-emoji">⚙️</span><span>设置<span class="mi-sub">AI 服务 · 本机数据 · 免责声明</span></span><span class="mi-arrow">›</span></a>' +
-      '</div>' +
-
       '<div class="notice-amber">💾 本机保存：偏好、收藏、打卡与账号都只保存在当前浏览器，清理浏览器数据后可能丢失，且不支持跨设备同步。</div>' +
       '</div>';
-
-    JQ.$$('[data-sec]').forEach(function (a) {
-      a.addEventListener('click', function () { JQ._SEC = a.getAttribute('data-sec'); });
-    });
 
     var lo = JQ.$('#logout-btn');
     if (lo) {

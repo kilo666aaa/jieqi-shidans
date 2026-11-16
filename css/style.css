@@ -458,17 +458,22 @@ textarea.input{min-height:90px;resize:vertical}
 .warn-btn:active{color:var(--amber-deep);transform:scale(.92)}
 
 /* ---------- 我的 ---------- */
-.me-head{display:flex;align-items:center;gap:14px;padding:22px 4px 16px}
+.me-head{
+  display:grid;grid-template-columns:56px minmax(0,1fr) auto;
+  align-items:center;gap:12px;padding:14px 4px 22px;
+}
 .me-head .avatar{
-  width:64px;height:64px;border-radius:50%;background:var(--paper2);border:1px solid var(--line);
+  width:56px;height:56px;border-radius:50%;background:var(--paper2);border:1px solid var(--line);
   color:var(--green);display:flex;align-items:center;justify-content:center;font-size:30px;
   font-family:var(--serif);font-weight:400;flex-shrink:0;
 }
-.me-chip{display:inline-block;background:var(--paper2);border:1px solid var(--line);border-radius:999px;padding:1px 10px;font-size:12px;color:var(--ink2);margin-right:6px}
-.me-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px 0;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 6px;margin-bottom:12px;box-shadow:var(--sh)}
-.me-grid a{display:flex;flex-direction:column;align-items:center;gap:7px;padding:10px 2px;font-size:12.5px;color:var(--ink);text-decoration:none;border-radius:10px}
-.me-grid a:active{background:var(--paper2)}
-.me-grid .mg-ico{font-size:27px;line-height:1}
+.me-identity{min-width:0}
+.me-name{font-size:18.5px;font-weight:700;line-height:1.4;overflow-wrap:anywhere}
+.me-stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.me-chip{display:inline-block;background:var(--paper2);border:1px solid var(--line);border-radius:999px;padding:1px 10px;font-size:12px;color:var(--ink2)}
+.me-account-note{margin-top:6px;line-height:1.6;overflow-wrap:anywhere}
+.me-actions{display:flex;gap:8px;align-items:center}
+.me-actions .btn{min-height:44px;white-space:nowrap}
 .me-list{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;box-shadow:var(--sh)}
 .me-item{display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 16px;border-bottom:1px solid var(--line);cursor:pointer;background:none;width:100%;text-align:left;font-size:16.5px;color:var(--ink);border-left:none;border-right:none;border-top:none;font-family:inherit}
 .me-item:last-child{border-bottom:none}
@@ -476,6 +481,22 @@ textarea.input{min-height:90px;resize:vertical}
 .me-item .mi-sub{font-size:12px;color:var(--ink3);display:block}
 .me-item .mi-arrow{margin-left:auto;color:var(--ink3);font-family:var(--serif)}
 .me-item:active{background:var(--paper2)}
+.me-page .me-list{margin-bottom:16px}
+.me-page .me-item{min-height:78px;padding:14px 16px;gap:12px;text-decoration:none}
+.me-page .mi-emoji{
+  display:flex;align-items:center;justify-content:center;
+  flex:0 0 36px;height:36px;border-radius:10px;background:var(--paper2);
+}
+.me-page .mi-copy{min-width:0;flex:1;font-weight:700}
+.me-page .mi-sub{margin-top:3px;line-height:1.6;font-weight:500;overflow-wrap:anywhere}
+.me-page .mi-arrow{flex-shrink:0;font-size:21px}
+.me-page > .notice-amber{font-size:12px;line-height:1.7;padding:12px 14px}
+@media (hover:hover){.me-page .me-item:hover{background:var(--paper2)}}
+@media (max-width:460px){
+  .me-head{grid-template-columns:56px minmax(0,1fr)}
+  .me-head .avatar{grid-row:1 / span 2;align-self:start}
+  .me-actions{grid-column:2}
+}
 .fav-tabs{display:flex;gap:8px;margin-bottom:12px}
 .fav-tabs .chip{cursor:pointer;min-height:36px}
 
